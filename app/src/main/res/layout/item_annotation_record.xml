@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/keyboard_gray">
+
+    <ImageView
+        android:id="@+id/iv_record"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d_150"
+        android:layout_marginTop="13dp"
+        android:scaleType="fitXY"
+        />
+
+    <LinearLayout
+        android:layout_below="@+id/iv_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/d_5"
+        android:paddingBottom="@dimen/d_5"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="left"
+            android:maxLines="1"
+            android:textColor="@color/psw_light_gray"
+            android:text="2016-06-25"
+            android:textSize="@dimen/s_16" />
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="@dimen/d_40"
+            android:layout_height="@dimen/d_22"
+            android:src="@mipmap/delete"/>
+        <ImageView
+            android:id="@+id/iv_preview"
+            android:layout_width="@dimen/d_40"
+            android:layout_height="@dimen/d_22"
+            android:layout_marginRight="@dimen/d_15"
+            android:src="@mipmap/ic_preivew"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_annotation_edit"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/title_bg"
+    android:fitsSystemWindows="true"
+    >
+
+    <include
+        layout="@layout/head"/>
+    <LinearLayout
+        android:id="@+id/ll_center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/keyboard_gray"
+        android:orientation="horizontal">
+        <RelativeLayout android:id="@+id/drawingContent"
+            android:background="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+            <cn.ibos.library.annotation.views.DrawingView
+                android:id="@+id/drawingView"
+                android:background="@color/white"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+            <TextView
+                android:id="@+id/tv_scale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/d_15"
+                android:layout_marginTop="@dimen/d_15"
+                android:background="@drawable/scale_bg_shape"
+                android:textColor="@color/common_white_light"
+                android:text="100%"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+	<item android:drawable="@mipmap/dgl" android:duration="150"/>
+	<item android:drawable="@mipmap/dgm" android:duration="150"/>
+	<item android:drawable="@mipmap/dgn" android:duration="150"/>
+	<item android:drawable="@mipmap/dgo" android:duration="150"/>
+	<item android:drawable="@mipmap/dgp" android:duration="150"/>
+	<item android:drawable="@mipmap/dgq" android:duration="150"/>
+	<item android:drawable="@mipmap/dgr" android:duration="150"/>
+	<item android:drawable="@mipmap/dgs" android:duration="150"/>
+	<item android:drawable="@mipmap/dgt" android:duration="150"/>
+	<item android:drawable="@mipmap/dgu" android:duration="150"/>
+	<item android:drawable="@mipmap/dgv" android:duration="150"/>
+	<item android:drawable="@mipmap/dgw" android:duration="150"/>
+</animation-list>
+

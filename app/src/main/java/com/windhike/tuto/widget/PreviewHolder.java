@@ -1,0 +1,33 @@
+package com.windhike.tuto.widget;
+
+import android.view.View;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.windhike.recyclerutils.BindRecyclerHolder;
+import com.windhike.recyclerutils.HolderLayout;
+import com.windhike.tuto.R;
+import com.windhike.tuto.presenter.AnnotationGalleryPresenter;
+import butterknife.Bind;
+
+/**
+ * author: gzzyj on 2017/3/22.
+ * email:zhyongjun@windhike.cn
+ */
+
+@HolderLayout(R.layout.fgt_annotation_picture_preview)
+public class PreviewHolder extends BindRecyclerHolder<AnnotationGalleryPresenter> {
+    @Bind(R.id.rc_icon)
+    ImageView ivPreview;
+    public PreviewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @Override
+    public void bindView(int position, AnnotationGalleryPresenter presenter) {
+        super.bindView(position, presenter);
+        itemView.setTag(R.id.position_id,position);
+        itemView.setOnClickListener(presenter.obtainItemClickListener());
+        Glide.with(itemView.getContext()).load(presenter.getPictures().get(position).getUri().toString().trim()).into(ivPreview);
+    }
+}

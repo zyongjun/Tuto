@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+
+   >
+    <!--android:background="@color/page_bg"-->
+    <include layout="@layout/head" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:horizontalSpacing="2dp"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="2dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:background="@color/white">
+            <CheckBox
+                android:background="@drawable/yuantu_select"
+                android:button="@null"
+                android:id="@id/rc_checkbox"
+                android:layout_width="@dimen/d_25"
+                android:layout_height="@dimen/d_25"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:id="@+id/tv_select_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rc_checkbox"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/d_9"
+                android:textSize="@dimen/s_16"
+                android:textColor="@color/c_yuantu_no"
+                android:text="原图"/>
+
+            <Button
+                android:id="@+id/btn_annotation"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/dimen_30dp"
+                android:layout_toRightOf="@id/tv_select_size"
+                android:background="@drawable/btn_picture_annotation"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/d_9"
+                android:gravity="center"
+                android:textSize="@dimen/s_16"
+                android:textColor="@color/c_yuantu_no"
+                android:text="批注"/>
+            <Button
+                android:id="@android:id/button1"
+                android:layout_width="70dp"
+                android:layout_height="@dimen/dimen_30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_picture_ok"
+                android:gravity="center"
+                android:onClick="ok"
+                android:text="发送"
+                android:textColor="@color/c_picture_ok_select"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

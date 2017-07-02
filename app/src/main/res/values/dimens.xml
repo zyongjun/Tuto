@@ -1,0 +1,139 @@
+<resources>
+    <dimen name="headsize">46dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <!-- 页面的上下左右边距 -->
+    <dimen name="page_magin">10dp</dimen>
+
+    <!-- button 的边距圆的大小 -->
+    <dimen name="btn_circle">5dp</dimen>
+
+    <!-- 底部工具栏padding -->
+    <dimen name="bottom_tab_padding_up">5dp</dimen>
+    <dimen name="bottom_tab_padding_bottom">5dp</dimen>
+
+    <!-- 标准头像显示大小 -->
+    <dimen name="avatar_w_normal">50dp</dimen>
+    <dimen name="avatar_h_normal">50dp</dimen>
+    <!-- 登录、个人资料、我头像显示大小 -->
+    <dimen name="avatar_w_large">100dp</dimen>
+    <dimen name="avatar_h_large">100dp</dimen>
+
+    <!-- DropDownListView控件尺寸 -->
+    <dimen name="drop_down_list_header_padding_top">12dp</dimen>
+    <dimen name="drop_down_list_header_padding_bottom">15dp</dimen>
+    <dimen name="drop_down_list_header_release_min_distance">20dp</dimen>
+    <dimen name="drop_down_list_header_progress_bar_height">36dp</dimen>
+    <dimen name="drop_down_list_footer_progress_bar_height">36dp</dimen>
+    <dimen name="drop_down_list_footer_button_margin_left">8dp</dimen>
+    <dimen name="drop_down_list_footer_button_height">48dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <!-- 加载页 -->
+    <dimen name="welcome_login_register_layout_margin_buttom">50dip</dimen>
+
+    <dimen name="s_12">12sp</dimen>
+    <dimen name="s_14">14sp</dimen>
+    <dimen name="s_16">16sp</dimen>
+    <dimen name="s_18">18sp</dimen>
+    <dimen name="s_20">20sp</dimen>
+    <!-- margin params -->
+    <dimen name="dimen_5dp">5dp</dimen>
+    <dimen name="dimen_10dp">10dp</dimen>
+    <dimen name="dimen_15dp">15dp</dimen>
+    <dimen name="dimen_20dp">20dp</dimen>
+    <dimen name="dimen_25dp">25dip</dimen>
+    <dimen name="dimen_30dp">30dip</dimen>
+    <dimen name="dimen_40dp">40dip</dimen>
+    <dimen name="dimen_50dp">50dip</dimen>
+
+    <dimen name="d_1">1dp</dimen>
+    <dimen name="d_2">2dp</dimen>
+    <dimen name="d_3">3dp</dimen>
+    <dimen name="d_4">4dp</dimen>
+    <dimen name="d_5">5dp</dimen>
+    <dimen name="d_6">6dp</dimen>
+    <dimen name="d_7">7dp</dimen>
+    <dimen name="d_8">8dp</dimen>
+    <dimen name="d_9">9dp</dimen>
+    <dimen name="d_10">10dp</dimen>
+    <dimen name="d_11">11dp</dimen>
+    <dimen name="d_12">12dp</dimen>
+    <dimen name="d_13">13dp</dimen>
+    <dimen name="d_14">14dp</dimen>
+    <dimen name="d_15">15dp</dimen>
+    <dimen name="d_16">16dp</dimen>
+    <dimen name="d_17">17dp</dimen>
+    <dimen name="d_18">18dp</dimen>
+    <dimen name="d_20">20dp</dimen>
+    <dimen name="d_21">21dp</dimen>
+    <dimen name="d_22">22dp</dimen>
+    <dimen name="d_23">23dp</dimen>
+    <dimen name="d_25">25dp</dimen>
+    <dimen name="d_27">27dp</dimen>
+    <dimen name="d_28">28dp</dimen>
+    <dimen name="d_30">30dp</dimen>
+
+    <dimen name="d_33">33dp</dimen>
+    <dimen name="d_34">34dp</dimen>
+    <dimen name="d_35">35dp</dimen>
+    <dimen name="d_36">36dp</dimen>
+
+    <dimen name="d_37">37dp</dimen>
+    <dimen name="d_38">38dp</dimen>
+
+    <dimen name="d_40">40dp</dimen>
+
+    <dimen name="d_42">42dp</dimen>
+    <dimen name="d_43">43dp</dimen>
+    <dimen name="d_44">44dp</dimen>
+    <dimen name="d_45">45dp</dimen>
+    <dimen name="d_46">46dp</dimen>
+
+    <dimen name="d_48">48dp</dimen>
+
+    <dimen name="d_50">50dp</dimen>
+
+    <dimen name="d_54">54dp</dimen>
+    <dimen name="d_55">55dp</dimen>
+
+    <dimen name="d_57">57dp</dimen>
+    <dimen name="d_58">58dp</dimen>
+    <dimen name="d_60">60dp</dimen>
+    <dimen name="d_61">61dp</dimen>
+    <dimen name="d_62">62dp</dimen>
+
+    <dimen name="d_64">64dp</dimen>
+    <dimen name="d_65">65dp</dimen>
+    <dimen name="d_66">66dp</dimen>
+    <dimen name="d_67">67dp</dimen>
+    <dimen name="d_68">68dp</dimen>
+    <dimen name="d_69">69dp</dimen>
+    <dimen name="d_70">70dp</dimen>
+    <dimen name="d_75">75dp</dimen>
+    <dimen name="d_80">80dp</dimen>
+
+    <dimen name="d_90">90dp</dimen>
+
+    <dimen name="d_100">100dp</dimen>
+
+    <dimen name="d_110">110dp</dimen>
+    <dimen name="d_120">120dp</dimen>
+    <dimen name="d_130">130dp</dimen>
+    <dimen name="d_142">142dp</dimen>
+    <dimen name="d_150">150dp</dimen>
+    <dimen name="d_180">180dp</dimen>
+    <dimen name="d_200">200dp</dimen>
+
+
+    <dimen name="d_250">250dp</dimen>
+
+    <dimen name="d_310">310dp</dimen>
+    <!-- loading page -->
+    <dimen name="register_btn_w">200dp</dimen>
+    <dimen name="register_btn_h">45dp</dimen>
+
+</resources>
