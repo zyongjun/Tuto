@@ -141,6 +141,7 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_annotation_edit);
+        TutoApplication.getInstance().configScreenSize(getWindowManager());
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         int type = getIntent().getIntExtra(KEY_TYPE, 0);
@@ -282,7 +283,7 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
     private boolean isShowCirform = true;
 
     public void cancelEditCirform() {
-        PromptManager.getInstance(this).showDialog("确定放弃对该图片的所有批注", new PromptManager.OnClickBtnCallback() {
+        PromptManager.getInstance(this).showDialog("提示","确定放弃对该图片的所有批注","取消","确定", new PromptManager.OnClickBtnCallback() {
             @Override
             public void confirmClick() {
                                 isShowCirform = false;
