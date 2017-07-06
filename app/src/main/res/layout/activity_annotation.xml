@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@color/title_bg"
     android:fitsSystemWindows="true">
 
     <include
@@ -17,7 +17,8 @@
         android:clipChildren="false"
         android:layerType="software"
         android:background="@color/white"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="46dp">
+        <!--android:layout_marginTop="?attr/actionBarSize"-->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/photoViewpager"
             android:layout_width="match_parent"

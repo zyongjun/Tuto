@@ -11,7 +11,7 @@
         android:id="@+id/imgLoading"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@anim/small_loading_anim" />
+        android:background="@drawable/small_loading_anim" />
 
     <TextView
         android:id="@+id/txtHint"

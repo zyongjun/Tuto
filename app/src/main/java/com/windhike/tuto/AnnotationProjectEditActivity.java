@@ -118,16 +118,6 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
         return intent;
     }
 
-//    public static Intent getSharedAnnotationEditIntent(Context context, int drawIndex, Conversation conversation) {
-//        Intent intent = new Intent(context, AnnotationProjectEditActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt(KEY_TYPE,3);
-//        bundle.putInt(Configs.KEY_ANNOTATION_DRAW_INDEX,drawIndex);
-//        bundle.putParcelable(Configs.KEY_ANNOTATION_SHARE_CONVERSATION,conversation);
-//        intent.putExtras(bundle);
-//        return intent;
-//    }
-
     public static Intent getAnnotationNewDrawIntent(Context context, String path) {
         Intent intent = new Intent(context, AnnotationProjectEditActivity.class);
         Bundle bundle = new Bundle();

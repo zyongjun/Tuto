@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="middle"
             android:maxWidth="120dp"
-            android:maxLines="1"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

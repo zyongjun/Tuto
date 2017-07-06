@@ -61,7 +61,6 @@ public abstract class BaseAty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mContext = this;
-        setVolumeControlStream(AudioManager.STREAM_MUSIC);// 使得音量键控制媒体声音
         if (mScreenWidth == 0) {
             metric = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metric);

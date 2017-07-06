@@ -17,7 +17,6 @@ import com.windhike.recyclerutils.RecyclerAdapter;
 import com.windhike.tuto.utils.AnnotationRecordsPresenter;
 import com.windhike.tuto.utils.AnnotationSelectRecordsPresenter;
 import com.windhike.tuto.utils.BaseAnnotationRecordsPresenter;
-
 import java.io.File;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +32,6 @@ public class AnnotationRecentActivity extends BaseAty implements AnnotationRecor
     private static final int REQUEST_IMAGE_SELECT = 171;
     Uri mPhotoUri;
 
-    private static final String KEY_SELECT_MULTI_ANNOTATION = "key_select_multi_annotation";
     @Bind(R.id.recordRecyclerView)
     RecyclerView recordRecyclerView;
     @Bind(R.id.ll_empty)
@@ -49,25 +47,12 @@ public class AnnotationRecentActivity extends BaseAty implements AnnotationRecor
         return intent;
     }
 
-    public static Intent getSelectRecentAnnotationIntent(Context context) {
-        Intent intent = new Intent(context, AnnotationRecentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(KEY_SELECT_MULTI_ANNOTATION,true);
-        intent.putExtras(bundle);
-        return intent;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_annotation_records);
         ButterKnife.bind(this);
-        boolean isSelectMultiAnnotation = getIntent().getBooleanExtra(KEY_SELECT_MULTI_ANNOTATION,false);
-        if (isSelectMultiAnnotation) {
-            mPresenter = new AnnotationSelectRecordsPresenter();
-        }else{
-            mPresenter = new AnnotationRecordsPresenter();
-        }
+        mPresenter = new AnnotationRecordsPresenter();
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);

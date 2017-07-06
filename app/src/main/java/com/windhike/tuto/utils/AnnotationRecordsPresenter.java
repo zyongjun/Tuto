@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 
 import com.windhike.tuto.AnnotationPreviewActivity;
+import com.windhike.tuto.AnnotationProjectEditActivity;
 import com.windhike.tuto.R;
 import com.windhike.tuto.view.IBaseRecordsView;
 
@@ -27,8 +28,8 @@ public class AnnotationRecordsPresenter extends BaseAnnotationRecordsPresenter<A
                 int position = (int) v.getTag(R.id.position_id);
                 try {
                     Activity activity = (Activity)mView.getViewContext();
-//                    activity.startActivity(AnnotationProjectEditActivity.getAnnotationProjectIntent(activity,managerImageObjects.get(position).getmSessionName()));
-                    activity.startActivity(AnnotationPreviewActivity.getAnnotationPreviewIntent(activity,position));
+                    activity.startActivity(AnnotationProjectEditActivity.getAnnotationProjectIntent(activity,position));
+//                    activity.startActivity(AnnotationPreviewActivity.getAnnotationPreviewIntent(activity,position));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
