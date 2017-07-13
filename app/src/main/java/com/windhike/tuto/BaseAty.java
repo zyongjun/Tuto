@@ -1,26 +1,20 @@
 package com.windhike.tuto;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.windhike.tuto.reuse.ToolbarBuilder;
-
-import java.util.Map;
 
 /**
  * author: zyongjun on 2017/6/29 0029.
@@ -29,10 +23,7 @@ import java.util.Map;
 
 public abstract class BaseAty extends AppCompatActivity {
 
-    protected Handler handler;
-    protected Bundle bundle;
     protected Context mContext;
-    protected Map<String, String> params;
 
     protected AlertDialog alertDialog;
     protected AnimationDrawable anim;
@@ -42,14 +33,6 @@ public abstract class BaseAty extends AppCompatActivity {
     protected TutoApplication app;
 
     private ToolbarBuilder mToolbarBuilder;
-
-    public void setOnClickRight(ToolbarBuilder.OnClickRight onClickRight) {
-        mToolbarBuilder.withRightClick(onClickRight);
-    }
-
-    public void setOnClickLeft(ToolbarBuilder.OnClickLeft onClickLeft) {
-        mToolbarBuilder.withLeftClick(onClickLeft);
-    }
 
     public ToolbarBuilder getToolbarBuilder(){
         return mToolbarBuilder;
@@ -69,19 +52,17 @@ public abstract class BaseAty extends AppCompatActivity {
         }
         app = (TutoApplication)getApplication();
         mToolbarBuilder = new ToolbarBuilder(this);
+//        n.i(this);
+//        getWindow().getDecorView().setFitsSystemWindows(true);
+//        UIUtil.requestApplyInsets(getWindow());
+        getWindow().getDecorView().setBackgroundColor(ResourcesCompat.getColor(getResources(),R.color.black,null));
+//        n.j(this);
+
     }
 
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     public void setTitleCustomer(boolean isLeft, boolean isRight,
@@ -96,20 +77,6 @@ public abstract class BaseAty extends AppCompatActivity {
                 .withTitle(title)
                 .withBack(isShowBack)
                 .show();
-    }
-
-
-
-    protected void startJump(Class<? extends Activity> cls) {
-        startJump(cls, null);
-    }
-
-    protected void startJump(Class<? extends Activity> cls, Bundle bundle) {
-        Intent intent = new Intent(this, cls);
-        if (null != bundle) {
-            intent.putExtras(bundle);
-        }
-        startActivity(intent);
     }
 
     protected void sendBroadCast(String action, Bundle bundle) {

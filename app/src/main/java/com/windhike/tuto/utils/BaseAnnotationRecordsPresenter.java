@@ -1,48 +1,22 @@
 package com.windhike.tuto.utils;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import com.windhike.annotation.common.AESHelper;
 import com.windhike.annotation.common.Utilities;
 import com.windhike.annotation.configsapp.Configs;
 import com.windhike.annotation.datastorage.ExternalStorage;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ManagerImageObject;
-import com.windhike.annotation.model.PreferenceConnector;
-import com.windhike.annotation.reuse.DisplayUtil;
 import com.windhike.mvputils.BaseRecyclerPresenter;
 import com.windhike.tuto.R;
 import com.windhike.tuto.TutoApplication;
-import com.windhike.tuto.model.AnnotationModel;
-import com.windhike.tuto.reuse.SchedulersTransFormer;
 import com.windhike.tuto.view.IBaseRecordsView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
-import rx.Subscriber;
-import rx.functions.Func1;
 
 /**
  * author: zyongjun on 2017/3/12 0012.
@@ -288,28 +262,11 @@ public class BaseAnnotationRecordsPresenter<T extends IBaseRecordsView> extends 
 
     public void loadProject() {
         mView.showWaitingDialog(mView.getViewContext());
-//                getSyncCheckObserver()
-//                        .flatMap(new Func1<Boolean, Observable<AnnotationModel>>() {
-//                            @Override
-//                            public Observable<AnnotationModel> call(Boolean shouldUpdate) {
-//                                if (managerImageObjects == null || managerImageObjects.getListChooseDrawObject().size() == 0) {
-//                                    deleteProject(Configs.ANNOTATION_IBOS);
-//                                    deleteProject(Configs.ANNOTATION_IBOS_TEMP);
-//                                    shouldUpdate=true;
-//                                }
-//                                if (shouldUpdate) {
-//                                    return getRemarkListFlatMapObserver();
-//                                }
-//                                return Observable.just(null);
-//                            }
-//                        })
         Observable.just(1)
-//                .compose(SchedulersTransFormer.<AnnotationModel>applyExecutorSchedulers())
                 .subscribe(new Observer<Integer>() {
                     @Override
                     public void onCompleted() {
                         if (mView != null) {
-//                            Toast.makeText(TutoApplication.getInstance(),"同步成功",Toast.LENGTH_SHORT).show();
                             if (managerImageObjects != null) {
                                 initOtherBaseOnProject();
                             }
@@ -332,11 +289,7 @@ public class BaseAnnotationRecordsPresenter<T extends IBaseRecordsView> extends 
 
                     @Override
                     public void onNext(Integer model) {
-                        if(model!=null) {
-                            managerImageObjects.writeToFile(TutoApplication.getInstance(), Configs.ANNOTATION_IBOS);
-                        }else{
-                            managerImageObjects = ManagerImageObject.readFromFile(mView.getViewContext(), Utilities.encryptFileName(Configs.ANNOTATION_IBOS));
-                        }
+                        managerImageObjects = ManagerImageObject.readFromFile(mView.getViewContext(), Utilities.encryptFileName(Configs.ANNOTATION_IBOS));
                     }
                 });
 

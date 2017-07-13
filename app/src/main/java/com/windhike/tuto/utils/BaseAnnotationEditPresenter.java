@@ -3,6 +3,7 @@ package com.windhike.tuto.utils;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 import com.windhike.annotation.configsapp.Configs;
 import com.windhike.annotation.model.ManagerImageObject;
@@ -19,9 +20,11 @@ import com.windhike.tuto.view.IAnnotationEditView;
 public abstract class BaseAnnotationEditPresenter extends BasePresenter<IAnnotationEditView> {
     protected ManagerImageObject mManagerObject;
     protected int mDrawObjectIndex;
+    private static final String TAG = "BaseAnnotationEditPrese";
 
     public BaseAnnotationEditPresenter(Bundle bundle) {
         mDrawObjectIndex = bundle.getInt(Configs.KEY_ANNOTATION_DRAW_INDEX,0);
+        Log.e(TAG, "BaseAnnotationEditPresenter:--------editindex :"+mDrawObjectIndex );
     }
 
     public String getProjectName() {

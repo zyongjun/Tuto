@@ -142,10 +142,6 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
         } else if (type == 2) {
             mPresenter = new AnnotationEditNewDrawPresenter(getIntent().getExtras());
         }
-//        else if (type == 3) {
-//            mPresenter = new AnnotationEditSharedPresenter(getIntent().getExtras());
-//        }
-
         mPresenter.attach(this);
         getToolbarBuilder().showLeft(true)
                 .withLeft("取消")
@@ -445,24 +441,6 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
     private Handler mHandler = new Handler();
 
     private void saveImageReportAndSync() {
-//        RequestBody timeBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), DrawingShapeTransformer.transToSyncTime().toString());
-//        RxApiClient.getInstance().getAnnotationApi()
-//                .syncRemark(timeBody)
-//                .flatMap(new Func1<Response<ResponseBody>, Observable<String>>() {
-//                    @Override
-//                    public Observable<String> call(Response<ResponseBody> result) {
-//                        try {
-//                            JSONObject json = new JSONObject(new String(result.body().bytes()));
-//                            JSONObject dataJson = (JSONObject) json.get("data");
-//                            //"synctime":"2017-02-06 10:06:15"
-//                            long time = dataJson.optLong("synctime");
-//                            PreferenceConnector.writeLong(TutoApplication.getInstance(), Configs.FLAG_SYSNC_UPLOAD_ANNOTATION_TIME, time);
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        return Observable.just(mPresenter.getProjectName());
-//                    }
-//                })
         Observable.just(mPresenter.getProjectName())
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Func1<String, Observable<Integer>>() {
@@ -499,8 +477,6 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
 
                                 bmCurrentDraw.recycle();
                                 return Observable.just(1);
-//                                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), DrawingShapeTransformer.transToSyncJson(mPresenter.getManagerObject().getListChooseDrawObject().get(index), mPresenter.getOperationType()).toString());
-//                                return RxApiClient.getInstance().getAnnotationApi().syncRemark(body);
                             }
                             bmCurrentDraw.recycle();
                         }
@@ -514,7 +490,6 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
                         if (TextUtils.isEmpty(mPresenter.getManagerObject().getListChooseDrawObject().get(mPresenter.getDrawObjectIndex()).getRemarkId())) {
                             mPresenter.deleteProject();
                         }

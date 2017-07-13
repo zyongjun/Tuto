@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
 import com.windhike.annotation.common.AESHelper;
 import com.windhike.annotation.configsapp.Configs;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -103,6 +101,7 @@ public class ManagerImageObject
     public void writeToFile(Context context, String projectName) {
         try {
             this.mSessionName = projectName;
+            Log.e(TAG, "writeToFile: ==="+projectName+"---.dat" );
             projectName = AESHelper.encrypt(Configs.ENCRYPT_KEY, projectName.trim());
             if (context.deleteFile(new StringBuilder(String.valueOf(projectName)).append(Configs.TYPE_FORMAT_PROJECT_NAME).toString())) {
 //                Log.e("context.deleteFile", "context.deleteFile context.deleteFile");

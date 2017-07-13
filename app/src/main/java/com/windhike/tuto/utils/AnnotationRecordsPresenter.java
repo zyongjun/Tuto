@@ -29,7 +29,6 @@ public class AnnotationRecordsPresenter extends BaseAnnotationRecordsPresenter<A
                 try {
                     Activity activity = (Activity)mView.getViewContext();
                     activity.startActivity(AnnotationProjectEditActivity.getAnnotationProjectIntent(activity,position));
-//                    activity.startActivity(AnnotationPreviewActivity.getAnnotationPreviewIntent(activity,position));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
