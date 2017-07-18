@@ -42,7 +42,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ibos.ui.widget.DrawingMenuDialog;
 import kotlin.Unit;
@@ -60,43 +61,43 @@ import rx.schedulers.Schedulers;
 public class AnnotationProjectEditActivity extends BaseAty implements View.OnClickListener, IAnnotationEditView {
     //0 exist 1 converstion 2 newdraw
     private static final String KEY_TYPE = "KEY_TYPE";
-    @Bind(R.id.fl_reset)
+    @BindView(R.id.fl_reset)
     View vResetContainer;
-    @Bind(R.id.tvReset)
+    @BindView(R.id.tvReset)
     TextView tvReset;
-    @Bind(R.id.fl_restore)
+    @BindView(R.id.fl_restore)
     View vRestoreContainer;
-    @Bind(R.id.tvRestore)
+    @BindView(R.id.tvRestore)
     TextView tvRestore;
-    @Bind(R.id.txtRight)
+    @BindView(R.id.txtRight)
     TextView txtRight;
-    @Bind(R.id.drawingView)
+    @BindView(R.id.drawingView)
     DrawingView drawingView;
-    @Bind(R.id.drawingContent)
+    @BindView(R.id.drawingContent)
     RelativeLayout drawingContent;
-    @Bind(R.id.ll_drawshape)
+    @BindView(R.id.ll_drawshape)
     View llDrawShape;
-    @Bind(R.id.tvDrawShape)
+    @BindView(R.id.tvDrawShape)
     TextView tvDrawShape;
-    @Bind(R.id.tvDrawShapeIndicate)
+    @BindView(R.id.tvDrawShapeIndicate)
     TextView tvDrawShapeIndicate;
-    @Bind(R.id.ll_drawtalk)
+    @BindView(R.id.ll_drawtalk)
     View llDrawTalk;
-    @Bind(R.id.tvDrawTalk)
+    @BindView(R.id.tvDrawTalk)
     ImageView tvDrawTalk;
-    @Bind(R.id.ll_drawtext)
+    @BindView(R.id.ll_drawtext)
     View llDrawText;
-    @Bind(R.id.tvDrawText)
+    @BindView(R.id.tvDrawText)
     TextView tvDrawText;
-    @Bind(R.id.ll_scale)
+    @BindView(R.id.ll_scale)
     View llScale;
-    @Bind(R.id.tvDrawScale)
+    @BindView(R.id.tvDrawScale)
     TextView tvDrawScale;
-    @Bind(R.id.activity_annotation_edit)
+    @BindView(R.id.activity_annotation_edit)
     LinearLayout mRootView;
-    @Bind(R.id.tv_scale)
+    @BindView(R.id.tv_scale)
     TextView tvScale;
-    @Bind(R.id.ll_center)
+    @BindView(R.id.ll_center)
     View llCenter;
     private BaseAnnotationEditPresenter mPresenter;
 

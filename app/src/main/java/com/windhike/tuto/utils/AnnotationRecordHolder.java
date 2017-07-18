@@ -4,31 +4,32 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.recyclerutils.BindRecyclerHolder;
 import com.windhike.recyclerutils.HolderLayout;
+import com.windhike.recyclerutils.RecyclerHolder;
 import com.windhike.tuto.R;
-
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * author: zyongjun on 2017/3/8 0008.
  * email: zhyongjun@windhike.cn
  */
 @HolderLayout(R.layout.item_annotation_record)
-public class AnnotationRecordHolder extends BindRecyclerHolder<AnnotationRecordsPresenter> {
-    @Bind(R.id.iv_record)
+public class AnnotationRecordHolder extends RecyclerHolder<AnnotationRecordsPresenter> {
+    @BindView(R.id.iv_record)
     ImageView ivRecord;
-    @Bind(R.id.tv_datetime)
+    @BindView(R.id.tv_datetime)
     TextView tvDatetime;
-    @Bind(R.id.iv_delete)
+    @BindView(R.id.iv_delete)
     ImageView ivDelete;
-    @Bind(R.id.iv_preview)
+    @BindView(R.id.iv_preview)
     ImageView ivShare;
 
     public AnnotationRecordHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     @Override

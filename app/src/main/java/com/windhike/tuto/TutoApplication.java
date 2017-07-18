@@ -3,6 +3,7 @@ package com.windhike.tuto;
 import android.app.Application;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
 
 /**
@@ -32,5 +33,18 @@ public class TutoApplication extends Application{
         super.onCreate();
         INSTANCE = this;
         AnnotationInitialize.getInstance().initialize(this);
+//        configUmeng();
     }
+
+    private static final String TAG = "TutoApplication";
+    private void configUmeng() {
+        MobclickAgent.setDebugMode( true );
+        String channel =  "test";;
+        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this,
+                "5966e53caed1793fed000288",channel,
+                 MobclickAgent.EScenarioType.E_UM_ANALYTICS_OEM,true);
+
+        MobclickAgent. startWithConfigure(config);
+    }
+
 }

@@ -21,7 +21,8 @@ import com.windhike.tuto.view.IAnnotationEditView;
 
 import java.io.File;
 import java.util.ArrayList;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AnnotationPreviewActivity extends BaseAty implements IAnnotationEditView {
@@ -32,13 +33,13 @@ public class AnnotationPreviewActivity extends BaseAty implements IAnnotationEdi
     public static final int REQUEST_SEND = 130;
     private BaseAnnotationPreviewPresenter mPresenter;
 
-    @Bind(R.id.drawingView)
+    @BindView(R.id.drawingView)
     DrawingView drawingView;
-    @Bind(R.id.drawingContent)
+    @BindView(R.id.drawingContent)
     RelativeLayout drawingContent;
-    @Bind(R.id.tv_scale)
+    @BindView(R.id.tv_scale)
     TextView tvScale;
-    @Bind(R.id.ll_center)
+    @BindView(R.id.ll_center)
     View llCenter;
 
     public static Intent getAnnotationPreviewIntent(Context context, int index) {

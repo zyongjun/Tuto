@@ -6,9 +6,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.windhike.recyclerutils.BindRecyclerHolder;
 import com.windhike.recyclerutils.HolderLayout;
+import com.windhike.recyclerutils.RecyclerAdapter;
+import com.windhike.recyclerutils.RecyclerHolder;
 import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.AnnotationGalleryPresenter;
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * author: gzzyj on 2017/3/22.
@@ -16,11 +19,12 @@ import butterknife.Bind;
  */
 
 @HolderLayout(R.layout.fgt_annotation_picture_preview)
-public class PreviewHolder extends BindRecyclerHolder<AnnotationGalleryPresenter> {
-    @Bind(R.id.rc_icon)
+public class PreviewHolder extends RecyclerHolder<AnnotationGalleryPresenter> {
+    @BindView(R.id.rc_icon)
     ImageView ivPreview;
     public PreviewHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     @Override

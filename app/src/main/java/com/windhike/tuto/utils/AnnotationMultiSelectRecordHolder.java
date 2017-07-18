@@ -8,24 +8,27 @@ import com.bumptech.glide.Glide;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.recyclerutils.BindRecyclerHolder;
 import com.windhike.recyclerutils.HolderLayout;
+import com.windhike.recyclerutils.RecyclerHolder;
 import com.windhike.tuto.R;
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * author: zyongjun on 2017/3/8 0008.
  * email: zhyongjun@windhike.cn
  */
 @HolderLayout(R.layout.item_annotation_multi_select_record)
-public class AnnotationMultiSelectRecordHolder extends BindRecyclerHolder<AnnotationSelectRecordsPresenter> {
-    @Bind(R.id.iv_record)
+public class AnnotationMultiSelectRecordHolder extends RecyclerHolder<AnnotationSelectRecordsPresenter> {
+    @BindView(R.id.iv_record)
     ImageView ivRecord;
-    @Bind(R.id.tv_datetime)
+    @BindView(R.id.tv_datetime)
     TextView tvDatetime;
-    @Bind(R.id.rl_select)
+    @BindView(R.id.rl_select)
     View rlSelect;
 
     public AnnotationMultiSelectRecordHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     @Override

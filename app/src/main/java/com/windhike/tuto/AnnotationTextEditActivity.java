@@ -6,17 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import com.windhike.tuto.reuse.ToolbarBuilder;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AnnotationTextEditActivity extends BaseAty {
     private static final String KEY_EXIST_STR = "key_exist_str";
-    @Bind(R.id.et_text)
+    @BindView(R.id.et_text)
     EditText etText;
-    @Bind(R.id.ll_text)
+    @BindView(R.id.ll_text)
     LinearLayout llText;
 
     public static Intent getTextEditIntent(Context context, String existStr) {

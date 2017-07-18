@@ -21,9 +21,8 @@ import com.windhike.tuto.reuse.ToolbarBuilder;
 import com.windhike.tuto.view.IAnnotationSelectPictureView;
 import com.windhike.tuto.widget.CardAdapterHelper;
 import com.windhike.tuto.widget.CardScaleHelper;
-
 import java.io.File;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -34,11 +33,11 @@ import butterknife.ButterKnife;
 
 public class AnnotationPicturesActivity extends BaseAty implements View.OnClickListener,IAnnotationSelectPictureView,AnnotationGalleryPresenter.IAnnotationGalleryView{
 
-    @Bind(R.id.photoViewpager)
+    @BindView(R.id.photoViewpager)
     RecyclerView photoViewpager;
-    @Bind(R.id.fab_camera)
+    @BindView(R.id.fab_camera)
     FloatingActionButton fabCamera;
-    @Bind(R.id.fab_pic)
+    @BindView(R.id.fab_pic)
     FloatingActionButton fabPic;
     AnnotationGalleryPresenter mPresenter;
 

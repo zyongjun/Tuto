@@ -324,59 +324,10 @@ public class BaseAnnotationRecordsPresenter<T extends IBaseRecordsView> extends 
         }
     }
 
-//    public Observable<Response<ResponseBody>> getUpdateSyncTimeObserver() {
-//        RequestBody timeBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), DrawingShapeTransformer.transToSyncTime().toString());
-//        return RxApiClient.getInstance().getAnnotationApi()
-//                .syncRemark(timeBody);
-//    }
-//
-//    public Observable<Boolean> getSyncCheckObserver() {
-//        return getUpdateSyncTimeObserver()
-//                .flatMap(new Func1<Response<ResponseBody>, Observable<Boolean>>() {
-//                    @Override
-//                    public Observable<Boolean> call(Response<ResponseBody> result) {
-//                        boolean shouldUpdate = true;
-//                        JSONObject json = null;
-//                        try {
-//                            json = new JSONObject(new String(result.body().bytes()));
-//                            JSONObject dataJson = (JSONObject) json.get("data");
-//                            //"synctime":"2017-02-06 10:06:15"
-//                            long time = dataJson.optLong("synctime");
-//                            long cacheTime = PreferenceConnector.readLong(TutoApplication.getInstance(), TutoApplication.user.uid+Configs.FLAG_SYSNC_ANNOTATION_TIME,0);
-//                            shouldUpdate = cacheTime<time;
-//                            PreferenceConnector.writeLong(TutoApplication.getInstance(),TutoApplication.user.uid+Configs.FLAG_SYSNC_ANNOTATION_TIME,time);
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        return Observable.just(shouldUpdate);
-//                    }
-//                });
-//    }
 
     protected void deleteProject(final int position) {
 
         mView.showWaitingDialog(mView.getViewContext());
-//        getUpdateSyncTimeObserver()
-//                .flatMap(new Func1<Response<ResponseBody>, Observable<Response<ResponseBody>>>() {
-//                    @Override
-//                    public Observable<Response<ResponseBody>> call(Response<ResponseBody> result) {
-//                        JSONObject json = null;
-//                        try {
-//                            json = new JSONObject(new String(result.body().bytes()));
-//                            JSONObject dataJson = (JSONObject) json.get("data");
-//                            //"synctime":"2017-02-06 10:06:15"
-//                            long time = dataJson.optLong("synctime");
-////                            PreferenceConnector.writeLong(TutoApplication.getInstance(),Configs.FLAG_SYSNC_UPLOAD_ANNOTATION_TIME,time);
-//                            PreferenceConnector.writeLong(TutoApplication.getInstance(),TutoApplication.user.uid+Configs.FLAG_SYSNC_ANNOTATION_TIME,time);
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), DrawingShapeTransformer.transToSyncJson(managerImageObjects.getListChooseDrawObject().get(position), DrawingShapeTransformer.DELETE_ANNOTATION).toString());
-//                        return RxApiClient.getInstance().getAnnotationApi()
-//                                .syncRemark(body);
-//                    }
-//                })
-//                .compose(SchedulersTransFormer.<Response<ResponseBody>>applyExecutorSchedulers())
         Observable.just(1)
                 .subscribe(new Observer<Integer>() {
                     @Override
@@ -400,15 +351,7 @@ public class BaseAnnotationRecordsPresenter<T extends IBaseRecordsView> extends 
 
                     @Override
                     public void onNext(Integer result) {
-//                        try {
-//                            JSONObject json = new JSONObject(new String(result.body().bytes()));
-//                            JSONObject dataJson = (JSONObject) json.get("data");
-//                            long time = dataJson.optLong("synctime");
-//                            PreferenceConnector.writeLong(TutoApplication.getInstance(),Configs.FLAG_SYSNC_ANNOTATION_TIME,time);
-//                            PreferenceConnector.writeLong(TutoApplication.getInstance(),Configs.FLAG_SYSNC_UPLOAD_ANNOTATION_TIME,time);
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
+
                     }
                 });
 

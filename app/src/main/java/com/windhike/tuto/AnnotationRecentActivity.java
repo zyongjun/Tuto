@@ -18,7 +18,7 @@ import com.windhike.tuto.utils.AnnotationRecordsPresenter;
 import com.windhike.tuto.utils.AnnotationSelectRecordsPresenter;
 import com.windhike.tuto.utils.BaseAnnotationRecordsPresenter;
 import java.io.File;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -32,13 +32,13 @@ public class AnnotationRecentActivity extends BaseAty implements AnnotationRecor
     private static final int REQUEST_IMAGE_SELECT = 171;
     Uri mPhotoUri;
 
-    @Bind(R.id.recordRecyclerView)
+    @BindView(R.id.recordRecyclerView)
     RecyclerView recordRecyclerView;
-    @Bind(R.id.ll_empty)
+    @BindView(R.id.ll_empty)
     LinearLayout llEmpty;
-    @Bind(R.id.fab_camera)
+    @BindView(R.id.fab_camera)
     FloatingActionButton fabCamera;
-    @Bind(R.id.fab_pic)
+    @BindView(R.id.fab_pic)
     FloatingActionButton fabPic;
     private BaseAnnotationRecordsPresenter mPresenter;
 

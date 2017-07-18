@@ -28,7 +28,8 @@ import com.windhike.tuto.presenter.PictureSingleSelectPresenter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -38,20 +39,20 @@ import butterknife.OnClick;
 
 public class SelectPictureAty extends BaseAty implements Handler.Callback,View.OnClickListener
         ,PictureMultiSelectPresenter.ISelectMultiPictureView ,PictureSingleSelectPresenter.ISelectSinglePictureView{
-    @Bind(android.R.id.list)
+    @BindView(android.R.id.list)
     GridView mGridView;
     private BaseAdapter mAdapter;
-    @Bind(android.R.id.button1)
+    @BindView(android.R.id.button1)
     Button mButOK;
-    @Bind(R.id.txtLeft)
+    @BindView(R.id.txtLeft)
     TextView mTvLeft;
-    @Bind(R.id.rc_checkbox)
+    @BindView(R.id.rc_checkbox)
     CheckBox mCbCheckedSize;
-    @Bind(R.id.tv_select_size)
+    @BindView(R.id.tv_select_size)
     TextView mTvSelectSize;
-    @Bind(R.id.rl_bottom)
+    @BindView(R.id.rl_bottom)
     View mRlBottom;
-    @Bind(R.id.btn_annotation)
+    @BindView(R.id.btn_annotation)
     Button btnAnnotation;
 
     private static int MAX_NUM = 9;

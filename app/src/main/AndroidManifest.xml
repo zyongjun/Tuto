@@ -3,30 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.windhike.tuto">
 
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+     <uses-permission android:name="android.permission.INTERNET"/>
+     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+     <uses-permission android:name="android.permission.CAMERA" />
+     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    &lt;!&ndash; 如果需要精确定位的话请加上此权限 &ndash;&gt; -->
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".TutoApplication"
         android:allowBackup="true"
-        tools:replace="android:icon"
         android:icon="@mipmap/ic_tuto"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_round_tuto_xxx"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".AnnotationPicturesActivity">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".AnnotationRecordsActivity" />-->
-        <!--<activity android:name=".AnnotationPicturesActivity" />-->
+
+         <service android:name="com.qq.e.comm.DownloadService" android:exported="false" />
+         <activity android:name="com.qq.e.ads.ADActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+        <activity android:name=".AnnotationPicturesActivity" />
         <activity android:name=".AnnotationProjectEditActivity" />
         <activity android:name=".AnnotationRecentActivity" />
         <activity
             android:name=".AnnotationTextEditActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity android:name=".AnnotationPreviewActivity" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5966e53caed1793fed000288" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="test" />
     </application>
 
 </manifest>
