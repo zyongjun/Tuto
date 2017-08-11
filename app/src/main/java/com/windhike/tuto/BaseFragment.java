@@ -10,28 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * author:gzzyj on 2017/7/14 0014.
  * email:zhyongjun@windhike.cn
  */
 
-public class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment{
     private View mRootView;
+    private Unbinder unbinder;
 
     public String getTransactionTag() {
         return getClass().getSimpleName();
     }
 
-    public View onCustomCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        return null;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = onCustomCreateView(inflater,container,savedInstanceState);
+            mRootView = inflater.inflate(getLayouId(),container,false);
+            unbinder = ButterKnife.bind(this, mRootView);
+            initView();
         }else{
             ViewGroup parent = (ViewGroup) mRootView.getParent();
             parent.removeAllViews();
@@ -39,11 +40,23 @@ public class BaseFragment extends Fragment{
         return mRootView;
     }
 
+    public void initView() {
+
+    }
+
+    public abstract int getLayouId();
+
     public boolean onBackPressed() {
         if (getActivity() != null) {
             getActivity().finish();
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

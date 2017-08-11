@@ -7,5 +7,6 @@ import android.net.Uri
  * email:zhyongjun@windhike.cn
  */
 data class AudioRecordStopEvent(val audioPath: Uri)
+data class AnnotationChangedEvent(val des:String)
 
 

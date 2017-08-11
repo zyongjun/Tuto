@@ -31,7 +31,7 @@
             />
     </LinearLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <com.getbase.floatingactionbutton.FloatingActionMenu
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,5 +66,5 @@
             app:fab_title="@string/menu_camera"
             app:fab_colorPressed="@color/gray"/>
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </com.getbase.floatingactionbutton.FloatingActionMenu>
 </android.support.design.widget.CoordinatorLayout>

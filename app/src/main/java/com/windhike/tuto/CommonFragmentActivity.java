@@ -1,6 +1,7 @@
 package com.windhike.tuto;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,22 +45,23 @@ public class CommonFragmentActivity extends BaseFragmentActivity{
         return null;
     }
 
-    public void start(String fname, @Nullable Bundle args, int flags){
+    public static void start(Context context, String fname, @Nullable Bundle args, int flags){
         try {
             Intent intent = new Intent();
-            intent.setClass(this, CommonFragmentActivity.class);
+            intent.setClass(context, CommonFragmentActivity.class);
             intent.putExtra(BUNDLE_KEY_NAME, fname);
             intent.putExtra(BUNDLE_KEY_ARGS, args);
             if(flags != -1){
                 intent.addFlags(flags);
             }
-            startActivity(intent);
+            context.startActivity(intent);
         }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
-    public void start(String fname, Bundle args) {
-        start(fname,args,-1);
+    public static void start(Context context,String fname, Bundle args) {
+        start(context,fname,args,-1);
     }
 
     @Override

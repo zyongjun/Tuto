@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#00000000</color>
+    <color name="colorPrimaryDark">#ff333333</color>
     <!--<color name="colorPrimaryDark">#ffffff</color>-->
     <color name="colorAccent">#FF4081</color>
     <color name="text_gray_light">#d5d5d5</color>
@@ -169,7 +169,7 @@
 
 
     <!--drawing colors-->
-    <color name="c_draw_one">#f65252</color>
+    <!--<color name="c_draw_one">#f65252</color>-->
     <color name="c_draw_two">#fb6731</color>
     <color name="c_draw_third">#ffdf03</color>
     <color name="c_draw_four">#a2ef1b</color>
@@ -177,4 +177,7 @@
     <color name="c_draw_six">#d237ee</color>
     <color name="c_snack_normal">#42DA7B</color>
     <color name="c_snack_press">#FF42DAAF</color>
+
+    <color name="app_main_bg">#f4f4f4</color>
+    <color name="select_btn">#39efb6</color>
 </resources>

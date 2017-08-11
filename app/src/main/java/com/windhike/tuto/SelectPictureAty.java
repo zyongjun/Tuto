@@ -15,20 +15,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.TextView;
-
 import com.windhike.annotation.model.SaveSelectState;
-import com.windhike.annotation.reuse.FileUtils;
-import com.windhike.tuto.BaseAty;
-import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.BasePictureSelectPresenter;
 import com.windhike.tuto.presenter.PictureMultiSelectAdapter;
 import com.windhike.tuto.presenter.PictureMultiSelectPresenter;
 import com.windhike.tuto.presenter.PictureSingleSelectPresenter;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

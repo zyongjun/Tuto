@@ -10,22 +10,21 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
 import com.windhike.tuto.BaseFragment;
 import com.windhike.tuto.R;
 import com.windhike.tuto.reuse.PromptManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * author:gzzyj on 2017/7/18 0018.
  * email:zhyongjun@windhike.cn
  */
 
-public class BasePermissionFragment extends BaseFragment{
+public abstract class BasePermissionFragment extends BaseFragment{
     private  static final int REQUEST_PERMISSION_CODE = 1024;
 
     protected void onGranted() {
@@ -42,13 +41,14 @@ public class BasePermissionFragment extends BaseFragment{
      * 弹窗需要处理调用MUI的授权页面
      * @param lackedPermission
      */
-    protected void onDenied(List<String> lackedPermission) {
+    protected void onDenied(final List<String> lackedPermission) {
         HashMap<String,String> permissionMap = new HashMap();
         permissionMap.put(Manifest.permission.RECORD_AUDIO,"麦克风");
         permissionMap.put(Manifest.permission.CAMERA,"相机");
         permissionMap.put(Manifest.permission.READ_PHONE_STATE,"电话");
         permissionMap.put(Manifest.permission.WRITE_EXTERNAL_STORAGE,"存储空间");
         permissionMap.put(Manifest.permission.ACCESS_FINE_LOCATION,"定位");
+        permissionMap.put(Manifest.permission.SYSTEM_ALERT_WINDOW,"打开悬浮窗");
         String title = "权限申请";
         String confirm = "去设置";
         String cancel = "取消";
@@ -61,7 +61,6 @@ public class BasePermissionFragment extends BaseFragment{
                 sb.append(join);
             }
             flag=true;
-            Log.e(TAG, "onDenied: -----"+permissionName );
             sb.append(permissionMap.get(permissionName));
         }
         sb.append("权限,以正常使用本应用");
@@ -70,9 +69,14 @@ public class BasePermissionFragment extends BaseFragment{
             public void confirmClick() {
 //                Intent intent = new Intent(Settings.ACTION_APPLICATION_SETTINGS);
 //                startActivity(intent);
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
-                startActivity(intent);
+//                if ((lackedPermission.size() ==1) && lackedPermission.contains(Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//                    startActivity(intent);
+//                }else {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
+                    startActivity(intent);
+//                }
                 getActivity().finish();
             }
 
@@ -88,9 +92,7 @@ public class BasePermissionFragment extends BaseFragment{
         List<String> lackedPermission = new ArrayList();
         Context context = getContext();
         for(String permission:permissions) {
-            Log.e(TAG, "getLackedPermissions: -------"+permission );
             if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                Log.e(TAG, "getLackedPermissions: ======="+permission );
                 lackedPermission.add(permission);
             }
         }
@@ -134,20 +136,10 @@ public class BasePermissionFragment extends BaseFragment{
             if(hasAllPermissionsGranted(grantResults)) {
                 onGranted();
             }else{
+                Log.e(TAG, "onRequestPermissionsResult: ========"+permissions[0] );
                 onDenied(getLackedPermissions(permissions));
             }
         }
     }
-
-//    public boolean isGranted(Context context, String... strArr) {
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            for (String checkSelfPermission : strArr) {
-//                if (context.checkSelfPermission(checkSelfPermission) != PackageManager.PERMISSION_GRANTED) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
 
 }

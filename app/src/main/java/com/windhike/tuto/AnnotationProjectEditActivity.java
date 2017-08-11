@@ -27,6 +27,7 @@ import com.windhike.annotation.reuse.DisplayUtil;
 import com.windhike.annotation.view.CustomerShapeView;
 import com.windhike.annotation.view.DrawingView;
 import com.windhike.tuto.audio.AnnotationAudioRecordManager;
+import com.windhike.tuto.event.AnnotationChangedEvent;
 import com.windhike.tuto.event.AudioRecordStopEvent;
 import com.windhike.tuto.reuse.PromptManager;
 import com.windhike.tuto.reuse.SchedulersTransFormer;
@@ -42,7 +43,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ibos.ui.widget.DrawingMenuDialog;
@@ -525,6 +525,7 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
                         dismissOpDialog();
                         isShowCirform = false;
                         mPresenter.finish();
+                        EventBus.getDefault().post(new AnnotationChangedEvent("update on edit finished"));
                     }
                 });
     }

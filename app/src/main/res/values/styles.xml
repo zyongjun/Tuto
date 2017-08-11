@@ -19,4 +19,12 @@
         <item name="android:paddingBottom">@dimen/d_3</item>
     </style>
 
+    <style name="text_draw_menu_shape">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+    </style>
+    <style name="text_draw_menu">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
 </resources>
