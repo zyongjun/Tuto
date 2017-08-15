@@ -28,6 +28,7 @@ import java.util.List;
 public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
     private Context mContext;
     private List<SettingItem> mSettingList = new ArrayList<>();
+    private boolean isFloatOpened;
 
     public SettingAdapter(Context context) {
         mContext = context;
@@ -35,6 +36,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
         item.name= TutoApplication.getInstance().getString(R.string.open_draw_tools);
         item.isSelect = true;
         mSettingList.add(item);
+        isFloatOpened = PreferenceConnector.readBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,false);
     }
     @Override
     public SettingItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,15 +47,25 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
     public void onBindViewHolder(final SettingItemHolder holder, int position) {
         SettingItem item = mSettingList.get(position);
         holder.tvName.setText(item.name);
+        holder.switchView.setOn(isFloatOpened);
         holder.switchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
             @Override
             public void onSwitchStateChange(boolean isOn) {
+                Context context = holder.itemView.getContext();
                 if (isOn) {
-                    Context context = holder.itemView.getContext();
-                    PreferenceConnector.writeBoolean(context,"open+_float",true);
                     if(checkFloatWindowPermission()) {
+                        PreferenceConnector.writeBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,true);
                         context.startService(new Intent(context, DrawMenuService.class));
+                    }else{
+                        holder.switchView.setOn(false);
+                        isFloatOpened = false;
+//                        notifyDataSetChanged();
+                        showAppSettingDialog();
                     }
+                }else{
+                    isFloatOpened = false;
+                    context.stopService(new Intent(context,DrawMenuService.class));
+                    PreferenceConnector.writeBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,false);
                 }
 
             }
@@ -61,16 +73,15 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
     }
 
     public boolean checkFloatWindowPermission(){
+        boolean hasPermission = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //23后的悬浮窗权限属于危险权限 需要手动开启
             if(!Settings.canDrawOverlays(mContext)) {
-                showAppSettingDialog();
-                return false;
+                hasPermission = false;
             }
         }else if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_DENIED){
-            showAppSettingDialog();
-            return false;
+            hasPermission = false;
         }
-        return true;
+        return hasPermission;
     }
 
     private void showAppSettingDialog() {

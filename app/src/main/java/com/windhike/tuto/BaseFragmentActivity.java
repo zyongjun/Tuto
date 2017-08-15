@@ -10,7 +10,6 @@ import com.umeng.analytics.MobclickAgent;
  * author:gzzyj on 2017/7/14 0014.
  * email:zhyongjun@windhike.cn
  */
-
 public class BaseFragmentActivity extends AppCompatActivity{
 
     protected int getLayoutId() {

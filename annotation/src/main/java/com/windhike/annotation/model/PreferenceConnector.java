@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
  * email:zhyongjun@windhike.cn
  */
 public class PreferenceConnector {
+    public static final String KEY_FLOAT_OPENED = "KEY_FLOAT_OPENED";
     public static final int MODE = 0;
     public static final String PREF_NAME = "PEOPLE_PREFERENCES";
 

@@ -33,7 +33,6 @@ public class IconHolder extends BaseTouchViewHolder{
     @Override
     public void initView() {
         if (mLauchIcon != null) {
-            mLauchIcon.setVisibility(View.VISIBLE);
             mWindowManager.addView(mLauchIcon,getViewLayoutParams());
             return;
         }
@@ -54,11 +53,8 @@ public class IconHolder extends BaseTouchViewHolder{
                         startY = event.getY();
                         startRawX = event.getRawX();
                         startRawY = event.getRawY();
-//                        windowLayoutParams.alpha = 1f;
-                        mWindowManager.updateViewLayout(mLauchIcon,getViewLayoutParams());
                         break;
                     case MotionEvent.ACTION_UP:
-//                        windowLayoutParams.alpha = 0.6f;
                         mWindowManager.updateViewLayout(mLauchIcon,getViewLayoutParams());
 
                         startX = 0;
@@ -68,8 +64,8 @@ public class IconHolder extends BaseTouchViewHolder{
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (sumX < -10 || sumX > 10 || sumY < -10 || sumY > 10){
-                            iconViewX = (int) (rawX - startX);
-                            iconViewY = (int) (rawY - startY);
+                            iconViewX = mMetrics.widthPixels-(int) (rawX-startX);
+                            iconViewY = (int)(rawY-startY)-mMetrics.heightPixels/2;
                             mWindowManager.updateViewLayout(mLauchIcon,getViewLayoutParams());
                         }
                         break;
@@ -77,9 +73,12 @@ public class IconHolder extends BaseTouchViewHolder{
                 return false;
             }
         });
+
+        mWindowManager.getDefaultDisplay().getMetrics(mMetrics);
         mWindowManager.addView(mLauchIcon,getViewLayoutParams());
     }
 
+    private DisplayMetrics mMetrics = new DisplayMetrics();;
 
 
     private static final int ICON_SIZE = 38;
@@ -95,7 +94,6 @@ public class IconHolder extends BaseTouchViewHolder{
         windowLayoutParams.windowAnimations=R.style.IconViewAnimator;
         DisplayMetrics metrics = new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(metrics);
-        windowLayoutParams.alpha = 0.6f;
         windowLayoutParams.width = Utils.dip2px(mContext,ICON_SIZE);
         windowLayoutParams.height = Utils.dip2px(mContext,ICON_SIZE);
         windowLayoutParams.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
@@ -110,7 +108,6 @@ public class IconHolder extends BaseTouchViewHolder{
     @Override
     public void onDestory() {
         if (mLauchIcon != null) {
-            mLauchIcon.setVisibility(View.GONE);
             mWindowManager.removeView(mLauchIcon);
         }
     }

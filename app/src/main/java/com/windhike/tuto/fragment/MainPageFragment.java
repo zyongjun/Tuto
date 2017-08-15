@@ -1,7 +1,9 @@
 package com.windhike.tuto.fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
@@ -11,12 +13,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-
+import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.tuto.BaseFragment;
 import com.windhike.tuto.CommonFragmentActivity;
 import com.windhike.tuto.R;
+import com.windhike.tuto.reuse.PromptManager;
 import com.windhike.tuto.view.FloatButton;
-
+import com.zyongjun.easytouch.service.DrawMenuService;
 import butterknife.BindView;
 
 /**
@@ -47,7 +50,7 @@ public class MainPageFragment extends BaseFragment {
         fbSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAppSettingPage();
+                CommonFragmentActivity.start(getActivity(),SettingFragment.class.getName(),null);
             }
         });
     }
@@ -55,45 +58,47 @@ public class MainPageFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        checkFloatWindowPermission();
+        if(checkFloatWindowPermission()){
+            PreferenceConnector.writeBoolean(getActivity(),PreferenceConnector.KEY_FLOAT_OPENED,true);
+            getActivity().startService(new Intent(getActivity(), DrawMenuService.class));
+        }else{
+            showAppSettingPage();
+        }
     }
 
     private void showAppSettingPage() {
-        CommonFragmentActivity.start(getActivity(),SettingFragment.class.getName(),null);
-//        String title = "权限申请";
-//        String confirm = "去设置";
-//        String cancel = "取消";
-//        String appName = getString(R.string.app_name);
-//        StringBuilder sb = new StringBuilder(String.format("在设置-应用-%s-权限中开启",appName));
-//        sb.append("允许绘制工具出现在其他应用上");
-//        sb.append(",以正常使用本应用");
-//        PromptManager.getInstance(getActivity()).showDialog(title, sb.toString(), cancel, confirm, new PromptManager.OnClickBtnCallback() {
-//            @Override
-//            public void confirmClick() {
-//                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                intent.setData(Uri.parse(String.format("package:%s", getActivity().getPackageName())));
-//                startActivity(intent);
-//                getActivity().finish();
-//            }
-//
-//            @Override
-//            public void cancelClick() {
-//
-//            }
-//        });
+        String title = "权限申请";
+        String confirm = "去设置";
+        String cancel = "取消";
+        String appName = getString(R.string.app_name);
+        StringBuilder sb = new StringBuilder(String.format("在设置-应用-%s-权限中开启",appName));
+        sb.append("允许绘制工具出现在其他应用上");
+        sb.append(",以正常使用本应用");
+        PromptManager.getInstance(getActivity()).showDialog(title, sb.toString(), cancel, confirm, new PromptManager.OnClickBtnCallback() {
+            @Override
+            public void confirmClick() {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(Uri.parse(String.format("package:%s", getActivity().getPackageName())));
+                startActivity(intent);
+            }
+
+            @Override
+            public void cancelClick() {
+
+            }
+        });
     }
 
     public boolean checkFloatWindowPermission(){
+        boolean hasPermission = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { //23后的悬浮窗权限属于危险权限 需要手动开启
             if(!Settings.canDrawOverlays(getActivity())) {
-                showAppSettingPage();
-                return false;
+                hasPermission = false;
             }
         }else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_DENIED){
-            showAppSettingPage();
-            return false;
+            hasPermission = false;
         }
-        return true;
+        return hasPermission;
     }
 
     private static class PictureAdapter extends FragmentPagerAdapter{

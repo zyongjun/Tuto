@@ -24,7 +24,6 @@ public class MenuHolder extends BaseTouchViewHolder{
     @Override
     public void initView() {
         if (mFloatSettingView != null) {
-            mFloatSettingView.setVisibility(View.VISIBLE);
             mWindowManager.addView(mFloatSettingView,getViewLayoutParams());
             return;
         }
@@ -62,7 +61,6 @@ public class MenuHolder extends BaseTouchViewHolder{
     @Override
     public void onDestory() {
         if(mFloatSettingView!=null) {
-            mFloatSettingView.setVisibility(View.GONE);
             mWindowManager.removeView(mFloatSettingView);
         }
     }

@@ -14,7 +14,6 @@ import com.zyongjun.easytouch.view.MenuHolder;
  * author:gzzyj on 2017/8/7 0007.
  * email:zhyongjun@windhike.cn
  */
-
 public class DrawMenuService extends Service{
     private IconHolder mIconHolder;
     private MenuHolder mMenuHolder;
@@ -58,7 +57,6 @@ public class DrawMenuService extends Service{
                 public void onClick(View v) {
                     mMenuHolder.onDestory();
                     mIconHolder.initView();
-                    Toast.makeText(getBaseContext(),"obtainMenuOutsideListener",Toast.LENGTH_SHORT).show();
                 }
             };
         }
