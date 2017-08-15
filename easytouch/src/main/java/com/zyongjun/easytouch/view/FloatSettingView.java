@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.zyongjun.easytouch.R;
 import java.lang.annotation.Retention;
@@ -17,7 +17,8 @@ import java.lang.annotation.RetentionPolicy;
  * author:gzzyj on 2017/7/30 0030.
  * email:zhyongjun@windhike.cn
  */
-public class FloatSettingView extends FrameLayout implements View.OnClickListener{
+public class FloatSettingView extends RelativeLayout implements View.OnClickListener{
+    private View mRootView;
     TextView vScale;
     TextView vFreeHand;
     TextView vCircle;
@@ -48,31 +49,34 @@ public class FloatSettingView extends FrameLayout implements View.OnClickListene
 
     private void init() {
         removeAllViews();
-        LayoutInflater.from(getContext()).inflate(R.layout.view_annotation_control, this, true);
-        vScale = (TextView) findViewById(R.id.vScale);
+        setBackgroundResource(android.R.color.transparent);
+
+        mRootView = LayoutInflater.from(getContext()).inflate(R.layout.view_annotation_control, this, false);
+        LayoutParams rootParams = (LayoutParams) mRootView.getLayoutParams();
+        rootParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        vScale = (TextView) mRootView.findViewById(R.id.vScale);
         vScale.setOnClickListener(this);
-        vFreeHand = (TextView) findViewById(R.id.vFreeHand);
+        vFreeHand = (TextView) mRootView.findViewById(R.id.vFreeHand);
         vFreeHand.setOnClickListener(this);
-        vCircle = (TextView) findViewById(R.id.vCircle);
+        vCircle = (TextView) mRootView.findViewById(R.id.vCircle);
         vCircle.setOnClickListener(this);
-        vArrow = (TextView) findViewById(R.id.vArrow);
+        vArrow = (TextView)mRootView. findViewById(R.id.vArrow);
         vArrow.setOnClickListener(this);
-        vSquare = (TextView) findViewById(R.id.vSquare);
+        vSquare = (TextView) mRootView.findViewById(R.id.vSquare);
         vSquare.setOnClickListener(this);
-        vTalk = (TextView) findViewById(R.id.vTalk);
+        vTalk = (TextView) mRootView.findViewById(R.id.vTalk);
         vTalk.setOnClickListener(this);
-        vText = (TextView) findViewById(R.id.vText);
+        vText = (TextView) mRootView.findViewById(R.id.vText);
 //        vText.setOnClickListener(this);
-        vEraser = ((TextView) findViewById(R.id.vEraser));
+        vEraser = ((TextView) mRootView.findViewById(R.id.vEraser));
         vEraser.setOnClickListener(this);
-        vMask = (TextView)findViewById(R.id.vMask);
+        vMask = (TextView)mRootView.findViewById(R.id.vMask);
         vMask.setOnClickListener(this);
-        tvReset = (TextView)findViewById(R.id.tvReset);
-        tvRestore = (TextView)findViewById(R.id.tvRestore);
-        vColorIndicate = (TextView)findViewById(R.id.vColorIndicate);
+        tvReset = (TextView)mRootView.findViewById(R.id.tvReset);
+        tvRestore = (TextView)mRootView.findViewById(R.id.tvRestore);
+        vColorIndicate = (TextView)mRootView.findViewById(R.id.vColorIndicate);
+        addView(mRootView,rootParams);
     }
-
-
 
     public void unDoRedo(boolean isOffUndo, boolean isOffRedo) {
         tvReset.setBackgroundResource(R.mipmap.ic_reset);
@@ -102,17 +106,28 @@ public class FloatSettingView extends FrameLayout implements View.OnClickListene
         void onShapeChanged(@DrawingShape int drawingShape);
         void onColorChanged(int index);
         void switchZoomMode(boolean isSwitchToZoomMode);
+        OnClickListener obtainMenuOutsideListener();
+        void switchToIconMode();
     }
 
     public void setSettingCallback(OnDrawingSettingCallback callback) {
         this.mSettingCallback = callback;
+        if (callback != null) {
+            setOnClickListener(callback.obtainMenuOutsideListener());
+        }
     }
 
     @Override
     public void onClick(View v) {
+        if (mSettingCallback != null) {
+            mSettingCallback.switchToIconMode();
+        }
         int id = v.getId();
         if (id == R.id.vScale) {
             v.setSelected(true);
+            if (mSettingCallback == null) {
+                return;
+            }
             mSettingCallback.switchZoomMode(true);
             return;
         }
@@ -143,6 +158,9 @@ public class FloatSettingView extends FrameLayout implements View.OnClickListene
         } else if (id == R.id.vEraser) {
             mDrawingShape = 7;
 
+        }
+        if (mSettingCallback == null) {
+            return;
         }
         mSettingCallback.switchZoomMode(false);
         mSettingCallback.onShapeChanged(mDrawingShape);

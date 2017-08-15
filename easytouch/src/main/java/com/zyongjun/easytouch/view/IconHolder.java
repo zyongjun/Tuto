@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 import com.zyongjun.easytouch.R;
 import com.zyongjun.easytouch.utils.Utils;
 
@@ -34,6 +33,8 @@ public class IconHolder extends BaseTouchViewHolder{
     @Override
     public void initView() {
         if (mLauchIcon != null) {
+            mLauchIcon.setVisibility(View.VISIBLE);
+            mWindowManager.addView(mLauchIcon,getViewLayoutParams());
             return;
         }
         mLauchIcon = new Button(mContext);
@@ -109,6 +110,7 @@ public class IconHolder extends BaseTouchViewHolder{
     @Override
     public void onDestory() {
         if (mLauchIcon != null) {
+            mLauchIcon.setVisibility(View.GONE);
             mWindowManager.removeView(mLauchIcon);
         }
     }

@@ -3,6 +3,7 @@ package com.windhike.tuto;
 import android.app.Application;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import com.facebook.stetho.Stetho;
 import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
 
@@ -32,6 +33,7 @@ public class TutoApplication extends Application{
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
+        Stetho.initializeWithDefaults(this);
         AnnotationInitialize.getInstance().initialize(this);
 //        configUmeng();
     }

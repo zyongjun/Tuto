@@ -229,4 +229,14 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
     public void switchZoomMode(boolean isSwitchToZoomMode) {
        switchToZoomMode(isSwitchToZoomMode);
     }
+
+    @Override
+    public View.OnClickListener obtainMenuOutsideListener() {
+        return null;
+    }
+
+    @Override
+    public void switchToIconMode() {
+
+    }
 }
