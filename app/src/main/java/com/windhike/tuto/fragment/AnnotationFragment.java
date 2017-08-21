@@ -148,11 +148,11 @@ public class AnnotationFragment extends BaseFragment{
             if (new File(mImageDisplayPath).exists()) {
                 Bitmap currentLoadingBitmap = Utilities.scaleToActualAspectRatio(BitmapFactory.decodeFile(mImageDisplayPath),
                         TutoApplication.getInstance().getDisplayMetrics().widthPixels,
-                        TutoApplication.getInstance().getDisplayMetrics().heightPixels - DisplayUtil.dip2px(TutoApplication.getInstance(), 110));
+                        TutoApplication.getInstance().getDisplayMetrics().heightPixels);
                 drawingView.setEdit(true);
                 drawingView.setListener(updateListener);
                 drawingView.setwMainView(TutoApplication.getInstance().getDisplayMetrics().widthPixels);
-                drawingView.sethMainView(TutoApplication.getInstance().getDisplayMetrics().heightPixels - DisplayUtil.dip2px(TutoApplication.getInstance(), 110));
+                drawingView.sethMainView(TutoApplication.getInstance().getDisplayMetrics().heightPixels);
                 drawingView.setMainBitmap(currentLoadingBitmap);
                 if (flagLoadListRootShape) {
                     drawingView.loadListRootShape(imageDrawObjects.get(mDrawObjectIndex).getListRootShape(), imageDrawObjects.get(mDrawObjectIndex).getListRootShape().size());
@@ -225,7 +225,7 @@ public class AnnotationFragment extends BaseFragment{
                 bitMapSource = Utilities.decodeFile(true, fileSource);
                 Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bitMapSource,
                         TutoApplication.getInstance().getDisplayMetrics().widthPixels,
-                        TutoApplication.getInstance().getDisplayMetrics().heightPixels - DisplayUtil.dip2px(TutoApplication.getInstance(), 110));
+                        TutoApplication.getInstance().getDisplayMetrics().heightPixels);
                 Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
                 bitMapSource.recycle();
                 bitMapSourceSave.recycle();
