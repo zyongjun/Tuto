@@ -1,15 +1,19 @@
 package com.zyongjun.easytouch.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.zyongjun.easytouch.R;
+import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -48,6 +52,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     }
 
     private void init() {
+        mBroadcastmanager = LocalBroadcastManager.getInstance(getContext());
         removeAllViews();
         setBackgroundResource(android.R.color.transparent);
 
@@ -55,6 +60,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         LayoutParams rootParams = (LayoutParams) mRootView.getLayoutParams();
         rootParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         vScale = (TextView) mRootView.findViewById(R.id.vScale);
+        vScale.setSelected(true);
         vScale.setOnClickListener(this);
         vFreeHand = (TextView) mRootView.findViewById(R.id.vFreeHand);
         vFreeHand.setOnClickListener(this);
@@ -73,19 +79,13 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vMask = (TextView)mRootView.findViewById(R.id.vMask);
         vMask.setOnClickListener(this);
         tvReset = (TextView)mRootView.findViewById(R.id.tvReset);
+        tvReset.setOnClickListener(this);
         tvRestore = (TextView)mRootView.findViewById(R.id.tvRestore);
+        tvRestore.setOnClickListener(this);
         vColorIndicate = (TextView)mRootView.findViewById(R.id.vColorIndicate);
         addView(mRootView,rootParams);
     }
 
-    public void unDoRedo(boolean isOffUndo, boolean isOffRedo) {
-        tvReset.setBackgroundResource(R.mipmap.ic_reset);
-        tvReset.setEnabled(isOffUndo);
-        tvReset.setAlpha(isOffUndo ? 1f : 0.5f);
-        tvRestore.setBackgroundResource(R.mipmap.ic_restore);
-        tvRestore.setEnabled(isOffRedo);
-        tvRestore.setAlpha(isOffRedo ? 1f : 0.5f);
-    }
     public static final int SHAPE_FREE_HAND = 0;
     public static final int SHAPE_ARROW = 1;
     public static final int SHAPE_SQUARE = 2;
@@ -93,24 +93,59 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public static final int SHAPE_MASK = 4;
     public static final int SHAPE_ERASER = 7;
 
+    public static final String ACTION_SHAPE_CHANGED = "ACTION_SHAPE_CHANGED";
+    public static final String ACTION_COLOR_CHANGED = "ACTION_COLOR_CHANGED";
+    public static final String ACTION_SCALE_MODE_CHANGED = "ACTION_SCALE_MODE_CHANGED";
+    public static final String ACTION_RESET_OPERATION = "ACTION_RESET_OPERATION";
+    public static final String ACTION_RESTORE_OPERATION = "ACTION_RESTORE_OPERATION";
+
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE,SHAPE_CIRCLE,SHAPE_MASK,SHAPE_ERASER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface DrawingShape{}
 
     private int mDrawingShape;
+    private LocalBroadcastManager mBroadcastmanager;
+
     public void setDrawingShape(@DrawingShape int drawingShape) {
         mDrawingShape = drawingShape;
     }
-    private OnDrawingSettingCallback mSettingCallback;
-    public interface OnDrawingSettingCallback{
-        void onShapeChanged(@DrawingShape int drawingShape);
-        void onColorChanged(int index);
-        void switchZoomMode(boolean isSwitchToZoomMode);
-        OnClickListener obtainMenuOutsideListener();
-        void switchToIconMode();
+    private HolderSwitchCallback mSettingCallback;
+
+    public void onShapeChanged(int drawingShape) {
+        Intent intent = new Intent(FloatSettingView.ACTION_SHAPE_CHANGED);
+        intent.putExtra(FloatSettingView.ACTION_SHAPE_CHANGED,drawingShape);
+        mBroadcastmanager.sendBroadcast(intent);
+        Toast.makeText(getContext().getApplicationContext(),"onShapeChanged",Toast.LENGTH_SHORT).show();
     }
 
-    public void setSettingCallback(OnDrawingSettingCallback callback) {
+    public void onColorChanged(int index) {
+        Intent intent = new Intent(FloatSettingView.ACTION_COLOR_CHANGED);
+        intent.putExtra(FloatSettingView.ACTION_COLOR_CHANGED,index);
+        mBroadcastmanager.sendBroadcast(intent);
+        Toast.makeText(getContext().getApplicationContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
+    }
+
+    public void switchZoomMode(boolean isSwitchToZoomMode) {
+        Intent intent = new Intent(FloatSettingView.ACTION_SCALE_MODE_CHANGED);
+        intent.putExtra(FloatSettingView.ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
+        mBroadcastmanager.sendBroadcast(intent);
+        Toast.makeText(getContext().getApplicationContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
+    }
+
+    public void unDo() {
+        switchZoomMode(false);
+        Intent intent = new Intent(FloatSettingView.ACTION_RESET_OPERATION);
+        mBroadcastmanager.sendBroadcast(intent);
+//        Toast.makeText(getContext().getApplicationContext(),"undo",Toast.LENGTH_SHORT).show();
+    }
+    public void reDo() {
+        switchZoomMode(false);
+        Intent intent = new Intent(FloatSettingView.ACTION_RESTORE_OPERATION);
+        mBroadcastmanager.sendBroadcast(intent);
+//        Toast.makeText(getContext().getApplicationContext(),"redo",Toast.LENGTH_SHORT).show();
+    }
+
+    public void setSettingCallback(HolderSwitchCallback callback) {
         this.mSettingCallback = callback;
         if (callback != null) {
             setOnClickListener(callback.obtainMenuOutsideListener());
@@ -119,18 +154,19 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        int id = v.getId();
         if (mSettingCallback != null) {
             mSettingCallback.switchToIconMode();
         }
-        int id = v.getId();
-        if (id == R.id.vScale) {
-            v.setSelected(true);
-            if (mSettingCallback == null) {
-                return;
-            }
-            mSettingCallback.switchZoomMode(true);
+        if (id == R.id.tvReset) {
+            unDo();
             return;
         }
+        if (id == R.id.tvRestore) {
+            reDo();
+            return;
+        }
+
         vFreeHand.setSelected(false);
         vCircle.setSelected(false);
         vArrow.setSelected(false);
@@ -138,19 +174,21 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vTalk.setSelected(false);
         vMask.setSelected(false);
         vEraser.setSelected(false);
+        vScale.setSelected(false);
         v.setSelected(true);
+        if (id == R.id.vScale) {
+            switchZoomMode(true);
+            return;
+        }
+
         if (id == R.id.vFreeHand) {
             mDrawingShape = 0;
-
         } else if (id == R.id.vCircle) {
             mDrawingShape = 3;
-
         } else if (id == R.id.vArrow) {
             mDrawingShape = 1;
-
         } else if (id == R.id.vSquare) {
             mDrawingShape = 2;
-
         } else if (id == R.id.vTalk) {
         } else if (id == R.id.vMask) {
             mDrawingShape = 4;
@@ -159,11 +197,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
             mDrawingShape = 7;
 
         }
-        if (mSettingCallback == null) {
-            return;
-        }
-        mSettingCallback.switchZoomMode(false);
-        mSettingCallback.onShapeChanged(mDrawingShape);
-
+        switchZoomMode(false);
+        onShapeChanged(mDrawingShape);
     }
 }

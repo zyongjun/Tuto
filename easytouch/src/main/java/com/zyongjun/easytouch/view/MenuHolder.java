@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import com.zyongjun.easytouch.R;
+import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
 
 /**
  * author:gzzyj on 2017/8/7 0007.
@@ -15,7 +16,7 @@ import com.zyongjun.easytouch.R;
 public class MenuHolder extends BaseTouchViewHolder{
     private Context mContext;
     private FloatSettingView mFloatSettingView;
-    private FloatSettingView.OnDrawingSettingCallback mCallback;
+    private HolderSwitchCallback mCallback;
     public MenuHolder(Context context) {
         super(context);
         mContext = context;
@@ -31,7 +32,7 @@ public class MenuHolder extends BaseTouchViewHolder{
         mWindowManager.addView(mFloatSettingView,getViewLayoutParams());
     }
 
-    public void setMenuCallback(FloatSettingView.OnDrawingSettingCallback callback) {
+    public void setMenuCallback(HolderSwitchCallback callback) {
         mCallback = callback;
         mFloatSettingView.setSettingCallback(mCallback);
     }

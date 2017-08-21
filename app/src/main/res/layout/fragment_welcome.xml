@@ -27,27 +27,27 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:text="@string/app_tools_descript1"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:text="@string/app_tools_descript2"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:text="@string/app_tools_descript3"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="24sp"-->
+                <!--android:text="@string/app_tools_descript1"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="14sp"-->
+                <!--android:text="@string/app_tools_descript2"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="24sp"-->
+                <!--android:text="@string/app_tools_descript3"/>-->
         </LinearLayout>
 
     </LinearLayout>

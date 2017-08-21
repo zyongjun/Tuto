@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Toast;
 import com.zyongjun.easytouch.view.FloatSettingView;
@@ -17,10 +18,12 @@ import com.zyongjun.easytouch.view.MenuHolder;
 public class DrawMenuService extends Service{
     private IconHolder mIconHolder;
     private MenuHolder mMenuHolder;
+//    private LocalBroadcastManager mBroadcastmanager;
 
     @Override
     public void onCreate() {
         super.onCreate();
+//        mBroadcastmanager = LocalBroadcastManager.getInstance(this);
         mIconHolder = new IconHolder(this);
         mMenuHolder = new MenuHolder(this);
         mIconHolder.setOnClickListener(new View.OnClickListener() {
@@ -28,27 +31,36 @@ public class DrawMenuService extends Service{
             public void onClick(View v) {
                 mIconHolder.onDestory();
                 mMenuHolder.initView();
-                mMenuHolder.setMenuCallback(mDrawingSettingCallback);
+                mMenuHolder.setMenuCallback(mSwitchHolderCallback);
             }
         });
         mIconHolder.initView();
     }
 
-    private FloatSettingView.OnDrawingSettingCallback mDrawingSettingCallback = new FloatSettingView.OnDrawingSettingCallback() {
-        @Override
-        public void onShapeChanged(int drawingShape) {
-            Toast.makeText(getBaseContext(),"onShapeChanged",Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onColorChanged(int index) {
-            Toast.makeText(getBaseContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void switchZoomMode(boolean isSwitchToZoomMode) {
-            Toast.makeText(getBaseContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
-        }
+    private HolderSwitchCallback mSwitchHolderCallback = new HolderSwitchCallback(){
+//        @Override
+//        public void onShapeChanged(int drawingShape) {
+//            Intent intent = new Intent(FloatSettingView.ACTION_SHAPE_CHANGED);
+//            intent.putExtra(FloatSettingView.ACTION_SHAPE_CHANGED,drawingShape);
+//            mBroadcastmanager.sendBroadcast(intent);
+//            Toast.makeText(getBaseContext(),"onShapeChanged",Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onColorChanged(int index) {
+//            Intent intent = new Intent(FloatSettingView.ACTION_COLOR_CHANGED);
+//            intent.putExtra(FloatSettingView.ACTION_COLOR_CHANGED,index);
+//            mBroadcastmanager.sendBroadcast(intent);
+//            Toast.makeText(getBaseContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void switchZoomMode(boolean isSwitchToZoomMode) {
+//            Intent intent = new Intent(FloatSettingView.ACTION_SCALE_MODE_CHANGED);
+//            intent.putExtra(FloatSettingView.ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
+//            mBroadcastmanager.sendBroadcast(intent);
+//            Toast.makeText(getBaseContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
+//        }
 
         @Override
         public View.OnClickListener obtainMenuOutsideListener() {
@@ -67,6 +79,11 @@ public class DrawMenuService extends Service{
             mIconHolder.initView();
         }
     };
+
+    public interface HolderSwitchCallback{
+        View.OnClickListener obtainMenuOutsideListener();
+        void switchToIconMode();
+    }
 
     @Nullable
     @Override

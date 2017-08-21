@@ -1,10 +1,16 @@
 package com.windhike.tuto.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
@@ -32,7 +38,7 @@ import butterknife.BindView;
  * author:gzzyj on 2017/7/26 0026.
  * email:zhyongjun@windhike.cn
  */
-public class AnnotationFragment extends BaseFragment implements FloatSettingView.OnDrawingSettingCallback{
+public class AnnotationFragment extends BaseFragment{
     private static final String KEY_TYPE = "KEY_TYPE";
     @BindView(R.id.drawingView)
     DrawingView drawingView;
@@ -42,14 +48,12 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
     View llCenter;
     @BindView(R.id.tv_scale)
     TextView tvScale;
-
     @BindView(R.id.activity_annotation_edit)
     RelativeLayout activityAnnotationEdit;
-    @BindView(R.id.vControl)
-    FloatSettingView mFloatControlView;
     private ManagerImageObject mManagerImageObject;
     private int mDrawObjectIndex;
     private String mNewDrawPath;
+    private LocalBroadcastManager mLocalBroadcastManager;
 
     public static void startExist(Context context, int drawIndex) {
         Bundle bundle = new Bundle();
@@ -78,9 +82,50 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
         return R.layout.fragment_annotation;
     }
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            final String action = intent.getAction();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (action.equals(FloatSettingView.ACTION_COLOR_CHANGED)) {
+                        int colorIndex = intent.getIntExtra(action, 0);
+                        Log.e(TAG, "run: ==========color=======" + colorIndex);
+//                        onColorChanged(colorIndex);
+                    } else if (action.equals(FloatSettingView.ACTION_SCALE_MODE_CHANGED)) {
+                        boolean isScaleMode = intent.getBooleanExtra(action, true);
+                        Log.e(TAG, "run: =====isScaleMode======" + isScaleMode);
+                        switchToZoomMode(isScaleMode);
+                    } else if (action.equals(FloatSettingView.ACTION_SHAPE_CHANGED)) {
+                        int shape = intent.getIntExtra(action, 0);
+                            Log.e(TAG, "run: =======shape======="+shape );
+                        drawingView.setmModeCreateObjPaint(shape);
+                    } else if (action.equals(FloatSettingView.ACTION_RESET_OPERATION)) {
+                        drawingView.actionUndo();
+                    } else if (action.equals(FloatSettingView.ACTION_RESTORE_OPERATION)) {
+                        drawingView.actionRedo();
+                    }
+                }
+            });
+
+        }
+    };
+    public static final String TAG = "AnnotationFragment";
+
+    private Handler mHandler = new Handler();
+
     @Override
     public void initView() {
         super.initView();
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(FloatSettingView.ACTION_COLOR_CHANGED);
+        filter.addAction(FloatSettingView.ACTION_SCALE_MODE_CHANGED);
+        filter.addAction(FloatSettingView.ACTION_SHAPE_CHANGED);
+        filter.addAction(FloatSettingView.ACTION_RESET_OPERATION);
+        filter.addAction(FloatSettingView.ACTION_RESTORE_OPERATION);
+        mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         initProject();
         drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -89,7 +134,6 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
                 loadDrawObject();
             }
         });
-        mFloatControlView.setSettingCallback(this);
     }
 
     public void loadDrawObject() {
@@ -124,12 +168,12 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
     }
 
     private void switchToZoomMode(boolean isZoomMode) {
-        if(isZoomMode) {
+        if (isZoomMode) {
             tvScale.setVisibility(View.VISIBLE);
             tvScale.setText(String.format("%s%%", (int) (drawingView.getScaleFactor() * 100)));
             drawingView.setEnableScaleMode(true);
 //            tvScale.setBackgroundResource(R.mipmap.ic_draw_scale_selected);
-        }else{
+        } else {
             tvScale.setVisibility(View.GONE);
             drawingView.setEnableScaleMode(false);
         }
@@ -203,7 +247,7 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
 
         @Override
         public void isOnOff_Undo_Redo(boolean isOffUndo, boolean isOffRedo) {
-            mFloatControlView.unDoRedo(isOffUndo,isOffRedo);
+//            mFloatControlView.unDoRedo(isOffUndo, isOffRedo);
         }
 
         private static final int REQUEST_CODE_EDIT_TEXT = 180;
@@ -216,27 +260,8 @@ public class AnnotationFragment extends BaseFragment implements FloatSettingView
     };
 
     @Override
-    public void onShapeChanged(int drawingShape) {
-        drawingView.setmModeCreateObjPaint(drawingShape);
-    }
-
-    @Override
-    public void onColorChanged(int index) {
-
-    }
-
-    @Override
-    public void switchZoomMode(boolean isSwitchToZoomMode) {
-       switchToZoomMode(isSwitchToZoomMode);
-    }
-
-    @Override
-    public View.OnClickListener obtainMenuOutsideListener() {
-        return null;
-    }
-
-    @Override
-    public void switchToIconMode() {
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }
