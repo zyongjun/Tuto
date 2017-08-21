@@ -35,6 +35,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     TextView tvReset;
     TextView tvRestore;
     TextView vColorIndicate;
+    TextView tvSave;
 
     public FloatSettingView(@NonNull Context context) {
         super(context);
@@ -83,6 +84,16 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         tvRestore = (TextView)mRootView.findViewById(R.id.tvRestore);
         tvRestore.setOnClickListener(this);
         vColorIndicate = (TextView)mRootView.findViewById(R.id.vColorIndicate);
+        tvSave = (TextView) mRootView.findViewById(R.id.vSaveee);
+        tvSave.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSettingCallback != null) {
+                    mSettingCallback.switchToIconMode();
+                }
+                onSaveAnnotation();
+            }
+        });
         addView(mRootView,rootParams);
     }
 
@@ -99,6 +110,8 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public static final String ACTION_RESET_OPERATION = "ACTION_RESET_OPERATION";
     public static final String ACTION_RESTORE_OPERATION = "ACTION_RESTORE_OPERATION";
 
+    public static final String ACTION_SAVE_ANNOTAION = "ACTION_SAVE_ANNOTAION";
+
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE,SHAPE_CIRCLE,SHAPE_MASK,SHAPE_ERASER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface DrawingShape{}
@@ -111,36 +124,41 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     }
     private HolderSwitchCallback mSettingCallback;
 
+    public void onSaveAnnotation() {
+        Intent intent = new Intent(ACTION_SAVE_ANNOTAION);
+        mBroadcastmanager.sendBroadcast(intent);
+    }
+
     public void onShapeChanged(int drawingShape) {
-        Intent intent = new Intent(FloatSettingView.ACTION_SHAPE_CHANGED);
-        intent.putExtra(FloatSettingView.ACTION_SHAPE_CHANGED,drawingShape);
+        Intent intent = new Intent(ACTION_SHAPE_CHANGED);
+        intent.putExtra(ACTION_SHAPE_CHANGED,drawingShape);
         mBroadcastmanager.sendBroadcast(intent);
         Toast.makeText(getContext().getApplicationContext(),"onShapeChanged",Toast.LENGTH_SHORT).show();
     }
 
     public void onColorChanged(int index) {
-        Intent intent = new Intent(FloatSettingView.ACTION_COLOR_CHANGED);
-        intent.putExtra(FloatSettingView.ACTION_COLOR_CHANGED,index);
+        Intent intent = new Intent(ACTION_COLOR_CHANGED);
+        intent.putExtra(ACTION_COLOR_CHANGED,index);
         mBroadcastmanager.sendBroadcast(intent);
         Toast.makeText(getContext().getApplicationContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
     }
 
     public void switchZoomMode(boolean isSwitchToZoomMode) {
-        Intent intent = new Intent(FloatSettingView.ACTION_SCALE_MODE_CHANGED);
-        intent.putExtra(FloatSettingView.ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
+        Intent intent = new Intent(ACTION_SCALE_MODE_CHANGED);
+        intent.putExtra(ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
         mBroadcastmanager.sendBroadcast(intent);
         Toast.makeText(getContext().getApplicationContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
     }
 
     public void unDo() {
         switchZoomMode(false);
-        Intent intent = new Intent(FloatSettingView.ACTION_RESET_OPERATION);
+        Intent intent = new Intent(ACTION_RESET_OPERATION);
         mBroadcastmanager.sendBroadcast(intent);
 //        Toast.makeText(getContext().getApplicationContext(),"undo",Toast.LENGTH_SHORT).show();
     }
     public void reDo() {
         switchZoomMode(false);
-        Intent intent = new Intent(FloatSettingView.ACTION_RESTORE_OPERATION);
+        Intent intent = new Intent(ACTION_RESTORE_OPERATION);
         mBroadcastmanager.sendBroadcast(intent);
 //        Toast.makeText(getContext().getApplicationContext(),"redo",Toast.LENGTH_SHORT).show();
     }

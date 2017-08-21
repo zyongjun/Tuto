@@ -2,6 +2,7 @@ package com.zyongjun.easytouch.view;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -61,7 +62,7 @@ public class MenuHolder extends BaseTouchViewHolder{
 
     @Override
     public void onDestory() {
-        if(mFloatSettingView!=null) {
+        if(mFloatSettingView!=null&& ViewCompat.isAttachedToWindow(mFloatSettingView)) {
             mWindowManager.removeView(mFloatSettingView);
         }
     }

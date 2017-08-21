@@ -22,17 +22,25 @@ import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.model.ManagerImageObject;
 import com.windhike.annotation.reuse.DisplayUtil;
+import com.windhike.annotation.view.CustomerShapeView;
 import com.windhike.annotation.view.DrawingView;
 import com.windhike.tuto.AnnotationTextEditActivity;
 import com.windhike.tuto.BaseFragment;
 import com.windhike.tuto.CommonFragmentActivity;
 import com.windhike.tuto.R;
 import com.windhike.tuto.TutoApplication;
+import com.windhike.tuto.event.AnnotationChangedEvent;
+import com.windhike.tuto.reuse.SchedulersTransFormer;
 import com.zyongjun.easytouch.view.FloatSettingView;
+import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 import butterknife.BindView;
+import rx.Observable;
+import rx.Observer;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * author:gzzyj on 2017/7/26 0026.
@@ -105,6 +113,8 @@ public class AnnotationFragment extends BaseFragment{
                         drawingView.actionUndo();
                     } else if (action.equals(FloatSettingView.ACTION_RESTORE_OPERATION)) {
                         drawingView.actionRedo();
+                    } else if (action.equals(FloatSettingView.ACTION_SAVE_ANNOTAION)) {
+                        saveImageReport();
                     }
                 }
             });
@@ -114,6 +124,85 @@ public class AnnotationFragment extends BaseFragment{
     public static final String TAG = "AnnotationFragment";
 
     private Handler mHandler = new Handler();
+
+    private void saveImageReport() {
+        Observable.just(getProjectName())
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<String, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> call(String s) {
+                        Bitmap bmCurrentDraw = drawingView.scaleBitmapAfterZoomInOut();
+                        if (bmCurrentDraw != null) {
+                            if (mDrawObjectIndex <= mManagerImageObject.getListChooseDrawObject().size() - 1) {
+                                ImageDrawObject imageDrawObject = mManagerImageObject.getListChooseDrawObject().get(mDrawObjectIndex);
+                                File fileEdit = new File(Utilities.getImageDrawFileNamePath(getProjectName(), String.format("%s%s", String.valueOf((imageDrawObject).getOriginalImageGalleryPath()), Configs.FLAG_EDIT_FILE_NAME)));
+                                if (fileEdit.exists()) {
+                                    fileEdit.delete();
+                                }
+                                Utilities.saveToSdcardPNG(fileEdit, bmCurrentDraw);
+                                //save thumbnail
+                                String mUUID_PicturePath = String.format("thumbnail%s", UUID.randomUUID().toString());
+                                String imagePathSDCard = Utilities.getImageDrawFileNamePath(getProjectName(), String.valueOf(mUUID_PicturePath) + Configs.FLAG_THUMBNAIL_FILE_NAME);
+                                File filedest = new File(imagePathSDCard);
+                                try {
+                                    if (filedest.exists()) {
+                                        filedest.delete();
+                                    }
+                                    Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bmCurrentDraw,
+                                            TutoApplication.getInstance().getDisplayMetrics().widthPixels, DisplayUtil.dip2px(TutoApplication.getInstance(), 150));
+                                    Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
+                                    imageDrawObject.setEditImagePath(filedest.getAbsolutePath());
+                                    bitMapSourceSave.recycle();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                imageDrawObject.getListRootShape().clear();
+                                imageDrawObject.getListRootShape().addAll(drawingView.getListRootShape());
+                                filterShapeInCurrentBitmap();
+
+                                bmCurrentDraw.recycle();
+                                return Observable.just(1);
+                            }
+                            bmCurrentDraw.recycle();
+                        }
+                        return null;
+                    }
+                }).compose(SchedulersTransFormer.<Integer>applyExecutorSchedulers())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        getActivity().finish();
+                        Toast.makeText(TutoApplication.getInstance(), "保存成功", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        getActivity().finish();
+                        Toast.makeText(TutoApplication.getInstance(), "保存失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Integer result) {
+                        EventBus.getDefault().post(new AnnotationChangedEvent("update on edit finished"));
+                    }
+                });
+    }
+
+    private void filterShapeInCurrentBitmap() {
+        if (mManagerImageObject != null) {
+            int indexCurrentDraw = mDrawObjectIndex;
+            drawingView.clearFocusAllShape();
+            ArrayList<CustomerShapeView> listShapeCurrent = drawingView.getListRootShape();
+            ArrayList<ImageDrawObject> imageDrawObjects = mManagerImageObject.getListChooseDrawObject();
+            if (imageDrawObjects.size() > 0 && indexCurrentDraw <= imageDrawObjects.size() - 1) {
+                imageDrawObjects.get(indexCurrentDraw).getListRootShape().clear();
+                imageDrawObjects.get(indexCurrentDraw).getListRootShape().addAll(listShapeCurrent);
+                imageDrawObjects.get(indexCurrentDraw).set_undoRedoCurrentIndex(drawingView.get_undoRedoCurrentIndex());
+            }
+            mManagerImageObject.writeToFile(getActivity(),getProjectName());
+        }
+    }
 
     @Override
     public void initView() {
@@ -125,6 +214,7 @@ public class AnnotationFragment extends BaseFragment{
         filter.addAction(FloatSettingView.ACTION_SHAPE_CHANGED);
         filter.addAction(FloatSettingView.ACTION_RESET_OPERATION);
         filter.addAction(FloatSettingView.ACTION_RESTORE_OPERATION);
+        filter.addAction(FloatSettingView.ACTION_SAVE_ANNOTAION);
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         initProject();
         drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -172,13 +262,10 @@ public class AnnotationFragment extends BaseFragment{
             tvScale.setVisibility(View.VISIBLE);
             tvScale.setText(String.format("%s%%", (int) (drawingView.getScaleFactor() * 100)));
             drawingView.setEnableScaleMode(true);
-//            tvScale.setBackgroundResource(R.mipmap.ic_draw_scale_selected);
         } else {
             tvScale.setVisibility(View.GONE);
             drawingView.setEnableScaleMode(false);
         }
-//        tvDrawShape.setSelected(false);
-//        tvDrawShapeIndicate.setSelected(false);
     }
 
     public String getProjectName() {
@@ -247,7 +334,6 @@ public class AnnotationFragment extends BaseFragment{
 
         @Override
         public void isOnOff_Undo_Redo(boolean isOffUndo, boolean isOffRedo) {
-//            mFloatControlView.unDoRedo(isOffUndo, isOffRedo);
         }
 
         private static final int REQUEST_CODE_EDIT_TEXT = 180;

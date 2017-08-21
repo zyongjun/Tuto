@@ -2,6 +2,7 @@ package com.zyongjun.easytouch.view;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -107,7 +108,7 @@ public class IconHolder extends BaseTouchViewHolder{
 
     @Override
     public void onDestory() {
-        if (mLauchIcon != null) {
+        if (mLauchIcon != null&& ViewCompat.isAttachedToWindow(mLauchIcon)) {
             mWindowManager.removeView(mLauchIcon);
         }
     }

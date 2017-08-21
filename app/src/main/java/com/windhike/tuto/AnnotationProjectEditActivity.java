@@ -502,26 +502,6 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
 
                     @Override
                     public void onNext(Integer result) {
-//                        try {
-//                            JSONObject json = new JSONObject(new String(result.body().bytes()));
-//                            JSONObject dataJson = (JSONObject) json.get("data");
-//                            long time = dataJson.optLong("synctime");
-//
-//                            PreferenceConnector.writeLong(TutoApplication.getInstance(), Configs.FLAG_SYSNC_UPLOAD_ANNOTATION_TIME, time);
-//                            JSONArray renewArray = dataJson.optJSONArray("renew");
-//                            if (renewArray != null && renewArray.length() > 0) {
-//                                JSONObject renewDrawJson = renewArray.getJSONObject(0);
-//                                ImageDrawObject drawObject = mPresenter.getManagerObject().getListChooseDrawObject().get(mPresenter.getDrawObjectIndex());
-//                                drawObject.setUrl(renewDrawJson.optString("url"));
-//                                drawObject.setRemarkId(renewDrawJson.optString("remarkid"));
-//                                mPresenter.getManagerObject().writeToFile(TutoApplication.getInstance(), mPresenter.getProjectName());
-//                            }
-//                            mPresenter.saveSynctime(time);
-//
-//                        } catch (JSONException | IOException e) {
-//                            e.printStackTrace();
-//                        }
-
                         dismissOpDialog();
                         isShowCirform = false;
                         mPresenter.finish();

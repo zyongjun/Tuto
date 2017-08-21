@@ -1,7 +1,9 @@
 # Tuto
 图片修改编辑分享开源客户端
-
-
+图片素材：
+> http://www.easyicon.net
+> https://www.iconfinder.com
+> http://blog.csdn.net/xiaoluoli88/article/details/51194050
 ###### TODO
 1. 首页应该需要用grdiview网格显示图片或批注(需要按图片比例显示)
 2. 缺少splash页面，广告位插入
