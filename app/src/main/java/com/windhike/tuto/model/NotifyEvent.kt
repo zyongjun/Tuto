@@ -8,5 +8,5 @@ import android.net.Uri
  */
 data class AudioRecordStopEvent(val audioPath: Uri)
 data class AnnotationChangedEvent(val des:String)
-
+data class AnnotationShareResult(val code:String)
 

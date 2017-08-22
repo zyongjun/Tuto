@@ -180,4 +180,7 @@
 
     <color name="app_main_bg">#f4f4f4</color>
     <color name="select_btn">#39efb6</color>
+    <color name="color_share_bg">#EFFFFFFF</color>
+    <color name="color_share_pop_bg">#7F000000</color>
+
 </resources>

@@ -18,7 +18,7 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseFragment extends Fragment{
-    private View mRootView;
+    protected View mRootView;
     private Unbinder unbinder;
 
     public String getTransactionTag() {

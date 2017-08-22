@@ -21,6 +21,7 @@ import com.windhike.annotation.configsapp.Configs;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.model.ManagerImageObject;
+import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.annotation.reuse.DisplayUtil;
 import com.windhike.annotation.view.CustomerShapeView;
 import com.windhike.annotation.view.DrawingView;
@@ -31,6 +32,7 @@ import com.windhike.tuto.R;
 import com.windhike.tuto.TutoApplication;
 import com.windhike.tuto.event.AnnotationChangedEvent;
 import com.windhike.tuto.reuse.SchedulersTransFormer;
+import com.windhike.tuto.widget.PopWinShare;
 import com.zyongjun.easytouch.view.FloatSettingView;
 import org.greenrobot.eventbus.EventBus;
 import java.io.File;
@@ -39,6 +41,7 @@ import java.util.UUID;
 import butterknife.BindView;
 import rx.Observable;
 import rx.Observer;
+import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -79,6 +82,7 @@ public class AnnotationFragment extends BaseFragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mDrawObjectIndex = getArguments().getInt(Configs.KEY_ANNOTATION_DRAW_INDEX, -1);
             mNewDrawPath = getArguments().getString(Configs.KEY_ANNOTATION_DRAW_NEW_PATH);
@@ -103,7 +107,6 @@ public class AnnotationFragment extends BaseFragment{
 //                        onColorChanged(colorIndex);
                     } else if (action.equals(FloatSettingView.ACTION_SCALE_MODE_CHANGED)) {
                         boolean isScaleMode = intent.getBooleanExtra(action, true);
-                        Log.e(TAG, "run: =====isScaleMode======" + isScaleMode);
                         switchToZoomMode(isScaleMode);
                     } else if (action.equals(FloatSettingView.ACTION_SHAPE_CHANGED)) {
                         int shape = intent.getIntExtra(action, 0);
@@ -115,18 +118,38 @@ public class AnnotationFragment extends BaseFragment{
                         drawingView.actionRedo();
                     } else if (action.equals(FloatSettingView.ACTION_SAVE_ANNOTAION)) {
                         saveImageReport();
+                    } else if (action.equals(FloatSettingView.ACTION_SHARE_ANNOTATION)) {
+                        if(!getActivity().isDestroyed()) {
+                            shareAnnotation();
+                        }
                     }
                 }
             });
 
         }
     };
+
+    public void shareAnnotation() {
+        PopWinShare popWinShare = new PopWinShare(getActivity(),mRootView);
+        popWinShare.setShareCallback(new PopWinShare.ShareCallback() {
+            @Override
+            public void onClose() {
+
+            }
+
+            @Override
+            public Bitmap getCurrentBitmap() {
+                return drawingView.scaleBitmapAfterZoomInOut();
+            }
+        });
+        popWinShare.showShareWin();
+    }
     public static final String TAG = "AnnotationFragment";
 
     private Handler mHandler = new Handler();
 
-    private void saveImageReport() {
-        Observable.just(getProjectName())
+    public Observable<Integer> getSaveImageObservable() {
+        return Observable.just(getProjectName())
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Func1<String, Observable<Integer>>() {
                     @Override
@@ -151,9 +174,9 @@ public class AnnotationFragment extends BaseFragment{
                                     Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bmCurrentDraw,
                                             TutoApplication.getInstance().getDisplayMetrics().widthPixels, DisplayUtil.dip2px(TutoApplication.getInstance(), 150));
                                     Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
-                                    imageDrawObject.setEditImagePath(filedest.getAbsolutePath());
                                     bitMapSourceSave.recycle();
                                 } catch (Exception e) {
+                                    imageDrawObject.setEditImagePath(filedest.getAbsolutePath());
                                     e.printStackTrace();
                                 }
                                 imageDrawObject.getListRootShape().clear();
@@ -167,11 +190,14 @@ public class AnnotationFragment extends BaseFragment{
                         }
                         return null;
                     }
-                }).compose(SchedulersTransFormer.<Integer>applyExecutorSchedulers())
+                });
+    }
+
+    private void saveImageReport() {
+        getSaveImageObservable().compose(SchedulersTransFormer.<Integer>applyExecutorSchedulers())
                 .subscribe(new Observer<Integer>() {
                     @Override
                     public void onCompleted() {
-                        getActivity().finish();
                         Toast.makeText(TutoApplication.getInstance(), "保存成功", Toast.LENGTH_SHORT).show();
                     }
 
@@ -207,6 +233,7 @@ public class AnnotationFragment extends BaseFragment{
     @Override
     public void initView() {
         super.initView();
+        PreferenceConnector.writeBoolean(TutoApplication.getInstance(),Configs.KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS,true);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter filter = new IntentFilter();
         filter.addAction(FloatSettingView.ACTION_COLOR_CHANGED);
@@ -214,6 +241,7 @@ public class AnnotationFragment extends BaseFragment{
         filter.addAction(FloatSettingView.ACTION_SHAPE_CHANGED);
         filter.addAction(FloatSettingView.ACTION_RESET_OPERATION);
         filter.addAction(FloatSettingView.ACTION_RESTORE_OPERATION);
+        filter.addAction(FloatSettingView.ACTION_SHARE_ANNOTATION);
         filter.addAction(FloatSettingView.ACTION_SAVE_ANNOTAION);
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         initProject();
@@ -337,7 +365,7 @@ public class AnnotationFragment extends BaseFragment{
         }
 
         private static final int REQUEST_CODE_EDIT_TEXT = 180;
-        private static final int REQUEST_CODE_CREATE_TEXT = 181;
+//        private static final int REQUEST_CODE_CREATE_TEXT = 181;
 
         @Override
         public void clickOnEditCurrentText(String text) {
@@ -348,6 +376,7 @@ public class AnnotationFragment extends BaseFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        PreferenceConnector.writeBoolean(TutoApplication.getInstance(),Configs.KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS,false);
         mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }

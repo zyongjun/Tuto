@@ -35,7 +35,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     TextView tvReset;
     TextView tvRestore;
     TextView vColorIndicate;
-    TextView tvSave;
+    TextView tvSave,tvShare;
 
     public FloatSettingView(@NonNull Context context) {
         super(context);
@@ -84,6 +84,16 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         tvRestore = (TextView)mRootView.findViewById(R.id.tvRestore);
         tvRestore.setOnClickListener(this);
         vColorIndicate = (TextView)mRootView.findViewById(R.id.vColorIndicate);
+        tvShare = (TextView)mRootView.findViewById(R.id.vShare);
+        tvShare.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSettingCallback != null) {
+                    mSettingCallback.switchToIconMode();
+                }
+                onShareAnnotation();
+            }
+        });
         tvSave = (TextView) mRootView.findViewById(R.id.vSaveee);
         tvSave.setOnClickListener(new OnClickListener() {
             @Override
@@ -110,6 +120,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public static final String ACTION_RESET_OPERATION = "ACTION_RESET_OPERATION";
     public static final String ACTION_RESTORE_OPERATION = "ACTION_RESTORE_OPERATION";
 
+    public static final String ACTION_SHARE_ANNOTATION = "ACTION_SHARE_ANNOTATION";
     public static final String ACTION_SAVE_ANNOTAION = "ACTION_SAVE_ANNOTAION";
 
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE,SHAPE_CIRCLE,SHAPE_MASK,SHAPE_ERASER})
@@ -123,6 +134,11 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         mDrawingShape = drawingShape;
     }
     private HolderSwitchCallback mSettingCallback;
+
+    public void onShareAnnotation() {
+        Intent intent = new Intent(ACTION_SHARE_ANNOTATION);
+        mBroadcastmanager.sendBroadcast(intent);
+    }
 
     public void onSaveAnnotation() {
         Intent intent = new Intent(ACTION_SAVE_ANNOTAION);

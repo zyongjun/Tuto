@@ -17,4 +17,15 @@
     <string name="app_tools_descript2">●</string>
     <string name="app_tools_descript3">只是工具</string>
     <string name="open_draw_tools">打开绘图工具悬浮窗</string>
+    <string name="label_share_title">分享到微信</string>
+    <string name="label_share_btnname_wx">微信</string>
+    <string name="label_share_btnname_wxpyq">朋友圈</string>
+    <string name="toast_share_succ">分享成功</string>
+    <string name="toast_share_cancel">分享被取消</string>
+    <string name="toast_share_autoerr">分享被拒绝</string>
+    <string name="toast_share_back">分享返回</string>
+    <string name="label_auth_user_cancel">用户取消授权</string>
+    <string name="label_auth_error">授权失败</string>
+    <string name="toast_share_wx_nosetup">请先安装微信应用</string>
+    <string name="toast_share_wx_update">请先更新微信应用</string>
 </resources>

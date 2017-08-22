@@ -3,7 +3,9 @@ package com.windhike.tuto;
 import android.app.Application;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
-import com.facebook.stetho.Stetho;
+//import com.facebook.stetho.Stetho;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
 
@@ -33,9 +35,14 @@ public class TutoApplication extends Application{
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
-        Stetho.initializeWithDefaults(this);
+//        Stetho.initializeWithDefaults(this);
         AnnotationInitialize.getInstance().initialize(this);
 //        configUmeng();
+        registerWX(this);
+    }
+    private void registerWX(Application context) {
+        final IWXAPI api = WXAPIFactory.createWXAPI(context, null);
+        api.registerApp(getString(R.string.wx_appid));
     }
 
     private static final String TAG = "TutoApplication";
