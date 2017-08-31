@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.qq.e.ads.splash.SplashADListener;
-import com.windhike.tuto.AnnotationPicturesActivity;
 import com.windhike.tuto.CommonFragmentActivity;
 import com.windhike.tuto.R;
 import butterknife.BindView;

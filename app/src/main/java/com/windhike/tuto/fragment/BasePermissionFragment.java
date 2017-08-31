@@ -10,7 +10,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import com.windhike.tuto.BaseFragment;
 import com.windhike.tuto.R;
@@ -92,7 +92,7 @@ public abstract class BasePermissionFragment extends BaseFragment{
         List<String> lackedPermission = new ArrayList();
         Context context = getContext();
         for(String permission:permissions) {
-            if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(getActivity(),permission) != PackageManager.PERMISSION_GRANTED) {
                 lackedPermission.add(permission);
             }
         }
