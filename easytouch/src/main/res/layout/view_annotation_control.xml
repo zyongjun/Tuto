@@ -62,17 +62,11 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/vTalk"
-                style="@style/text_draw_menu"
-                android:scaleType="fitXY"
-                android:background="@mipmap/ic_draw_talk" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
+            <!--<TextView-->
+                <!--android:id="@+id/vTalk"-->
+                <!--style="@style/text_draw_menu"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:background="@mipmap/ic_draw_talk" />-->
             <TextView
                 android:id="@+id/vText"
                 style="@style/text_draw_menu"
@@ -98,6 +92,16 @@
                 android:id="@+id/vMask"
                 style="@style/text_draw_menu"
                 android:background="@drawable/tab_anno_mask_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/vColor"
+                style="@style/text_draw_menu"
+                android:background="@drawable/ic_anno_color_one_selected" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -136,11 +140,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
             <TextView
-                android:id="@+id/vColorIndicate"
+                android:id="@+id/vSaveee"
                 style="@style/text_draw_menu"
-                android:background="@drawable/ic_anno_color_one_selected" />
+                android:background="@mipmap/ic_save" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -149,20 +153,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/vColor1"
-                style="@style/text_draw_menu"
-                android:background="@drawable/ic_anno_color_one_selected" />
 
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/vColor2"
-                style="@style/text_draw_menu"
-                android:background="@drawable/ic_anno_color_one_selected" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -178,11 +169,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/vSaveee"
-                style="@style/text_draw_menu"
-                android:background="@mipmap/ic_save" />
 
         </LinearLayout>
     </LinearLayout>

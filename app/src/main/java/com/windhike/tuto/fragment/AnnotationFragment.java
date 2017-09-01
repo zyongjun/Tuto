@@ -105,6 +105,7 @@ public class AnnotationFragment extends BaseFragment{
                         int colorIndex = intent.getIntExtra(action, 0);
                         Log.e(TAG, "run: ==========color=======" + colorIndex);
 //                        onColorChanged(colorIndex);
+                        drawingView.setCurrentColor(colorIndex);
                     } else if (action.equals(FloatSettingView.ACTION_SCALE_MODE_CHANGED)) {
                         boolean isScaleMode = intent.getBooleanExtra(action, true);
                         switchToZoomMode(isScaleMode);

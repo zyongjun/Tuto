@@ -292,6 +292,10 @@ public class DrawingView extends RelativeLayout {
         this._blurManager = new BlurManager(context);
     }
 
+    public void setCurrentColor(int indexColor) {
+        setCurrentPaint(indexColor,1,"");
+    }
+
     public void setCurrentPaint(int indexColor, int indexStrokeWidth, String textValue) {
         int color = arrayColor[indexColor];
         float stroke = arrayStrokeWith[indexStrokeWidth];

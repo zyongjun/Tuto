@@ -4,10 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
-import android.widget.Toast;
-import com.zyongjun.easytouch.view.FloatSettingView;
+import com.zyongjun.easytouch.view.ColorHolder;
 import com.zyongjun.easytouch.view.IconHolder;
 import com.zyongjun.easytouch.view.MenuHolder;
 
@@ -18,49 +16,38 @@ import com.zyongjun.easytouch.view.MenuHolder;
 public class DrawMenuService extends Service{
     private IconHolder mIconHolder;
     private MenuHolder mMenuHolder;
-//    private LocalBroadcastManager mBroadcastmanager;
+    private ColorHolder mColorHolder;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        mBroadcastmanager = LocalBroadcastManager.getInstance(this);
         mIconHolder = new IconHolder(this);
         mMenuHolder = new MenuHolder(this);
+        mColorHolder = new ColorHolder(this);
         mIconHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mIconHolder.onDestory();
                 mMenuHolder.initView();
-                mMenuHolder.setMenuCallback(mSwitchHolderCallback);
+                mMenuHolder.setMenuCallback(mMenuSwitchHolderCallback);
             }
         });
         mIconHolder.initView();
     }
 
-    private HolderSwitchCallback mSwitchHolderCallback = new HolderSwitchCallback(){
-//        @Override
-//        public void onShapeChanged(int drawingShape) {
-//            Intent intent = new Intent(FloatSettingView.ACTION_SHAPE_CHANGED);
-//            intent.putExtra(FloatSettingView.ACTION_SHAPE_CHANGED,drawingShape);
-//            mBroadcastmanager.sendBroadcast(intent);
-//            Toast.makeText(getBaseContext(),"onShapeChanged",Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void onColorChanged(int index) {
-//            Intent intent = new Intent(FloatSettingView.ACTION_COLOR_CHANGED);
-//            intent.putExtra(FloatSettingView.ACTION_COLOR_CHANGED,index);
-//            mBroadcastmanager.sendBroadcast(intent);
-//            Toast.makeText(getBaseContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void switchZoomMode(boolean isSwitchToZoomMode) {
-//            Intent intent = new Intent(FloatSettingView.ACTION_SCALE_MODE_CHANGED);
-//            intent.putExtra(FloatSettingView.ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
-//            mBroadcastmanager.sendBroadcast(intent);
-//            Toast.makeText(getBaseContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
-//        }
+    private HolderSwitchCallback mMenuSwitchHolderCallback = new HolderSwitchCallback(){
+
+        @Override
+        public View.OnClickListener obtainMenuColorPickerListener() {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mMenuHolder.onDestory();
+                    mColorHolder.initView();
+                    mColorHolder.setMenuCallback(mMenuSwitchHolderCallback);
+                }
+            };
+        }
 
         @Override
         public View.OnClickListener obtainMenuOutsideListener() {
@@ -68,6 +55,7 @@ public class DrawMenuService extends Service{
                 @Override
                 public void onClick(View v) {
                     mMenuHolder.onDestory();
+                    mColorHolder.onDestory();
                     mIconHolder.initView();
                 }
             };
@@ -75,12 +63,15 @@ public class DrawMenuService extends Service{
 
         @Override
         public void switchToIconMode() {
+            mColorHolder.onDestory();
             mMenuHolder.onDestory();
             mIconHolder.initView();
         }
     };
 
+
     public interface HolderSwitchCallback{
+        View.OnClickListener obtainMenuColorPickerListener();
         View.OnClickListener obtainMenuOutsideListener();
         void switchToIconMode();
     }
@@ -96,5 +87,6 @@ public class DrawMenuService extends Service{
         super.onDestroy();
         mIconHolder.onDestory();
         mMenuHolder.onDestory();
+        mColorHolder.onDestory();
     }
 }

@@ -28,13 +28,13 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     TextView vCircle;
     TextView vArrow;
     TextView vSquare;
-    TextView vTalk;
+//    TextView vTalk;
     TextView vText;
     TextView vEraser;
     TextView vMask;
     TextView tvReset;
     TextView tvRestore;
-    TextView vColorIndicate;
+    TextView vColor;
     TextView tvSave,tvShare;
 
     public FloatSettingView(@NonNull Context context) {
@@ -56,7 +56,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         mBroadcastmanager = LocalBroadcastManager.getInstance(getContext());
         removeAllViews();
         setBackgroundResource(android.R.color.transparent);
-
         mRootView = LayoutInflater.from(getContext()).inflate(R.layout.view_annotation_control, this, false);
         LayoutParams rootParams = (LayoutParams) mRootView.getLayoutParams();
         rootParams.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -71,8 +70,8 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vArrow.setOnClickListener(this);
         vSquare = (TextView) mRootView.findViewById(R.id.vSquare);
         vSquare.setOnClickListener(this);
-        vTalk = (TextView) mRootView.findViewById(R.id.vTalk);
-        vTalk.setOnClickListener(this);
+//        vTalk = (TextView) mRootView.findViewById(R.id.vTalk);
+//        vTalk.setOnClickListener(this);
         vText = (TextView) mRootView.findViewById(R.id.vText);
 //        vText.setOnClickListener(this);
         vEraser = ((TextView) mRootView.findViewById(R.id.vEraser));
@@ -83,7 +82,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         tvReset.setOnClickListener(this);
         tvRestore = (TextView)mRootView.findViewById(R.id.tvRestore);
         tvRestore.setOnClickListener(this);
-        vColorIndicate = (TextView)mRootView.findViewById(R.id.vColorIndicate);
+        vColor = (TextView)mRootView.findViewById(R.id.vColor);
         tvShare = (TextView)mRootView.findViewById(R.id.vShare);
         tvShare.setOnClickListener(new OnClickListener() {
             @Override
@@ -170,19 +169,18 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         switchZoomMode(false);
         Intent intent = new Intent(ACTION_RESET_OPERATION);
         mBroadcastmanager.sendBroadcast(intent);
-//        Toast.makeText(getContext().getApplicationContext(),"undo",Toast.LENGTH_SHORT).show();
     }
     public void reDo() {
         switchZoomMode(false);
         Intent intent = new Intent(ACTION_RESTORE_OPERATION);
         mBroadcastmanager.sendBroadcast(intent);
-//        Toast.makeText(getContext().getApplicationContext(),"redo",Toast.LENGTH_SHORT).show();
     }
 
     public void setSettingCallback(HolderSwitchCallback callback) {
         this.mSettingCallback = callback;
         if (callback != null) {
             setOnClickListener(callback.obtainMenuOutsideListener());
+            vColor.setOnClickListener(callback.obtainMenuColorPickerListener());
         }
     }
 
@@ -205,7 +203,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vCircle.setSelected(false);
         vArrow.setSelected(false);
         vSquare.setSelected(false);
-        vTalk.setSelected(false);
+//        vTalk.setSelected(false);
         vMask.setSelected(false);
         vEraser.setSelected(false);
         vScale.setSelected(false);
@@ -223,13 +221,10 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
             mDrawingShape = 1;
         } else if (id == R.id.vSquare) {
             mDrawingShape = 2;
-        } else if (id == R.id.vTalk) {
         } else if (id == R.id.vMask) {
             mDrawingShape = 4;
-
         } else if (id == R.id.vEraser) {
             mDrawingShape = 7;
-
         }
         switchZoomMode(false);
         onShapeChanged(mDrawingShape);

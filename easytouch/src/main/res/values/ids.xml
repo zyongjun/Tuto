@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="vColor0" type="id"/>
+    <item name="vColor1" type="id"/>
+    <item name="vColor2" type="id"/>
+    <item name="vColor3" type="id"/>
+    <item name="vColor4" type="id"/>
+    <item name="vColor5" type="id"/>
+    <item name="vColor6" type="id"/>
+    <item name="vColor7" type="id"/>
+    <item name="vColor8" type="id"/>
+    <item name="vColor9" type="id"/>
+    <item name="vColor10" type="id"/>
+    <item name="vColor11" type="id"/>
+    <item name="vColor12" type="id"/>
+    <item name="vColor13" type="id"/>
+    <item name="vColor14" type="id"/>
+    <item name="vColor15" type="id"/>
+</resources>
