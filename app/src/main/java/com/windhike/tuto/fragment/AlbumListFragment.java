@@ -7,10 +7,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import com.windhike.annotation.model.SaveSelectState;
-import com.windhike.tuto.BaseFragment;
+import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.AlbumAdapter;
-import com.windhike.tuto.reuse.SchedulersTransFormer;
+import com.windhike.fastcoding.rx.SchedulersTransFormer;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -21,7 +21,7 @@ import rx.Subscriber;
  * author:gzzyj on 2017/7/20 0020.
  * email:zhyongjun@windhike.cn
  */
-public class AlbumListFragment extends BaseFragment{
+public class AlbumListFragment extends BaseFragment {
     @BindView(R.id.recycerView)
     RecyclerView recycerView;
     private AlbumAdapter mAdapter;

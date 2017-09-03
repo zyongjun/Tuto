@@ -1,6 +1,7 @@
 package com.windhike.tuto.presenter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,12 @@ public class AnnotationAdapter extends RecyclerView.Adapter<ImageHolder>{
         notifyDataSetChanged();
     }
 
+    private static final String TAG = "AnnotationAdapter";
     @Override
     public void onBindViewHolder(ImageHolder holder, int position) {
         ImageDrawObject drawObject = annotationList.get(position);
 //        ivRecord.setImageBitmap(BitmapFactory.decodeFile(drawObject.getEditImagePath()));
+        Log.e(TAG, "onBindViewHolder: "+drawObject.getEditImagePath());
         Glide.with(holder.itemView.getContext()).load(drawObject.getEditImagePath()).into(holder.icon);
         holder.itemView.setTag(R.id.position_id,position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

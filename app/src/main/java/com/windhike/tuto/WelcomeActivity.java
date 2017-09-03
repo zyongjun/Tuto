@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.tuto.fragment.WelcomeFragment;
 
 /**

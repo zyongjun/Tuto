@@ -12,9 +12,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import com.windhike.tuto.BaseFragment;
+
+import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
-import com.windhike.tuto.reuse.PromptManager;
+import com.windhike.fastcoding.widget.PromptManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
  * email:zhyongjun@windhike.cn
  */
 
-public abstract class BasePermissionFragment extends BaseFragment{
+public abstract class BasePermissionFragment extends BaseFragment {
     private  static final int REQUEST_PERMISSION_CODE = 1024;
 
     protected void onGranted() {

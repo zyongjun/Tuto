@@ -1,8 +1,7 @@
-package com.windhike.tuto.reuse;
+package com.windhike.fastcoding.util;
 
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -12,7 +11,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
@@ -20,17 +18,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build.VERSION;
-import android.renderscript.Allocation;
-import android.renderscript.Allocation.MipmapControl;
-import android.renderscript.Element;
 import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.support.annotation.Nullable;
 import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -39,12 +30,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.windhike.tuto.TutoApplication;
-
-import java.lang.reflect.Array;
-
 public class UIUtil {
-    public static final RenderScript rs = RenderScript.create(TutoApplication.getInstance());
+//    public static final RenderScript rs = RenderScript.create(TutoApplication.getInstance());
 
     public static class ColorUtil {
         public static int setColorAlpha(int i, float f) {

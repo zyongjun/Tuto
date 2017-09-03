@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.windhike.fastcoding.util.InputWindowUtil;
 import com.windhike.tuto.R;
 
 /**

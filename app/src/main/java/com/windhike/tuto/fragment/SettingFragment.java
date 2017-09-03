@@ -4,7 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.windhike.tuto.BaseFragment;
+
+import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.SettingAdapter;
 import butterknife.BindView;

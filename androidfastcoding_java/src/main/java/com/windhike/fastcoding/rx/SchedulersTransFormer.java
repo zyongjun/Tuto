@@ -1,4 +1,4 @@
-package com.windhike.tuto.reuse;
+package com.windhike.fastcoding.rx;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

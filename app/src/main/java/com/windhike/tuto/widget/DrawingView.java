@@ -1,4 +1,4 @@
-package com.windhike.annotation.view;
+package com.windhike.tuto.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,7 +29,6 @@ import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
-import com.windhike.annotation.R;
 import com.windhike.annotation.common.DrawUtils;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
 import com.windhike.annotation.configsapp.Configs;
@@ -41,12 +40,25 @@ import com.windhike.annotation.model.IAudioPlayListener;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.annotation.reuse.DisplayUtil;
+import com.windhike.annotation.view.ArrowObject;
+import com.windhike.annotation.view.BlurObject;
+import com.windhike.annotation.view.CustomerShapeView;
+import com.windhike.annotation.view.DotObject;
+import com.windhike.annotation.view.EllipseObject;
+import com.windhike.annotation.view.EraserObject;
+import com.windhike.annotation.view.FreeStyleObject;
+import com.windhike.annotation.view.RecordObject;
+import com.windhike.annotation.view.RectangleObject;
+import com.windhike.annotation.view.TextObject;
+import com.windhike.tuto.R;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import static com.windhike.annotation.configsapp.Configs.ShapeAction.AddNewShape;
 import static com.windhike.annotation.configsapp.Configs.ShapeAction.DeleteShape;
 import static com.windhike.annotation.configsapp.Configs.ShapeAction.MoveOrResizeShape;
 import static com.windhike.annotation.configsapp.Configs.ShapeAction.MoveShapeToTop;
+import static com.zyongjun.easytouch.view.ColorPickerView.KEY_COLOR_SELECTED;
 
 public class DrawingView extends RelativeLayout {
     private static float MAX_ZOOM = 5.0f;
@@ -54,7 +66,8 @@ public class DrawingView extends RelativeLayout {
     private BlurManager _blurManager;
     private int _undoRedoCurrentIndex = -1;
     private int _undoRedoFirstIndex = -1;
-    private int[] arrayColor = Configs.LIST_COLOR;
+//    private int[] arrayColor = Configs.LIST_COLOR;
+    private int[] arrayColor;
     private float[] arrayStrokeWith = Configs.LIST_STROKE_WIDTH;
     private float[] arrayTextSize = Configs.LIST_TEXT_SIZE;
     float deltaScale = 0.0f;
@@ -241,9 +254,10 @@ public class DrawingView extends RelativeLayout {
         this.mMainBitmapPaint = new Paint();
         this.mPath = new Path();
         this.mPathVirtualDraw = new Path();
-        int indexColor = 0;
+//        int indexColor = 0;
         int indexStrokeWith = 1;
-        PreferenceConnector.writeInteger(this.mContext, Configs.FLAG_INDEX_COLOR, indexColor);
+        arrayColor = getResources().getIntArray(R.array.draw_colors);
+        int indexColor = PreferenceConnector.readInteger(this.mContext, KEY_COLOR_SELECTED, 0);
         PreferenceConnector.writeInteger(this.mContext, Configs.FLAG_INDEX_STROKEWIDTH, indexStrokeWith);
         setLayerType(1, null);
         this.mCurrentSettingPaint = new Paint();

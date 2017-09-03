@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.zyongjun.easytouch.R;
 import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
+import com.zyongjun.easytouch.utils.PreferenceConnector;
 
 /**
  * author:gzzyj on 2017/7/30 0030.
@@ -92,6 +93,7 @@ public class ColorPickerView extends RelativeLayout implements View.OnClickListe
         vColor14.setOnClickListener(this);
         vColor15 = (TextView)mRootView.findViewById(R.id.vColor15);
         vColor15.setOnClickListener(this);
+        handleSelectState();
         addView(mRootView,rootParams);
     }
 
@@ -120,6 +122,61 @@ public class ColorPickerView extends RelativeLayout implements View.OnClickListe
         this.mSettingCallback = callback;
         if (callback != null) {
             setOnClickListener(callback.obtainMenuOutsideListener());
+        }
+    }
+    public static final String KEY_COLOR_SELECTED = "KEY_COLOR_SELECTED";
+    private void handleSelectState() {
+        int colorIndex = PreferenceConnector.readInteger(getContext(),KEY_COLOR_SELECTED,0);
+        resetAllSelectedState();
+        switch (colorIndex) {
+            case 0:
+                vColor0.setSelected(true);
+                break;
+            case 1:
+                vColor1.setSelected(true);
+                break;
+            case 2:
+                vColor2.setSelected(true);
+                break;
+            case 3:
+                vColor3.setSelected(true);
+                break;
+            case 4:
+                vColor4.setSelected(true);
+                break;
+            case 5:
+                vColor5.setSelected(true);
+                break;
+            case 6:
+                vColor6.setSelected(true);
+                break;
+            case 7:
+                vColor7.setSelected(true);
+                break;
+            case 8:
+                vColor8.setSelected(true);
+                break;
+            case 9:
+                vColor9.setSelected(true);
+                break;
+            case 10:
+                vColor10.setSelected(true);
+                break;
+            case 11:
+                vColor11.setSelected(true);
+                break;
+            case 12:
+                vColor12.setSelected(true);
+                break;
+            case 13:
+                vColor13.setSelected(true);
+                break;
+            case 14:
+                vColor14.setSelected(true);
+                break;
+            case 15:
+                vColor15.setSelected(true);
+                break;
         }
     }
 

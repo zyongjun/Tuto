@@ -1,10 +1,13 @@
-package com.windhike.tuto;
+package com.windhike.fastcoding;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
 import com.umeng.analytics.MobclickAgent;
+import com.windhike.fastcoding.base.BaseFragment;
+
 
 /**
  * author:gzzyj on 2017/7/14 0014.

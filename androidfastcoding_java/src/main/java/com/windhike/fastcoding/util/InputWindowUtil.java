@@ -1,4 +1,4 @@
-package com.windhike.tuto.reuse;
+package com.windhike.fastcoding.util;
 
 import android.app.Activity;
 import android.content.Context;

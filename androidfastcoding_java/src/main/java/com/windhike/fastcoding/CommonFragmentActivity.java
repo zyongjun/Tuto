@@ -1,4 +1,4 @@
-package com.windhike.tuto;
+package com.windhike.fastcoding;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
+import com.windhike.fastcoding.base.BaseFragment;
+
 import java.util.List;
 
 /**
@@ -14,7 +17,7 @@ import java.util.List;
  * email:zhyongjun@windhike.cn
  */
 
-public class CommonFragmentActivity extends BaseFragmentActivity{
+public class CommonFragmentActivity extends BaseFragmentActivity {
     public static final String BUNDLE_KEY_NAME = "name";
     public static final String BUNDLE_KEY_ARGS = "args";
 

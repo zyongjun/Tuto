@@ -1,4 +1,4 @@
-package com.windhike.tuto.reuse;
+package com.windhike.fastcoding.rx;
 
 import android.os.Build;
 import android.support.annotation.NonNull;

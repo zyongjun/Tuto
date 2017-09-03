@@ -16,13 +16,15 @@ public class DotObject {
     private float mX_vitural_touch;
     private float mY;
     private float mY_vitural_touch;
+    public static final float HUE_YELLOW = 60f;
+    public static final float HUE_ORANGE = 30.0f;
 
     public DotObject(int idDot, float x, float y) {
         this.mIdDot = idDot;
         this.mX = x;
         this.mY = y;
-        this.mW = DrawingView.HUE_YELLOW;
-        this.mH = DrawingView.HUE_YELLOW;
+        this.mW = HUE_YELLOW;
+        this.mH = HUE_YELLOW;
         calculateTouchPoint();
         this.mPaint = new Paint();
         this.mPaint.setColor(ViewCompat.MEASURED_STATE_MASK);

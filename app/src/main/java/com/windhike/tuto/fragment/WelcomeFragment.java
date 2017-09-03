@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.qq.e.ads.splash.SplashADListener;
-import com.windhike.tuto.CommonFragmentActivity;
+import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.tuto.R;
 import butterknife.BindView;
 import rx.Observable;

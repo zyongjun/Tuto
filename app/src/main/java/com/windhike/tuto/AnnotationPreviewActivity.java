@@ -10,12 +10,12 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.windhike.annotation.common.Utilities;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.reuse.DisplayUtil;
-import com.windhike.annotation.view.DrawingView;
+import com.windhike.tuto.widget.DrawingView;
 import com.windhike.tuto.utils.BaseAnnotationPreviewPresenter;
 import com.windhike.tuto.view.IAnnotationEditView;
 

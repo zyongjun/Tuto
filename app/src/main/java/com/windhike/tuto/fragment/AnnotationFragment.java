@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
@@ -24,14 +23,14 @@ import com.windhike.annotation.model.ManagerImageObject;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.annotation.reuse.DisplayUtil;
 import com.windhike.annotation.view.CustomerShapeView;
-import com.windhike.annotation.view.DrawingView;
+import com.windhike.tuto.widget.DrawingView;
+import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.AnnotationTextEditActivity;
-import com.windhike.tuto.BaseFragment;
-import com.windhike.tuto.CommonFragmentActivity;
+import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.tuto.R;
 import com.windhike.tuto.TutoApplication;
 import com.windhike.tuto.event.AnnotationChangedEvent;
-import com.windhike.tuto.reuse.SchedulersTransFormer;
+import com.windhike.fastcoding.rx.SchedulersTransFormer;
 import com.windhike.tuto.widget.PopWinShare;
 import com.zyongjun.easytouch.view.FloatSettingView;
 import org.greenrobot.eventbus.EventBus;
@@ -41,7 +40,6 @@ import java.util.UUID;
 import butterknife.BindView;
 import rx.Observable;
 import rx.Observer;
-import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -49,7 +47,7 @@ import rx.schedulers.Schedulers;
  * author:gzzyj on 2017/7/26 0026.
  * email:zhyongjun@windhike.cn
  */
-public class AnnotationFragment extends BaseFragment{
+public class AnnotationFragment extends BaseFragment {
     private static final String KEY_TYPE = "KEY_TYPE";
     @BindView(R.id.drawingView)
     DrawingView drawingView;
@@ -103,15 +101,12 @@ public class AnnotationFragment extends BaseFragment{
                 public void run() {
                     if (action.equals(FloatSettingView.ACTION_COLOR_CHANGED)) {
                         int colorIndex = intent.getIntExtra(action, 0);
-                        Log.e(TAG, "run: ==========color=======" + colorIndex);
-//                        onColorChanged(colorIndex);
                         drawingView.setCurrentColor(colorIndex);
                     } else if (action.equals(FloatSettingView.ACTION_SCALE_MODE_CHANGED)) {
                         boolean isScaleMode = intent.getBooleanExtra(action, true);
                         switchToZoomMode(isScaleMode);
                     } else if (action.equals(FloatSettingView.ACTION_SHAPE_CHANGED)) {
                         int shape = intent.getIntExtra(action, 0);
-                            Log.e(TAG, "run: =======shape======="+shape );
                         drawingView.setmModeCreateObjPaint(shape);
                     } else if (action.equals(FloatSettingView.ACTION_RESET_OPERATION)) {
                         drawingView.actionUndo();
@@ -175,6 +170,7 @@ public class AnnotationFragment extends BaseFragment{
                                     Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bmCurrentDraw,
                                             TutoApplication.getInstance().getDisplayMetrics().widthPixels, DisplayUtil.dip2px(TutoApplication.getInstance(), 150));
                                     Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
+                                    imageDrawObject.setEditImagePath(filedest.getAbsolutePath());
                                     bitMapSourceSave.recycle();
                                 } catch (Exception e) {
                                     imageDrawObject.setEditImagePath(filedest.getAbsolutePath());

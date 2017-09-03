@@ -1,20 +1,17 @@
 package com.windhike.tuto.presenter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 
 import com.windhike.annotation.model.SaveSelectState;
 import com.windhike.mvputils.BasePresenter;
 import com.windhike.tuto.model.ImageFolder;
-import com.windhike.tuto.reuse.SchedulersTransFormer;
+import com.windhike.fastcoding.rx.SchedulersTransFormer;
 import com.windhike.tuto.reuse.ToolbarBuilder;
 import com.windhike.tuto.view.IBaseSelectPictureView;
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

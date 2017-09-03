@@ -1,4 +1,4 @@
-package com.windhike.tuto.reuse;
+package com.windhike.fastcoding.widget;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,8 +9,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.windhike.tuto.R;
-import com.windhike.tuto.TutoApplication;
+import com.windhike.fastcoding.R;
+import com.windhike.fastcoding.util.UIUtil;
 
 /**
  * 温馨提示窗口管理工具类：根据给定消息内容回调
@@ -43,7 +43,8 @@ public class PromptManager implements View.OnClickListener {
         Window dialogWindow = dialog.getWindow();
         dialogWindow.setBackgroundDrawableResource(R.color.translucence);
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = TutoApplication.getInstance().getDisplayMetrics().widthPixels*3/4;
+//        lp.width = TutoApplication.getInstance().getDisplayMetrics().widthPixels*3/4;
+        lp.width = UIUtil.DeviceInfo.getDeviceScreenWidth()*3/4;
     }
 
     public static PromptManager getInstance(Context context) {
@@ -142,13 +143,11 @@ public class PromptManager implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (callback != null) {
-            switch (view.getId()) {
-                case R.id.tv_dialog_confirm:
-                    callback.confirmClick();
-                    break;
-                case R.id.tv_dialog_cancel:
-                    callback.cancelClick();
-                    break;
+            int id = view.getId();
+            if (id == R.id.tv_dialog_confirm) {
+                callback.confirmClick();
+            }else if(id ==R.id.tv_dialog_cancel) {
+                callback.cancelClick();
             }
             closeDialog();
         }
