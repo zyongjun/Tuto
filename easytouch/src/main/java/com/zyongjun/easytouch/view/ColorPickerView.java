@@ -105,6 +105,7 @@ public class ColorPickerView extends RelativeLayout implements View.OnClickListe
     private HolderSwitchCallback mSettingCallback;
 
     public void onColorChanged(int index) {
+        PreferenceConnector.writeInteger(getContext(), KEY_COLOR_SELECTED, index);
         Intent intent = new Intent(ACTION_COLOR_CHANGED);
         intent.putExtra(ACTION_COLOR_CHANGED,index);
         mBroadcastmanager.sendBroadcast(intent);

@@ -67,7 +67,9 @@ public class AnnotationListFragment extends BaseFragment {
         }).compose(SchedulersTransFormer.<List<ImageDrawObject>>applyIoSchedulers()).doOnNext(new Action1<List<ImageDrawObject>>() {
             @Override
             public void call(List<ImageDrawObject> imageDrawObjects) {
-                mAdapter.updateData(imageDrawObjects);
+                if(mAdapter!=null) {
+                    mAdapter.updateData(imageDrawObjects);
+                }
             }
         }).subscribe();
     }

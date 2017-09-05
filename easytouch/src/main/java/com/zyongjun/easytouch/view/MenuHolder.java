@@ -25,11 +25,10 @@ public class MenuHolder extends BaseTouchViewHolder{
 
     @Override
     public void initView() {
-        if (mFloatSettingView != null) {
-            mWindowManager.addView(mFloatSettingView,getViewLayoutParams());
-            return;
+        if (mFloatSettingView == null) {
+            mFloatSettingView = new FloatSettingView(mContext);
         }
-        mFloatSettingView = new FloatSettingView(mContext);
+        mFloatSettingView.initColorState();
         mWindowManager.addView(mFloatSettingView,getViewLayoutParams());
     }
 

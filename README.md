@@ -16,7 +16,8 @@
 ## bugs
 1. 内存溢出
 2. 刚安装授权回来新建annotation会白屏
-3、允许悬浮权限后返回好像acitivity会重建 application会不会？要挖掘
+3.允许悬浮权限后返回好像acitivity会重建 application会不会？要挖掘
+4. 换颜色后menuholder颜色按钮颜色要改变
 
 ######  优化
 1.~~授权最佳实践~~  

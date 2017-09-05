@@ -2,40 +2,47 @@ package com.zyongjun.easytouch.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.zyongjun.easytouch.R;
 import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
+import com.zyongjun.easytouch.utils.PreferenceConnector;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import static com.zyongjun.easytouch.view.ColorPickerView.KEY_COLOR_SELECTED;
 
 /**
  * author:gzzyj on 2017/7/30 0030.
  * email:zhyongjun@windhike.cn
  */
-public class FloatSettingView extends RelativeLayout implements View.OnClickListener{
+public class FloatSettingView extends RelativeLayout implements View.OnClickListener {
     private View mRootView;
     TextView vScale;
     TextView vFreeHand;
     TextView vCircle;
     TextView vArrow;
     TextView vSquare;
-//    TextView vTalk;
+    //    TextView vTalk;
     TextView vText;
     TextView vEraser;
     TextView vMask;
     TextView tvReset;
     TextView tvRestore;
     TextView vColor;
-    TextView tvSave,tvShare;
+    TextView tvSave, tvShare;
 
     public FloatSettingView(@NonNull Context context) {
         super(context);
@@ -66,7 +73,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vFreeHand.setOnClickListener(this);
         vCircle = (TextView) mRootView.findViewById(R.id.vCircle);
         vCircle.setOnClickListener(this);
-        vArrow = (TextView)mRootView. findViewById(R.id.vArrow);
+        vArrow = (TextView) mRootView.findViewById(R.id.vArrow);
         vArrow.setOnClickListener(this);
         vSquare = (TextView) mRootView.findViewById(R.id.vSquare);
         vSquare.setOnClickListener(this);
@@ -76,14 +83,14 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 //        vText.setOnClickListener(this);
         vEraser = ((TextView) mRootView.findViewById(R.id.vEraser));
         vEraser.setOnClickListener(this);
-        vMask = (TextView)mRootView.findViewById(R.id.vMask);
+        vMask = (TextView) mRootView.findViewById(R.id.vMask);
         vMask.setOnClickListener(this);
-        tvReset = (TextView)mRootView.findViewById(R.id.tvReset);
+        tvReset = (TextView) mRootView.findViewById(R.id.tvReset);
         tvReset.setOnClickListener(this);
-        tvRestore = (TextView)mRootView.findViewById(R.id.tvRestore);
+        tvRestore = (TextView) mRootView.findViewById(R.id.tvRestore);
         tvRestore.setOnClickListener(this);
-        vColor = (TextView)mRootView.findViewById(R.id.vColor);
-        tvShare = (TextView)mRootView.findViewById(R.id.vShare);
+        vColor = (TextView) mRootView.findViewById(R.id.vColor);
+        tvShare = (TextView) mRootView.findViewById(R.id.vShare);
         tvShare.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,7 +110,28 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
                 onSaveAnnotation();
             }
         });
-        addView(mRootView,rootParams);
+        TypedArray attr = getResources().obtainTypedArray(R.array.draw_bgres);
+        int size = attr.length();
+        colorDrawableArray = new int[size];
+        for (int i = 0; i < size; i++) {
+            colorDrawableArray[i] = attr.getResourceId(i,0);
+        }
+        attr.recycle();
+        initColorState();
+        addView(mRootView, rootParams);
+    }
+    private int[] colorDrawableArray;
+
+    public void initColorState() {
+        vColor.setSelected(true);
+        vColor.setBackgroundResource(getBgColorSelected());
+    }
+
+    private static final String TAG = "FloatSettingView";
+    private int getBgColorSelected() {
+        int colorIndex = PreferenceConnector.readInteger(getContext(), KEY_COLOR_SELECTED, 0);
+        Log.e(TAG, "getBgColorSelected: ========index:"+colorIndex);
+        return colorDrawableArray[colorIndex];
     }
 
     public static final int SHAPE_FREE_HAND = 0;
@@ -122,9 +150,10 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public static final String ACTION_SHARE_ANNOTATION = "ACTION_SHARE_ANNOTATION";
     public static final String ACTION_SAVE_ANNOTAION = "ACTION_SAVE_ANNOTAION";
 
-    @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE,SHAPE_CIRCLE,SHAPE_MASK,SHAPE_ERASER})
+    @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE, SHAPE_CIRCLE, SHAPE_MASK, SHAPE_ERASER})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface DrawingShape{}
+    public @interface DrawingShape {
+    }
 
     private int mDrawingShape;
     private LocalBroadcastManager mBroadcastmanager;
@@ -132,6 +161,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public void setDrawingShape(@DrawingShape int drawingShape) {
         mDrawingShape = drawingShape;
     }
+
     private HolderSwitchCallback mSettingCallback;
 
     public void onShareAnnotation() {
@@ -146,23 +176,23 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
     public void onShapeChanged(int drawingShape) {
         Intent intent = new Intent(ACTION_SHAPE_CHANGED);
-        intent.putExtra(ACTION_SHAPE_CHANGED,drawingShape);
+        intent.putExtra(ACTION_SHAPE_CHANGED, drawingShape);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(),"onShapeChanged",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext().getApplicationContext(), "onShapeChanged", Toast.LENGTH_SHORT).show();
     }
 
     public void onColorChanged(int index) {
         Intent intent = new Intent(ACTION_COLOR_CHANGED);
-        intent.putExtra(ACTION_COLOR_CHANGED,index);
+        intent.putExtra(ACTION_COLOR_CHANGED, index);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext().getApplicationContext(), "onColorChanged", Toast.LENGTH_SHORT).show();
     }
 
     public void switchZoomMode(boolean isSwitchToZoomMode) {
         Intent intent = new Intent(ACTION_SCALE_MODE_CHANGED);
-        intent.putExtra(ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
+        intent.putExtra(ACTION_SCALE_MODE_CHANGED, isSwitchToZoomMode);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext().getApplicationContext(), "switchZoomMode", Toast.LENGTH_SHORT).show();
     }
 
     public void unDo() {
@@ -170,6 +200,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         Intent intent = new Intent(ACTION_RESET_OPERATION);
         mBroadcastmanager.sendBroadcast(intent);
     }
+
     public void reDo() {
         switchZoomMode(false);
         Intent intent = new Intent(ACTION_RESTORE_OPERATION);
