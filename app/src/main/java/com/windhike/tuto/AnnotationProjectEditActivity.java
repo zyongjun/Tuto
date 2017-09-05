@@ -25,6 +25,7 @@ import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.annotation.reuse.DisplayUtil;
 import com.windhike.annotation.view.CustomerShapeView;
+import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.widget.DrawingView;
 import com.windhike.tuto.audio.AnnotationAudioRecordManager;
 import com.windhike.tuto.event.AnnotationChangedEvent;
@@ -465,7 +466,7 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
                                         filedest.delete();
                                     }
                                     Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bmCurrentDraw,
-                                            TutoApplication.getInstance().getDisplayMetrics().widthPixels, DisplayUtil.dip2px(TutoApplication.getInstance(), 150));
+                                            UIUtil.DeviceInfo.getDeviceWidth(), UIUtil.dpToPx(150));
                                     Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
                                     mPresenter.getManagerObject().getListChooseDrawObject().get(index).setEditImagePath(filedest.getAbsolutePath());
                                     bitMapSourceSave.recycle();
@@ -545,12 +546,12 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
             }
             if (new File(mImageDisplayPath).exists()) {
                 Bitmap currentLoadingBitmap = Utilities.scaleToActualAspectRatio(BitmapFactory.decodeFile(mImageDisplayPath),
-                        TutoApplication.getInstance().getDisplayMetrics().widthPixels,
-                        TutoApplication.getInstance().getDisplayMetrics().heightPixels - DisplayUtil.dip2px(TutoApplication.getInstance(), 110));
+                        UIUtil.DeviceInfo.getDeviceWidth(),
+                        UIUtil.DeviceInfo.getDeviceHeight() - UIUtil.dpToPx(110));
                 drawingView.setEdit(isEdit);
                 drawingView.setListener(updateListener);
-                drawingView.setwMainView(TutoApplication.getInstance().getDisplayMetrics().widthPixels);
-                drawingView.sethMainView(TutoApplication.getInstance().getDisplayMetrics().heightPixels - DisplayUtil.dip2px(TutoApplication.getInstance(), 110));
+                drawingView.setwMainView(UIUtil.DeviceInfo.getDeviceWidth());
+                drawingView.sethMainView(UIUtil.DeviceInfo.getDeviceHeight() - UIUtil.dpToPx(110));
                 drawingView.setMainBitmap(currentLoadingBitmap);
                 if (flagLoadListRootShape) {
                     drawingView.loadListRootShape(imageDrawObjects.get(mPresenter.getDrawObjectIndex()).getListRootShape(), imageDrawObjects.get(mPresenter.getDrawObjectIndex()).getListRootShape().size());

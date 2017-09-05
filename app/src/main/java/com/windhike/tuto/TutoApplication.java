@@ -2,12 +2,14 @@ package com.windhike.tuto;
 
 import android.app.Application;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 //import com.facebook.stetho.Stetho;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
+import com.windhike.fastcoding.util.UIUtil;
 
 /**
  * author: zyongjun on 2017/6/30 0030.
@@ -16,19 +18,12 @@ import com.windhike.annotation.configsapp.AnnotationInitialize;
 
 public class TutoApplication extends Application{
     private static TutoApplication INSTANCE;
-    private DisplayMetrics mDisplayMetrics;
-
     public static TutoApplication getInstance(){
         return INSTANCE;
     }
 
     public void configScreenSize(WindowManager windowManager) {
         AnnotationInitialize.getInstance().configScreenMetrics(windowManager);
-        mDisplayMetrics = AnnotationInitialize.getInstance().getDisplayMetrics();
-    }
-
-    public DisplayMetrics getDisplayMetrics() {
-        return mDisplayMetrics;
     }
 
     @Override
@@ -37,7 +32,7 @@ public class TutoApplication extends Application{
         INSTANCE = this;
 //        Stetho.initializeWithDefaults(this);
         AnnotationInitialize.getInstance().initialize(this);
-//        configUmeng();
+        configUmeng();
         registerWX(this);
     }
     private void registerWX(Application context) {
@@ -45,7 +40,6 @@ public class TutoApplication extends Application{
         api.registerApp(getString(R.string.wx_appid));
     }
 
-    private static final String TAG = "TutoApplication";
     private void configUmeng() {
         MobclickAgent.setDebugMode( true );
         String channel =  "test";;

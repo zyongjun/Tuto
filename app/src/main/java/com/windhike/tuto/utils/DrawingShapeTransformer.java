@@ -31,6 +31,7 @@ import com.windhike.annotation.view.FreeStyleObject;
 import com.windhike.annotation.view.RecordObject;
 import com.windhike.annotation.view.RectangleObject;
 import com.windhike.annotation.view.TextObject;
+import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.R;
 import com.windhike.tuto.TutoApplication;
 
@@ -133,13 +134,13 @@ public class DrawingShapeTransformer {
             float yMargin = 0;
             if (new File(mImageDisplayPath).exists()) {
                 Bitmap currentLoadingBitmap = Utilities.scaleToActualAspectRatio(BitmapFactory.decodeFile(mImageDisplayPath),
-                        TutoApplication.getInstance().getDisplayMetrics().widthPixels,
-                        TutoApplication.getInstance().getDisplayMetrics().heightPixels - DisplayUtil.dip2px(TutoApplication.getInstance(), 110));
+                        UIUtil.DeviceInfo.getDeviceWidth(),
+                        UIUtil.DeviceInfo.getDeviceHeight() - UIUtil.dpToPx(110));
                 contentJson.put("imageData", BitmapAndStringUtils.convertIconToString(currentLoadingBitmap));
                 contentJson.put("contentHeight",currentLoadingBitmap.getHeight());
                 contentJson.put("contentWidth",currentLoadingBitmap.getWidth());
-                int canvasWidth = TutoApplication.getInstance().getDisplayMetrics().widthPixels;
-                int canvasHeight = TutoApplication.getInstance().getDisplayMetrics().heightPixels-DisplayUtil.dip2px(TutoApplication.getInstance(),110);
+                int canvasWidth = UIUtil.DeviceInfo.getDeviceWidth();
+                int canvasHeight = UIUtil.DeviceInfo.getDeviceHeight()-UIUtil.dpToPx(110);
                 boolean isWidthEnough = ((float) canvasHeight)/currentLoadingBitmap.getHeight()>=((float)canvasWidth)/currentLoadingBitmap.getWidth();
                 boolean isHeightEnough = !isWidthEnough;
 //                if (!isWidthEnough) {
@@ -294,8 +295,8 @@ public class DrawingShapeTransformer {
         }
 
         annoDrawsJson.put("pointList",pointListArray);
-        annoDrawsJson.put("hight",TutoApplication.getInstance().getDisplayMetrics().heightPixels-DisplayUtil.dip2px(TutoApplication.getInstance(),110));
-        annoDrawsJson.put("width",TutoApplication.getInstance().getDisplayMetrics().widthPixels);
+        annoDrawsJson.put("hight",UIUtil.DeviceInfo.getDeviceHeight()-UIUtil.dpToPx(110));
+        annoDrawsJson.put("width",UIUtil.DeviceInfo.getDeviceWidth());
         annoDrawsJson.put("paintColor", Integer.toHexString(shapeView.mPaint.getColor()));
         annoDrawsJson.put("paintSize",4);
         return annoDrawsJson;
@@ -327,8 +328,8 @@ public class DrawingShapeTransformer {
     }
 
     public static CustomerShapeView transJsonToTextView(JSONObject json, int contentWidth, int contentHeight, float density) {
-        int canvasWidth = TutoApplication.getInstance().getDisplayMetrics().widthPixels;
-        int canvasHeight = TutoApplication.getInstance().getDisplayMetrics().heightPixels-DisplayUtil.dip2px(TutoApplication.getInstance(),110);
+        int canvasWidth = UIUtil.DeviceInfo.getDeviceWidth();
+        int canvasHeight = UIUtil.DeviceInfo.getDeviceHeight()-UIUtil.dpToPx(110);
         float scale = Math.min(((float) canvasHeight)/contentHeight,((float)canvasWidth)/contentWidth);
         boolean isWidthEnough = ((float) canvasHeight)/contentHeight>=((float)canvasWidth)/contentWidth;
         boolean isHeightEnough = !isWidthEnough;
@@ -361,8 +362,8 @@ public class DrawingShapeTransformer {
     }
 
     public static RecordObject transJsonToVoiceView(JSONObject json, int contentWidth, int contentHeight, float density) {
-        int canvasWidth = TutoApplication.getInstance().getDisplayMetrics().widthPixels;
-        int canvasHeight = TutoApplication.getInstance().getDisplayMetrics().heightPixels-DisplayUtil.dip2px(TutoApplication.getInstance(),110);
+        int canvasWidth = UIUtil.DeviceInfo.getDeviceWidth();
+        int canvasHeight = UIUtil.DeviceInfo.getDeviceHeight()-UIUtil.dpToPx(110);
         float scale = Math.min(((float) canvasHeight)/contentHeight,((float)canvasWidth)/contentWidth);
         boolean isWidthEnough = ((float) canvasHeight)/contentHeight>=((float)canvasWidth)/contentWidth;
         boolean isHeightEnough = !isWidthEnough;
@@ -408,8 +409,8 @@ public class DrawingShapeTransformer {
             if (shapeType == 0) {
                 return null;
             }
-            int canvasWidth = TutoApplication.getInstance().getDisplayMetrics().widthPixels;
-            int canvasHeight = TutoApplication.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(TutoApplication.getInstance(),110);
+            int canvasWidth = UIUtil.DeviceInfo.getDeviceWidth();
+            int canvasHeight = UIUtil.DeviceInfo.getDeviceHeight()- UIUtil.dpToPx(110);
             float scale = Math.min(((float) canvasHeight)/contentHeight,((float)canvasWidth)/contentWidth);
             boolean isWidthEnough = ((float) canvasHeight)/contentHeight>=((float)canvasWidth)/contentWidth;
             boolean isHeightEnough = !isWidthEnough;

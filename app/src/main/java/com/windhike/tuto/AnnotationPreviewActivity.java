@@ -15,6 +15,7 @@ import com.windhike.annotation.common.Utilities;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.reuse.DisplayUtil;
+import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.widget.DrawingView;
 import com.windhike.tuto.utils.BaseAnnotationPreviewPresenter;
 import com.windhike.tuto.view.IAnnotationEditView;
@@ -94,12 +95,12 @@ public class AnnotationPreviewActivity extends BaseAty implements IAnnotationEdi
                 }
                 if (new File(mImageDisplayPath).exists()) {
                     Bitmap currentLoadingBitmap = Utilities.scaleToActualAspectRatio(BitmapFactory.decodeFile(mImageDisplayPath),
-                            TutoApplication.getInstance().getDisplayMetrics().widthPixels,
-                            TutoApplication.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(TutoApplication.getInstance(),110));
+                            UIUtil.DeviceInfo.getDeviceWidth(),
+                            UIUtil.DeviceInfo.getDeviceHeight()- UIUtil.dpToPx(110));
                     drawingView.setEdit(true);
                     drawingView.setListener(updateListener);
-                    drawingView.setwMainView(TutoApplication.getInstance().getDisplayMetrics().widthPixels);
-                    drawingView.sethMainView(TutoApplication.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(TutoApplication.getInstance(),110));
+                    drawingView.setwMainView(UIUtil.DeviceInfo.getDeviceWidth());
+                    drawingView.sethMainView(UIUtil.DeviceInfo.getDeviceHeight()- UIUtil.dpToPx(110));
                     drawingView.setMainBitmap(currentLoadingBitmap);
                     if (flagLoadListRootShape) {
                         drawingView.loadListRootShape(imageDrawObjects.get(mPresenter.getDrawObjectIndex()).getListRootShape(), imageDrawObjects.get(mPresenter.getDrawObjectIndex()).getListRootShape().size());

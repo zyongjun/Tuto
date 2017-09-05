@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">涂图</string>
+    <string name="app_name">Tuto</string>
+    <string name="click_to_skip">点击跳过</string>
     <string name="menu_photos">相册</string>
     <string name="menu_camera">拍照</string>
     <string name="tips_empty_annotation">你还没有任何记录哦～～</string>
@@ -14,6 +15,7 @@
     <string name="rc_voice_short">录音时间太短</string>
     <string name="app_tools_descript">极简●单一</string>
     <string name="app_tools_descript1">极简主义</string>
+    <string name="app_tools_author">风雨徒步提供服务</string>
     <string name="app_tools_descript2">●</string>
     <string name="app_tools_descript3">只是工具</string>
     <string name="open_draw_tools">打开绘图工具悬浮窗</string>

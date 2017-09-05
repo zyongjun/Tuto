@@ -10,6 +10,7 @@ import com.windhike.annotation.configsapp.Configs;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ManagerImageObject;
 import com.windhike.annotation.reuse.DisplayUtil;
+import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.TutoApplication;
 import com.windhike.tuto.view.IAnnotationEditView;
 
@@ -87,7 +88,7 @@ public class AnnotationEditSendPresenter extends BaseAnnotationEditPresenter {
                 bitMapSource = Utilities.decodeFile(true, fileSource);
                 Bitmap bitMapRotate = Utilities.RotateBitmap(bitMapSource, (float) angle);
                 Bitmap bitMapRotateSave = Utilities.scaleToActualAspectRatio(bitMapRotate,
-                        TutoApplication.getInstance().getDisplayMetrics().widthPixels, TutoApplication.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(TutoApplication.getInstance(),110));
+                        UIUtil.DeviceInfo.getDeviceWidth(),UIUtil.DeviceInfo.getDeviceHeight()- UIUtil.dpToPx(110));
                 Utilities.saveToSdcardPNG(filedest, bitMapRotateSave);
                 bitMapRotate.recycle();
                 bitMapSource.recycle();
@@ -95,8 +96,8 @@ public class AnnotationEditSendPresenter extends BaseAnnotationEditPresenter {
             } else {
             bitMapSource = Utilities.decodeFile(true, fileSource);
             Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bitMapSource,
-                    TutoApplication.getInstance().getDisplayMetrics().widthPixels,
-                    TutoApplication.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(TutoApplication.getInstance(),110));
+                    UIUtil.DeviceInfo.getDeviceWidth(),
+                    UIUtil.DeviceInfo.getDeviceHeight()- UIUtil.dpToPx(110));
             Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
             bitMapSource.recycle();
             bitMapSourceSave.recycle();

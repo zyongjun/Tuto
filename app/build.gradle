@@ -12,6 +12,8 @@ android {
         versionCode 1
         versionName "1.0"
         resValue("string", "wx_appid", "\"${wx_appid}\"")
+        buildConfigField("String", "ad_appid", "\"${ad_appid}\"")
+        buildConfigField("String", "ad_splashposid", "\"${ad_splashposid}\"")
     }
 
     signingConfigs {
@@ -72,7 +74,7 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-//    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.7heaven.ioswidget:iosswitch:0.6'
     compile files('libs/GDTUnionSDK.4.10.548.min.jar')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
