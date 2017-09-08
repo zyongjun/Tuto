@@ -28,7 +28,7 @@ public class MenuHolder extends BaseTouchViewHolder{
         if (mFloatSettingView == null) {
             mFloatSettingView = new FloatSettingView(mContext);
         }
-        mFloatSettingView.initColorState();
+        mFloatSettingView.refreshUI();
         mWindowManager.addView(mFloatSettingView,getViewLayoutParams());
     }
 

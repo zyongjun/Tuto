@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
  */
 public class PreferenceConnector {
     public static final String KEY_FLOAT_OPENED = "KEY_FLOAT_OPENED";
+    public static final String KEY_CAPTURE_OPENED = "KEY_CAPTURE_OPENED";
     public static final int MODE = Context.MODE_PRIVATE;
     public static final String PREF_NAME = "PEOPLE_PREFERENCES";
 

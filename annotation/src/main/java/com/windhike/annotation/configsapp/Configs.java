@@ -28,7 +28,7 @@ public class Configs {
         public static final float SLIDING_MENU_WIDTH = 0.5f;
         public static final String TYPE_FORMAT_PROJECT_NAME = ".dat";
 
-        public static final String KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS = "KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS";
+//        public static final String KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS = "KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS";
 
         public enum DrawingState {
                 Idle,

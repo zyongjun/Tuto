@@ -19,6 +19,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.media.Image;
 import android.os.Build.VERSION;
 import android.renderscript.RenderScript;
 import android.text.Layout;
@@ -29,6 +30,8 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.nio.ByteBuffer;
 
 public class UIUtil {
 //    public static final RenderScript rs = RenderScript.create(TutoApplication.getInstance());
@@ -238,6 +241,26 @@ public class UIUtil {
             return 0;
         }
         return (int) (Math.log10((double) i) + 1.0d);
+    }
+
+    public static Bitmap image2Bitmap(Image image){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            int width = image.getWidth();
+            int height = image.getHeight();
+            final Image.Plane[] planes = image.getPlanes();
+            final ByteBuffer buffer = planes[0].getBuffer();
+            //每个像素的间距
+            int pixelStride = planes[0].getPixelStride();
+            //总的间距
+            int rowStride = planes[0].getRowStride();
+            int rowPadding = rowStride - pixelStride * width;
+            Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
+            bitmap.copyPixelsFromBuffer(buffer);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height);
+            image.close();
+            return bitmap;
+        }
+        return null;
     }
 
     public static int dpToPx(int i) {

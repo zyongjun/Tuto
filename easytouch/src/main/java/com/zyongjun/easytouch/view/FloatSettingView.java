@@ -1,8 +1,12 @@
 package com.zyongjun.easytouch.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,17 +15,26 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.windhike.fastcoding.CommonFragmentActivity;
+import com.windhike.fastcoding.util.UIUtil;
 import com.zyongjun.easytouch.R;
+import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
+import com.zyongjun.easytouch.screenshot.OldScreenShotUtilImpl;
+import com.zyongjun.easytouch.screenshot.ScreenShotUtil;
 import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
 import com.zyongjun.easytouch.utils.PreferenceConnector;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static android.content.ContentValues.TAG;
 import static com.zyongjun.easytouch.view.ColorPickerView.KEY_COLOR_SELECTED;
 
 /**
@@ -35,14 +48,16 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     TextView vCircle;
     TextView vArrow;
     TextView vSquare;
-    //    TextView vTalk;
     TextView vText;
     TextView vEraser;
     TextView vMask;
     TextView tvReset;
     TextView tvRestore;
     TextView vColor;
-    TextView tvSave, tvShare;
+    TextView tvShare;
+    ImageView tvSave;
+    private TextView vOpenOrClose;
+    private ScreenShotUtil mScreenShot;
 
     public FloatSettingView(@NonNull Context context) {
         super(context);
@@ -77,8 +92,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vArrow.setOnClickListener(this);
         vSquare = (TextView) mRootView.findViewById(R.id.vSquare);
         vSquare.setOnClickListener(this);
-//        vTalk = (TextView) mRootView.findViewById(R.id.vTalk);
-//        vTalk.setOnClickListener(this);
         vText = (TextView) mRootView.findViewById(R.id.vText);
 //        vText.setOnClickListener(this);
         vEraser = ((TextView) mRootView.findViewById(R.id.vEraser));
@@ -100,7 +113,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
                 onShareAnnotation();
             }
         });
-        tvSave = (TextView) mRootView.findViewById(R.id.vSaveee);
+        tvSave = (ImageView) mRootView.findViewById(R.id.vSaveee);
         tvSave.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +123,22 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
                 onSaveAnnotation();
             }
         });
+
+        vOpenOrClose = (TextView)mRootView.findViewById(R.id.vOpenOrClose);
+        vOpenOrClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSettingCallback != null) {
+                    mSettingCallback.switchToIconMode();
+                }
+                PreferenceConnector.writeBoolean(getContext(),KEY_DRAWING_NOW,!v.isSelected());
+                if (v.isSelected()) {
+                    openEmptyDrawingPage();
+                }else{
+                    closeDrawingPage();
+                }
+            }
+        });
         TypedArray attr = getResources().obtainTypedArray(R.array.draw_bgres);
         int size = attr.length();
         colorDrawableArray = new int[size];
@@ -117,20 +146,29 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
             colorDrawableArray[i] = attr.getResourceId(i,0);
         }
         attr.recycle();
-        initColorState();
+        refreshUI();
         addView(mRootView, rootParams);
     }
     private int[] colorDrawableArray;
 
-    public void initColorState() {
+    private void initColorState() {
         vColor.setSelected(true);
         vColor.setBackgroundResource(getBgColorSelected());
     }
 
-    private static final String TAG = "FloatSettingView";
+    public static final String KEY_DRAWING_NOW = "KEY_DRAWING_NOW";
+    private void initDrawingOpenState() {
+        boolean isDrawing = PreferenceConnector.readBoolean(getContext(),KEY_DRAWING_NOW,false);
+        vOpenOrClose.setSelected(!isDrawing);
+    }
+
+    public void refreshUI() {
+        initColorState();
+        initDrawingOpenState();
+    }
+
     private int getBgColorSelected() {
         int colorIndex = PreferenceConnector.readInteger(getContext(), KEY_COLOR_SELECTED, 0);
-        Log.e(TAG, "getBgColorSelected: ========index:"+colorIndex);
         return colorDrawableArray[colorIndex];
     }
 
@@ -150,6 +188,9 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public static final String ACTION_SHARE_ANNOTATION = "ACTION_SHARE_ANNOTATION";
     public static final String ACTION_SAVE_ANNOTAION = "ACTION_SAVE_ANNOTAION";
 
+    public static final String ACTION_OPEN_EMPTY_DRAWING_PAGE = "ACTION_OPEN_EMPTY_DRAWING_PAGE";
+    public static final String ACTION_CLOSE_DRAWING_PAGE = "ACTION_CLOSE_DRAWING_PAGE";
+
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE, SHAPE_CIRCLE, SHAPE_MASK, SHAPE_ERASER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface DrawingShape {
@@ -163,6 +204,36 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     }
 
     private HolderSwitchCallback mSettingCallback;
+
+    public void openEmptyDrawingPage() {
+        Log.e(TAG, "openEmptyDrawingPage: ==="+Build.VERSION.SDK_INT );
+        if(mScreenShot == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mScreenShot = new NewScreenShotUtilImpl(getContext());
+            } else {
+                mScreenShot = OldScreenShotUtilImpl.getInstance(getContext());
+            }
+        }
+        mScreenShot.startScreenshot();
+
+    }
+
+    public void saveToSdcardPNG(File file, Bitmap bitmap) {
+        try {
+            OutputStream outStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void closeDrawingPage() {
+        Intent intent = new Intent(ACTION_CLOSE_DRAWING_PAGE);
+        mBroadcastmanager.sendBroadcast(intent);
+    }
 
     public void onShareAnnotation() {
         Intent intent = new Intent(ACTION_SHARE_ANNOTATION);
@@ -179,13 +250,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         intent.putExtra(ACTION_SHAPE_CHANGED, drawingShape);
         mBroadcastmanager.sendBroadcast(intent);
         Toast.makeText(getContext().getApplicationContext(), "onShapeChanged", Toast.LENGTH_SHORT).show();
-    }
-
-    public void onColorChanged(int index) {
-        Intent intent = new Intent(ACTION_COLOR_CHANGED);
-        intent.putExtra(ACTION_COLOR_CHANGED, index);
-        mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(), "onColorChanged", Toast.LENGTH_SHORT).show();
     }
 
     public void switchZoomMode(boolean isSwitchToZoomMode) {
@@ -234,7 +298,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vCircle.setSelected(false);
         vArrow.setSelected(false);
         vSquare.setSelected(false);
-//        vTalk.setSelected(false);
         vMask.setSelected(false);
         vEraser.setSelected(false);
         vScale.setSelected(false);

@@ -4,6 +4,11 @@
 > http://www.easyicon.net
 > https://www.iconfinder.com
 > http://blog.csdn.net/xiaoluoli88/article/details/51194050
+
+#### **获取截图的实现**
+http://blog.csdn.net/woshinia/article/details/11520403
+http://www.ithtw.com/8679.html
+http://www.cnblogs.com/tgyf/p/4851092.html
 ###### TODO
 1. 首页应该需要用grdiview网格显示图片或批注(需要按图片比例显示)
 2. 缺少splash页面，广告位插入
@@ -27,6 +32,9 @@
 5.夜间模式切换最佳实践  
 6.debug tools最佳实践
 7.statusbar高度恢复看是否有问题 有问题全屏 -TODO
+8. 弹出框加载框最佳实践
+9. 按钮防抖最佳实践
+http://blog.csdn.net/Fancy_xty/article/details/53100471
 ###### 其他 
 * kotlin实现共有库
 

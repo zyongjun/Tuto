@@ -63,10 +63,10 @@
             android:orientation="horizontal">
 
             <!--<TextView-->
-                <!--android:id="@+id/vTalk"-->
-                <!--style="@style/text_draw_menu"-->
-                <!--android:scaleType="fitXY"-->
-                <!--android:background="@mipmap/ic_draw_talk" />-->
+            <!--android:id="@+id/vTalk"-->
+            <!--style="@style/text_draw_menu"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:background="@mipmap/ic_draw_talk" />-->
             <TextView
                 android:id="@+id/vText"
                 style="@style/text_draw_menu"
@@ -97,6 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/vColor"
                 style="@style/text_draw_menu"
@@ -140,9 +141,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-            <TextView
+
+            <ImageView
                 android:id="@+id/vSaveee"
                 style="@style/text_draw_menu"
+                android:tint="@color/white"
                 android:background="@mipmap/ic_save" />
 
         </LinearLayout>
@@ -153,7 +156,12 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-
+            <TextView
+                style="@style/text_draw_menu"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/anno_scale_selector"
+                android:visibility="invisible" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -170,6 +178,23 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
+
+            <TextView
+                android:id="@+id/vOpenOrClose"
+                style="@style/text_draw_menu"
+                android:background="@drawable/open_close_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                style="@style/text_draw_menu"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/anno_scale_selector"
+                android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

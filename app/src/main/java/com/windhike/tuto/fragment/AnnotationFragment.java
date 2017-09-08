@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
@@ -21,7 +22,6 @@ import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.model.ManagerImageObject;
 import com.windhike.annotation.model.PreferenceConnector;
-import com.windhike.annotation.reuse.DisplayUtil;
 import com.windhike.annotation.view.CustomerShapeView;
 import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.widget.DrawingView;
@@ -71,9 +71,11 @@ public class AnnotationFragment extends BaseFragment {
         CommonFragmentActivity.start(context, AnnotationFragment.class.getName(), bundle);
     }
 
+    private static final String TAG = "AnnotationFragment";
     public static void startNewDraw(Context context, String path) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_TYPE, 2);
+        Log.e(TAG, "startNewDraw: ====="+(AnnotationFragment.class.getName()) );
         bundle.putString(Configs.KEY_ANNOTATION_DRAW_NEW_PATH, path);
         CommonFragmentActivity.start(context, AnnotationFragment.class.getName(), bundle);
     }
@@ -81,11 +83,16 @@ public class AnnotationFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mDrawObjectIndex = getArguments().getInt(Configs.KEY_ANNOTATION_DRAW_INDEX, -1);
             mNewDrawPath = getArguments().getString(Configs.KEY_ANNOTATION_DRAW_NEW_PATH);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        PreferenceConnector.writeBoolean(getContext(),FloatSettingView.KEY_DRAWING_NOW,true);
     }
 
     @Override
@@ -119,6 +126,10 @@ public class AnnotationFragment extends BaseFragment {
                         if(!getActivity().isDestroyed()) {
                             shareAnnotation();
                         }
+                    } else if (action.equals(FloatSettingView.ACTION_CLOSE_DRAWING_PAGE)) {
+                        if (!getActivity().isDestroyed()) {
+                            getActivity().finish();
+                        }
                     }
                 }
             });
@@ -141,7 +152,6 @@ public class AnnotationFragment extends BaseFragment {
         });
         popWinShare.showShareWin();
     }
-    public static final String TAG = "AnnotationFragment";
 
     private Handler mHandler = new Handler();
 
@@ -231,7 +241,6 @@ public class AnnotationFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
-        PreferenceConnector.writeBoolean(TutoApplication.getInstance(),Configs.KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS,true);
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter filter = new IntentFilter();
         filter.addAction(FloatSettingView.ACTION_COLOR_CHANGED);
@@ -241,6 +250,7 @@ public class AnnotationFragment extends BaseFragment {
         filter.addAction(FloatSettingView.ACTION_RESTORE_OPERATION);
         filter.addAction(FloatSettingView.ACTION_SHARE_ANNOTATION);
         filter.addAction(FloatSettingView.ACTION_SAVE_ANNOTAION);
+        filter.addAction(FloatSettingView.ACTION_CLOSE_DRAWING_PAGE);
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         initProject();
         drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -374,7 +384,7 @@ public class AnnotationFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        PreferenceConnector.writeBoolean(TutoApplication.getInstance(),Configs.KEY_IS_PICTURE_ANNOTATION_IN_PROGRESS,false);
+        PreferenceConnector.writeBoolean(getContext(),FloatSettingView.KEY_DRAWING_NOW,false);
         mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }

@@ -29,15 +29,31 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
     private Context mContext;
     private List<SettingItem> mSettingList = new ArrayList<>();
     private boolean isFloatOpened;
+    private boolean isCaptureOpened;
+    private OnCaptureSwitchCallback mCaptureSwitchCallback;
+    public interface OnCaptureSwitchCallback{
+        void onSwitch(boolean isOn);
+    }
 
-    public SettingAdapter(Context context) {
+    public SettingAdapter(Context context,OnCaptureSwitchCallback captureSwitchCallback) {
         mContext = context;
+        mCaptureSwitchCallback = captureSwitchCallback;
         SettingItem item = new SettingItem();
-        item.name= TutoApplication.getInstance().getString(R.string.open_draw_tools);
+        item.name= context.getString(R.string.open_draw_tools);
         item.isSelect = true;
         mSettingList.add(item);
         isFloatOpened = PreferenceConnector.readBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,false);
+        SettingItem itemCapture = new SettingItem();
+        itemCapture.name = context.getString(R.string.open_capture);
+        itemCapture.isSelect = false;
+        mSettingList.add(itemCapture);
+        isCaptureOpened = PreferenceConnector.readBoolean(context,PreferenceConnector.KEY_CAPTURE_OPENED,false);
     }
+
+    public void setCaptureOpened(boolean isCaptureOpened) {
+        this.isCaptureOpened = isCaptureOpened;
+    }
+
     @Override
     public SettingItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SettingItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_setting,parent,false));
@@ -47,29 +63,40 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
     public void onBindViewHolder(final SettingItemHolder holder, int position) {
         SettingItem item = mSettingList.get(position);
         holder.tvName.setText(item.name);
-        holder.switchView.setOn(isFloatOpened);
-        holder.switchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
-            @Override
-            public void onSwitchStateChange(boolean isOn) {
-                Context context = holder.itemView.getContext();
-                if (isOn) {
-                    if(checkFloatWindowPermission()) {
-                        PreferenceConnector.writeBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,true);
-                        context.startService(new Intent(context, DrawMenuService.class));
-                    }else{
-                        holder.switchView.setOn(false);
+        if(position == 0) {
+            holder.switchView.setOn(isFloatOpened);
+            holder.switchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
+                @Override
+                public void onSwitchStateChange(boolean isOn) {
+                    Context context = holder.itemView.getContext();
+                    if (isOn) {
+                        if (checkFloatWindowPermission()) {
+                            PreferenceConnector.writeBoolean(context, PreferenceConnector.KEY_FLOAT_OPENED, true);
+                            context.startService(new Intent(context, DrawMenuService.class));
+                        } else {
+                            holder.switchView.setOn(false);
+                            isFloatOpened = false;
+                            showAppSettingDialog();
+                        }
+                    } else {
                         isFloatOpened = false;
-//                        notifyDataSetChanged();
-                        showAppSettingDialog();
+                        context.stopService(new Intent(context, DrawMenuService.class));
+                        PreferenceConnector.writeBoolean(context, PreferenceConnector.KEY_FLOAT_OPENED, false);
                     }
-                }else{
-                    isFloatOpened = false;
-                    context.stopService(new Intent(context,DrawMenuService.class));
-                    PreferenceConnector.writeBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,false);
-                }
 
-            }
-        });
+                }
+            });
+        } else if (position == 1) {
+            holder.switchView.setOn(isCaptureOpened);
+            holder.switchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
+                @Override
+                public void onSwitchStateChange(boolean isOn) {
+                    if (mCaptureSwitchCallback != null) {
+                        mCaptureSwitchCallback.onSwitch(isOn);
+                    }
+                }
+            });
+        }
     }
 
     public boolean checkFloatWindowPermission(){
