@@ -13,7 +13,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import com.windhike.fastcoding.CommonFragmentActivity;
-import com.windhike.fastcoding.TranslucentFragmentActivty;
 import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
 import com.zyongjun.easytouch.screenshot.OldScreenShotUtilImpl;
 import com.zyongjun.easytouch.screenshot.ScreenShotUtil;
@@ -73,6 +72,7 @@ public class DrawMenuService extends Service{
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e(TAG, "onClick: ==========outside ==" );
                     switchToIconMode();
                 }
             };
@@ -116,6 +116,7 @@ public class DrawMenuService extends Service{
         public void onReceive(Context context, final Intent intent) {
             final String action = intent.getAction();
             if (FloatSettingView.ACTION_CAPTURE_FINISHED.equals(action)) {
+                Log.e(TAG, "onReceive: ==========switch receiver" );
                 mMenuSwitchHolderCallback.switchToIconMode();
             }
         }

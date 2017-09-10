@@ -1,15 +1,14 @@
 package com.windhike.tuto;
 
 import android.app.Application;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 //import com.facebook.stetho.Stetho;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
-import com.windhike.fastcoding.util.UIUtil;
+import com.windhike.annotation.model.PreferenceConnector;
+import com.zyongjun.easytouch.view.FloatSettingView;
 
 /**
  * author: zyongjun on 2017/6/30 0030.
@@ -50,4 +49,9 @@ public class TutoApplication extends Application{
         MobclickAgent. startWithConfigure(config);
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        PreferenceConnector.writeBoolean(this, FloatSettingView.KEY_DRAWING_NOW,false);
+    }
 }

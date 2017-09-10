@@ -9,6 +9,8 @@
 http://blog.csdn.net/woshinia/article/details/11520403
 http://www.ithtw.com/8679.html
 http://www.cnblogs.com/tgyf/p/4851092.html
+ **MediaProjectionManager**
+http://blog.csdn.net/l00149133/article/details/48346107
 ###### TODO
 1. 首页应该需要用grdiview网格显示图片或批注(需要按图片比例显示)
 2. 缺少splash页面，广告位插入

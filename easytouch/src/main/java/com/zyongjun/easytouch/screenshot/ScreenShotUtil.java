@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.Toast;
 import com.windhike.fastcoding.CommonFragmentActivity;
 import com.zyongjun.easytouch.view.FloatSettingView;
@@ -28,7 +29,7 @@ public abstract class ScreenShotUtil {
     public abstract void setHandler(Handler handler);
     private LocalBroadcastManager mManager;
 
-
+    private static final String TAG = "ScreenShotUtil";
     public Observer<String> getShotObserver() {
         return new Observer<String>() {
             @Override
@@ -44,10 +45,11 @@ public abstract class ScreenShotUtil {
 
             @Override
             public void onNext(String path) {
-                mManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
+                Log.e(TAG, "onNext:============= "+path);
                 if("".equals(path)){
                     startScreenshot();
                 }else {
+                    mManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
                     Bundle bundle = new Bundle();
                     bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
                     bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);

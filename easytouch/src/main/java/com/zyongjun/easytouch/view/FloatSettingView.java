@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -119,9 +120,8 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
                 PreferenceConnector.writeBoolean(getContext(),KEY_DRAWING_NOW,!v.isSelected());
                 if (mSettingCallback != null) {
-
                     if (v.isSelected()) {
-//                    openEmptyDrawingPage();
+                        closeApplicationUI();
                         mSettingCallback.onCaptureRequest();
                     }else{
                         closeDrawingPage();
@@ -141,6 +141,8 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         refreshUI();
         addView(mRootView, rootParams);
     }
+
+    private static final String TAG = "FloatSettingView";
     private int[] colorDrawableArray;
 
     private void initColorState() {
@@ -182,6 +184,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
     public static final String ACTION_OPEN_EMPTY_DRAWING_PAGE = "ACTION_OPEN_EMPTY_DRAWING_PAGE";
     public static final String ACTION_CLOSE_DRAWING_PAGE = "ACTION_CLOSE_DRAWING_PAGE";
+    public static final String ACTION_CLOSE_APPUI_PAGE = "ACTION_CLOSE_APPUI_PAGE";
     public static final String ACTION_CAPTURE_FINISHED = "ACTION_CAPTURE_FINISHED";
 
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE, SHAPE_CIRCLE, SHAPE_MASK, SHAPE_ERASER})
@@ -209,6 +212,11 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
     public void closeDrawingPage() {
         Intent intent = new Intent(ACTION_CLOSE_DRAWING_PAGE);
+        mBroadcastmanager.sendBroadcast(intent);
+    }
+
+    public void closeApplicationUI() {
+        Intent intent = new Intent(ACTION_CLOSE_APPUI_PAGE);
         mBroadcastmanager.sendBroadcast(intent);
     }
 
@@ -260,6 +268,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public void onClick(View v) {
         int id = v.getId();
         if (mSettingCallback != null) {
+            Log.e(TAG, "onClick: =============switch on all click");
             mSettingCallback.switchToIconMode();
         }
         if (id == R.id.tvReset) {

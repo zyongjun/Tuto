@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 import com.windhike.fastcoding.rx.SchedulersTransFormer;
@@ -66,14 +67,15 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
         }
         if (mediaProjection == null){
             mediaProjection = ((MediaProjectionManager)context.getSystemService(Context.MEDIA_PROJECTION_SERVICE)).
-                    getMediaProjection(Activity.RESULT_OK,data);
+                    getMediaProjection(Activity.RESULT_OK,data);;
         }
-//        VirtualDisplay virtualDisplay = mediaProjection.createVirtualDisplay("screen_mirror", screenWidth, screenHeight, screenDensity,
-//                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-//                imageReader.getSurface(), null, null);
+        VirtualDisplay virtualDisplay = mediaProjection.createVirtualDisplay("screen_mirror", screenWidth, screenHeight, screenDensity,
+                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                imageReader.getSurface(),null, null);
         return true;
     }
 
+    private static final String TAG = "NewScreenShotUtilImpl";
     private void startCapture(){
         Observable.just(1)
                 .flatMap(new Func1<Integer, Observable<String>>() {
@@ -83,17 +85,24 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
                             @Override
                             public void call(Subscriber<? super String> subscriber) {
                                 Image image = null;
-                                if (imageReader != null) image = imageReader.acquireLatestImage();
+                                if (imageReader != null) {
+                                    image = imageReader.acquireLatestImage();
+                                }
                                 if (image == null && data!=null){
                                     subscriber.onNext("");
                                     subscriber.onCompleted();
                                 }else {
                                     Bitmap bitmap = UIUtil.image2Bitmap(image);
+
                                     File fileImage = null;
                                     try {
                                         fileImage = new File(FileUtil.getScreenShotsName(context));
-                                        if (!fileImage.getParentFile().exists())fileImage.getParentFile().mkdirs();
-                                        if (!fileImage.exists())fileImage.createNewFile();
+                                        if (!fileImage.getParentFile().exists()) {
+                                            fileImage.getParentFile().mkdirs();
+                                        }
+                                        if (!fileImage.exists()){
+                                            fileImage.createNewFile();
+                                        }
                                         FileOutputStream outputStream = new FileOutputStream(fileImage);
                                         bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
                                         outputStream.flush();
@@ -107,6 +116,8 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
                                         subscriber.onCompleted();
                                     } catch (IOException e) {
                                         subscriber.onError(new Exception("截图异常"));
+                                    } finally {
+                                        mediaProjection.stop();
                                     }
                                 }
                             }
@@ -129,6 +140,16 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
                 if (startVirtual()) startCapture();
             }
         },50);
+    }
+
+    public void startScreenshotAfterGranted() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (startVirtual()) startCapture();
+            }
+        },100);
     }
 
     @Override

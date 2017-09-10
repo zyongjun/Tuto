@@ -80,6 +80,7 @@ public class AnnotationFragment extends BaseFragment {
         bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);
         CommonFragmentActivity.start(context, AnnotationFragment.class.getName(), bundle);
     }
+    public static final String KEY_ANNOTAION_IS_DRAWING = "KEY_ANNOTAION_IS_DRAWING";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +95,12 @@ public class AnnotationFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         PreferenceConnector.writeBoolean(getContext(),FloatSettingView.KEY_DRAWING_NOW,true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        PreferenceConnector.writeBoolean(getContext(),FloatSettingView.KEY_DRAWING_NOW,false);
     }
 
     @Override
@@ -385,7 +392,6 @@ public class AnnotationFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        PreferenceConnector.writeBoolean(getContext(),FloatSettingView.KEY_DRAWING_NOW,false);
         mLocalBroadcastManager.unregisterReceiver(mReceiver);
     }
 }

@@ -50,7 +50,7 @@ public class TranslucentFragment extends BaseFragment{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                 NewScreenShotUtilImpl.setData(data);
 //                onBackPressed();
-                new NewScreenShotUtilImpl(getActivity()).startScreenshot();
+                new NewScreenShotUtilImpl(getActivity()).startScreenshotAfterGranted();
             }
         }
     }
