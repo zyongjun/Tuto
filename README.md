@@ -23,6 +23,8 @@ http://www.cnblogs.com/tgyf/p/4851092.html
 2. 刚安装授权回来新建annotation会白屏
 3.允许悬浮权限后返回好像acitivity会重建 application会不会？要挖掘
 4. 换颜色后menuholder颜色按钮颜色要改变
+5.截图时候隐藏操作按钮，完成后显示浮点
+6.授权截图优化
 
 ######  优化
 1.~~授权最佳实践~~  
@@ -35,6 +37,9 @@ http://www.cnblogs.com/tgyf/p/4851092.html
 8. 弹出框加载框最佳实践
 9. 按钮防抖最佳实践
 http://blog.csdn.net/Fancy_xty/article/details/53100471
+10.透明最佳实践
+http://blog.csdn.net/fancylovejava/article/details/39643449
+https://stackoverflow.com/questions/41687810/android-6-0-unable-to-resume-activity-did-not-call-finish-prior-to-onresume
 ###### 其他 
 * kotlin实现共有库
 

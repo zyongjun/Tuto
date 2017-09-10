@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +35,7 @@ public class IconHolder extends BaseTouchViewHolder{
     @Override
     public void initView() {
         if (mLauchIcon != null) {
+//            mWindowManager.removeViewImmediate(mLauchIcon);
             mWindowManager.addView(mLauchIcon,getViewLayoutParams());
             return;
         }
@@ -106,10 +108,12 @@ public class IconHolder extends BaseTouchViewHolder{
         return mLauchIcon;
     }
 
+    private static final String TAG = "IconHolder";
     @Override
     public void onDestory() {
         if (mLauchIcon != null&& ViewCompat.isAttachedToWindow(mLauchIcon)) {
-            mWindowManager.removeView(mLauchIcon);
+            Log.e(TAG, "onDestory: ==============");
+            mWindowManager.removeViewImmediate(mLauchIcon);
         }
     }
 }

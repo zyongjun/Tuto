@@ -16,19 +16,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import com.windhike.fastcoding.rx.SchedulersTransFormer;
 import com.windhike.fastcoding.util.UIUtil;
 import com.zyongjun.easytouch.R;
 import com.zyongjun.easytouch.utils.FileUtil;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -40,8 +36,7 @@ import rx.functions.Func1;
 public class NewScreenShotUtilImpl extends ScreenShotUtil{
 
     private MediaProjection mediaProjection;
-    private VirtualDisplay virtualDisplay;
-    private static Intent data;
+    public static Intent data;
 
     private int screenWidth;
     private int screenHeight;
@@ -73,9 +68,9 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
             mediaProjection = ((MediaProjectionManager)context.getSystemService(Context.MEDIA_PROJECTION_SERVICE)).
                     getMediaProjection(Activity.RESULT_OK,data);
         }
-        virtualDisplay = mediaProjection.createVirtualDisplay("screen_mirror",screenWidth,screenHeight,screenDensity,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                imageReader.getSurface(),null,null);
+//        VirtualDisplay virtualDisplay = mediaProjection.createVirtualDisplay("screen_mirror", screenWidth, screenHeight, screenDensity,
+//                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+//                imageReader.getSurface(), null, null);
         return true;
     }
 

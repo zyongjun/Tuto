@@ -1,10 +1,14 @@
 package com.zyongjun.easytouch.screenshot;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 import com.windhike.fastcoding.CommonFragmentActivity;
+import com.zyongjun.easytouch.view.FloatSettingView;
+
 import rx.Observer;
 
 /**
@@ -16,11 +20,14 @@ public abstract class ScreenShotUtil {
 
     public ScreenShotUtil(Context context) {
         this.context = context;
+         mManager = LocalBroadcastManager.getInstance(context);
     }
 
     public abstract void startScreenshot();
     public abstract boolean isSupportScreenshot();
     public abstract void setHandler(Handler handler);
+    private LocalBroadcastManager mManager;
+
 
     public Observer<String> getShotObserver() {
         return new Observer<String>() {
@@ -30,17 +37,20 @@ public abstract class ScreenShotUtil {
 
             @Override
             public void onError(Throwable e) {
+                mManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
 //                Toast.makeText(context, context.getString(R.string.msg_screenshot_fail), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNext(String path) {
+                mManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
                 if("".equals(path)){
                     startScreenshot();
                 }else {
                     Bundle bundle = new Bundle();
-//                  bundle.putInt(KEY_TYPE, 2);
+                    bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
+                    bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);
                     bundle.putString("KEY_ANNOTATION_DRAW_NEW_PATH", path);
                     CommonFragmentActivity.start(context, "com.windhike.tuto.fragment.AnnotationFragment", bundle);
                 }

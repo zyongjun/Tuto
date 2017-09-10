@@ -1,30 +1,21 @@
 package com.zyongjun.easytouch.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.windhike.fastcoding.CommonFragmentActivity;
-import com.windhike.fastcoding.util.UIUtil;
 import com.zyongjun.easytouch.R;
-import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
-import com.zyongjun.easytouch.screenshot.OldScreenShotUtilImpl;
-import com.zyongjun.easytouch.screenshot.ScreenShotUtil;
 import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
 import com.zyongjun.easytouch.utils.PreferenceConnector;
 import java.io.File;
@@ -33,8 +24,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import static android.content.ContentValues.TAG;
 import static com.zyongjun.easytouch.view.ColorPickerView.KEY_COLOR_SELECTED;
 
 /**
@@ -57,7 +46,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     TextView tvShare;
     ImageView tvSave;
     private TextView vOpenOrClose;
-    private ScreenShotUtil mScreenShot;
 
     public FloatSettingView(@NonNull Context context) {
         super(context);
@@ -128,15 +116,19 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vOpenOrClose.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mSettingCallback != null) {
-                    mSettingCallback.switchToIconMode();
-                }
+
                 PreferenceConnector.writeBoolean(getContext(),KEY_DRAWING_NOW,!v.isSelected());
-                if (v.isSelected()) {
-                    openEmptyDrawingPage();
-                }else{
-                    closeDrawingPage();
+                if (mSettingCallback != null) {
+
+                    if (v.isSelected()) {
+//                    openEmptyDrawingPage();
+                        mSettingCallback.onCaptureRequest();
+                    }else{
+                        closeDrawingPage();
+                        mSettingCallback.switchToIconMode();
+                    }
                 }
+
             }
         });
         TypedArray attr = getResources().obtainTypedArray(R.array.draw_bgres);
@@ -190,6 +182,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
     public static final String ACTION_OPEN_EMPTY_DRAWING_PAGE = "ACTION_OPEN_EMPTY_DRAWING_PAGE";
     public static final String ACTION_CLOSE_DRAWING_PAGE = "ACTION_CLOSE_DRAWING_PAGE";
+    public static final String ACTION_CAPTURE_FINISHED = "ACTION_CAPTURE_FINISHED";
 
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE, SHAPE_CIRCLE, SHAPE_MASK, SHAPE_ERASER})
     @Retention(RetentionPolicy.SOURCE)
@@ -199,24 +192,8 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     private int mDrawingShape;
     private LocalBroadcastManager mBroadcastmanager;
 
-    public void setDrawingShape(@DrawingShape int drawingShape) {
-        mDrawingShape = drawingShape;
-    }
-
     private HolderSwitchCallback mSettingCallback;
 
-    public void openEmptyDrawingPage() {
-        Log.e(TAG, "openEmptyDrawingPage: ==="+Build.VERSION.SDK_INT );
-        if(mScreenShot == null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mScreenShot = new NewScreenShotUtilImpl(getContext());
-            } else {
-                mScreenShot = OldScreenShotUtilImpl.getInstance(getContext());
-            }
-        }
-        mScreenShot.startScreenshot();
-
-    }
 
     public void saveToSdcardPNG(File file, Bitmap bitmap) {
         try {

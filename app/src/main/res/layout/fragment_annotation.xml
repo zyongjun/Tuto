@@ -4,6 +4,7 @@
     android:id="@+id/activity_annotation_edit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     android:background="@color/app_main_bg"
     tools:context=".AnnotationProjectEditActivity">
     <LinearLayout

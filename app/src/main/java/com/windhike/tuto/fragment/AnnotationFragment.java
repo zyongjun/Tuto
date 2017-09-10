@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
@@ -68,15 +67,17 @@ public class AnnotationFragment extends BaseFragment {
     public static void startExist(Context context, int drawIndex) {
         Bundle bundle = new Bundle();
         bundle.putInt(Configs.KEY_ANNOTATION_DRAW_INDEX, drawIndex);
+        bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
+        bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);
         CommonFragmentActivity.start(context, AnnotationFragment.class.getName(), bundle);
     }
 
-    private static final String TAG = "AnnotationFragment";
     public static void startNewDraw(Context context, String path) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_TYPE, 2);
-        Log.e(TAG, "startNewDraw: ====="+(AnnotationFragment.class.getName()) );
         bundle.putString(Configs.KEY_ANNOTATION_DRAW_NEW_PATH, path);
+        bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
+        bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);
         CommonFragmentActivity.start(context, AnnotationFragment.class.getName(), bundle);
     }
 

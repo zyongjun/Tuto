@@ -3,13 +3,14 @@ package com.windhike.fastcoding;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
+import android.view.Window;
+import android.view.WindowManager;
 import com.windhike.fastcoding.base.BaseFragment;
-
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ import java.util.List;
 public class CommonFragmentActivity extends BaseFragmentActivity {
     public static final String BUNDLE_KEY_NAME = "name";
     public static final String BUNDLE_KEY_ARGS = "args";
+    public static final String BUNDLE_KEY_TRANSLUCENT = "BUNDLE_KEY_TRANSLUCENT";
+    public static final String BUNDLE_KEY_FULLSCREEN = "BUNDLE_KEY_FULLSCREEN";
+    private boolean isTranslucent;
 
     protected void onLayoutCreateBefore(@Nullable Bundle savedInstanceState) {
 
@@ -28,13 +32,29 @@ public class CommonFragmentActivity extends BaseFragmentActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        if (intent != null&&intent.getStringExtra(BUNDLE_KEY_NAME)!=null) {
+            Bundle args = intent.getBundleExtra(BUNDLE_KEY_ARGS);
+            if(args != null&&args.getBoolean(BUNDLE_KEY_FULLSCREEN,false)){
+                requestWindowFeature(Window.FEATURE_NO_TITLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            }
+        }
         onLayoutCreateBefore(savedInstanceState);
         setContentView(getLayoutId());
-        Intent intent = getIntent();
         Fragment fragment;
         if (intent != null&&intent.getStringExtra(BUNDLE_KEY_NAME)!=null) {
             String fragmentName = intent.getStringExtra(BUNDLE_KEY_NAME);
             Bundle args = intent.getBundleExtra(BUNDLE_KEY_ARGS);
+            if(args != null){
+                isTranslucent = args.getBoolean(BUNDLE_KEY_TRANSLUCENT);
+            }
+            if (isTranslucent && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();//设置状态栏透明
+                localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+            }
+
             fragment = Fragment.instantiate(this,fragmentName,args);
         }else{
             fragment = createContentFragment();

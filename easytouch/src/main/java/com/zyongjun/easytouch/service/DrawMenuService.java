@@ -1,11 +1,24 @@
 package com.zyongjun.easytouch.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
+import com.windhike.fastcoding.CommonFragmentActivity;
+import com.windhike.fastcoding.TranslucentFragmentActivty;
+import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
+import com.zyongjun.easytouch.screenshot.OldScreenShotUtilImpl;
+import com.zyongjun.easytouch.screenshot.ScreenShotUtil;
 import com.zyongjun.easytouch.view.ColorHolder;
+import com.zyongjun.easytouch.view.FloatSettingView;
 import com.zyongjun.easytouch.view.IconHolder;
 import com.zyongjun.easytouch.view.MenuHolder;
 
@@ -17,10 +30,16 @@ public class DrawMenuService extends Service{
     private IconHolder mIconHolder;
     private MenuHolder mMenuHolder;
     private ColorHolder mColorHolder;
+    private LocalBroadcastManager mLocalManager;
+    private ScreenShotUtil mScreenShot;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mLocalManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(FloatSettingView.ACTION_CAPTURE_FINISHED);
+        mLocalManager.registerReceiver(mReceiver, filter);
         mIconHolder = new IconHolder(this);
         mMenuHolder = new MenuHolder(this);
         mColorHolder = new ColorHolder(this);
@@ -54,26 +73,59 @@ public class DrawMenuService extends Service{
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mMenuHolder.onDestory();
-                    mColorHolder.onDestory();
-                    mIconHolder.initView();
+                    switchToIconMode();
                 }
             };
         }
 
         @Override
         public void switchToIconMode() {
+            Log.e(TAG, "switchToIconMode: ====================" );
             mColorHolder.onDestory();
             mMenuHolder.onDestory();
             mIconHolder.initView();
         }
-    };
 
+        @Override
+        public void onCaptureRequest() {
+            Log.e(TAG, "onCaptureRequest: ====================" );
+            mIconHolder.onDestory();
+            mColorHolder.onDestory();
+            mMenuHolder.onDestory();
+            Context context = DrawMenuService.this;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&&(mScreenShot==null||NewScreenShotUtilImpl.data==null)){
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
+                bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,false);
+                CommonFragmentActivity.start(context, "com.windhike.tuto.fragment.TranslucentFragment", bundle);
+            }else{
+                if(mScreenShot == null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mScreenShot = new NewScreenShotUtilImpl(context);
+                    } else {
+                        mScreenShot = OldScreenShotUtilImpl.getInstance(context);
+                    }
+                }
+                mScreenShot.startScreenshot();
+            }
+        }
+    };
+    private static final String TAG = "DrawMenuService";
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            final String action = intent.getAction();
+            if (FloatSettingView.ACTION_CAPTURE_FINISHED.equals(action)) {
+                mMenuSwitchHolderCallback.switchToIconMode();
+            }
+        }
+    };
 
     public interface HolderSwitchCallback{
         View.OnClickListener obtainMenuColorPickerListener();
         View.OnClickListener obtainMenuOutsideListener();
         void switchToIconMode();
+        void onCaptureRequest();
     }
 
     @Nullable
@@ -85,6 +137,7 @@ public class DrawMenuService extends Service{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mLocalManager.unregisterReceiver(mReceiver);
         mIconHolder.onDestory();
         mMenuHolder.onDestory();
         mColorHolder.onDestory();

@@ -7,16 +7,13 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.SettingAdapter;
 import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
-
 import butterknife.BindView;
 
 /**
@@ -52,11 +49,9 @@ public class SettingFragment extends BaseFragment implements SettingAdapter.OnCa
         recycerView.setAdapter(new SettingAdapter(getActivity(),this));
     }
 
-    private static final String TAG = "SettingFragment";
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG, "onActivityResult: =============="+resultCode );
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }

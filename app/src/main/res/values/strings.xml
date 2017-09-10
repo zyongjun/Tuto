@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tuto</string>
+    <string name="app_name">标注大师</string>
     <string name="click_to_skip">点击跳过</string>
     <string name="menu_photos">相册</string>
     <string name="menu_camera">拍照</string>
