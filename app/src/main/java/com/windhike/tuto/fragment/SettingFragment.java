@@ -20,7 +20,7 @@ import butterknife.BindView;
  * author:gzzyj on 2017/8/7 0007.
  * email:zhyongjun@windhike.cn
  */
-public class SettingFragment extends BaseFragment implements SettingAdapter.OnCaptureSwitchCallback {
+public class SettingFragment extends BaseFragment {
     private static final int REQUEST_PROJECTION_CODE = 2;
     @BindView(R.id.recycerView)
     RecyclerView recycerView;
@@ -46,39 +46,7 @@ public class SettingFragment extends BaseFragment implements SettingAdapter.OnCa
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recycerView.setLayoutManager(manager);
-        recycerView.setAdapter(new SettingAdapter(getActivity(),this));
+        recycerView.setAdapter(new SettingAdapter(getActivity()));
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == REQUEST_PROJECTION_CODE) {
-            PreferenceConnector.writeBoolean(getActivity(),PreferenceConnector.KEY_CAPTURE_OPENED,true);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                NewScreenShotUtilImpl.setData(data);
-            }
-        }
-    }
-
-    private boolean requestCapturePermission(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) getActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-            startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(),REQUEST_PROJECTION_CODE);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void onSwitch(boolean isOn) {
-        if(isOn) {
-            requestCapturePermission();
-        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            NewScreenShotUtilImpl.setData(null);
-            PreferenceConnector.writeBoolean(getActivity(),PreferenceConnector.KEY_CAPTURE_OPENED,false);
-        }
-    }
 }

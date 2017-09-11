@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 import com.windhike.fastcoding.rx.SchedulersTransFormer;
@@ -75,7 +74,6 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
         return true;
     }
 
-    private static final String TAG = "NewScreenShotUtilImpl";
     private void startCapture(){
         Observable.just(1)
                 .flatMap(new Func1<Integer, Observable<String>>() {
@@ -139,7 +137,7 @@ public class NewScreenShotUtilImpl extends ScreenShotUtil{
             public void run() {
                 if (startVirtual()) startCapture();
             }
-        },50);
+        },80);
     }
 
     public void startScreenshotAfterGranted() {

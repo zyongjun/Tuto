@@ -8,6 +8,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
 import com.windhike.annotation.model.PreferenceConnector;
+import com.windhike.fastcoding.BaseApplication;
 import com.zyongjun.easytouch.view.FloatSettingView;
 
 /**
@@ -15,7 +16,7 @@ import com.zyongjun.easytouch.view.FloatSettingView;
  * email: zhyongjun@windhike.cn
  */
 
-public class TutoApplication extends Application{
+public class TutoApplication extends BaseApplication{
     private static TutoApplication INSTANCE;
     public static TutoApplication getInstance(){
         return INSTANCE;
@@ -29,6 +30,7 @@ public class TutoApplication extends Application{
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
+        PreferenceConnector.writeBoolean(this, FloatSettingView.KEY_DRAWING_NOW,false);
 //        Stetho.initializeWithDefaults(this);
         AnnotationInitialize.getInstance().initialize(this);
         configUmeng();
@@ -51,7 +53,7 @@ public class TutoApplication extends Application{
 
     @Override
     public void onTerminate() {
-        super.onTerminate();
         PreferenceConnector.writeBoolean(this, FloatSettingView.KEY_DRAWING_NOW,false);
+        super.onTerminate();
     }
 }

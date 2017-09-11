@@ -6,19 +6,22 @@ import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
 import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
+import com.zyongjun.easytouch.view.FloatSettingView;
 
 /**
  * author:gzzyj on 2017/9/9 0009.
  * email:zhyongjun@windhike.cn
  */
-
 public class TranslucentFragment extends BaseFragment{
     private static final int REQUEST_PROJECTION_CODE = 2;
+    private LocalBroadcastManager mLocalBroadcastManager;
+    private boolean hasRequestCapture;
 
     public static void start(Context context) {
         Bundle bundle = new Bundle();
@@ -35,6 +38,7 @@ public class TranslucentFragment extends BaseFragment{
     @Override
     public void initView() {
         super.initView();
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         requestCapturePermission();
     }
 
@@ -42,16 +46,27 @@ public class TranslucentFragment extends BaseFragment{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_CANCELED) {
+            if (requestCode == REQUEST_PROJECTION_CODE) {
+                mLocalBroadcastManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
+            }
             onBackPressed();
             return;
         }
         if (requestCode == REQUEST_PROJECTION_CODE) {
+            hasRequestCapture = true;
             PreferenceConnector.writeBoolean(getActivity(),PreferenceConnector.KEY_CAPTURE_OPENED,true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                 NewScreenShotUtilImpl.setData(data);
-//                onBackPressed();
-                new NewScreenShotUtilImpl(getActivity()).startScreenshotAfterGranted();
+                new NewScreenShotUtilImpl(getActivity()).startScreenshot();
             }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (hasRequestCapture) {
+            onBackPressed();
         }
     }
 

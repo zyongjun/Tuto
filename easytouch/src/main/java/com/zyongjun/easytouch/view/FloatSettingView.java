@@ -121,7 +121,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
                 PreferenceConnector.writeBoolean(getContext(),KEY_DRAWING_NOW,!v.isSelected());
                 if (mSettingCallback != null) {
                     if (v.isSelected()) {
-                        closeApplicationUI();
                         mSettingCallback.onCaptureRequest();
                     }else{
                         closeDrawingPage();
@@ -215,11 +214,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         mBroadcastmanager.sendBroadcast(intent);
     }
 
-    public void closeApplicationUI() {
-        Intent intent = new Intent(ACTION_CLOSE_APPUI_PAGE);
-        mBroadcastmanager.sendBroadcast(intent);
-    }
-
     public void onShareAnnotation() {
         Intent intent = new Intent(ACTION_SHARE_ANNOTATION);
         mBroadcastmanager.sendBroadcast(intent);
@@ -234,14 +228,12 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         Intent intent = new Intent(ACTION_SHAPE_CHANGED);
         intent.putExtra(ACTION_SHAPE_CHANGED, drawingShape);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(), "onShapeChanged", Toast.LENGTH_SHORT).show();
     }
 
     public void switchZoomMode(boolean isSwitchToZoomMode) {
         Intent intent = new Intent(ACTION_SCALE_MODE_CHANGED);
         intent.putExtra(ACTION_SCALE_MODE_CHANGED, isSwitchToZoomMode);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(), "switchZoomMode", Toast.LENGTH_SHORT).show();
     }
 
     public void unDo() {
@@ -268,7 +260,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public void onClick(View v) {
         int id = v.getId();
         if (mSettingCallback != null) {
-            Log.e(TAG, "onClick: =============switch on all click");
             mSettingCallback.switchToIconMode();
         }
         if (id == R.id.tvReset) {

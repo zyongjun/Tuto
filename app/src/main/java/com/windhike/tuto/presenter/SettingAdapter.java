@@ -29,29 +29,14 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
     private Context mContext;
     private List<SettingItem> mSettingList = new ArrayList<>();
     private boolean isFloatOpened;
-    private boolean isCaptureOpened;
-    private OnCaptureSwitchCallback mCaptureSwitchCallback;
-    public interface OnCaptureSwitchCallback{
-        void onSwitch(boolean isOn);
-    }
 
-    public SettingAdapter(Context context,OnCaptureSwitchCallback captureSwitchCallback) {
+    public SettingAdapter(Context context) {
         mContext = context;
-        mCaptureSwitchCallback = captureSwitchCallback;
         SettingItem item = new SettingItem();
         item.name= context.getString(R.string.open_draw_tools);
         item.isSelect = true;
         mSettingList.add(item);
         isFloatOpened = PreferenceConnector.readBoolean(context,PreferenceConnector.KEY_FLOAT_OPENED,false);
-        SettingItem itemCapture = new SettingItem();
-        itemCapture.name = context.getString(R.string.open_capture);
-        itemCapture.isSelect = false;
-        mSettingList.add(itemCapture);
-        isCaptureOpened = PreferenceConnector.readBoolean(context,PreferenceConnector.KEY_CAPTURE_OPENED,false);
-    }
-
-    public void setCaptureOpened(boolean isCaptureOpened) {
-        this.isCaptureOpened = isCaptureOpened;
     }
 
     @Override
@@ -84,16 +69,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
                         PreferenceConnector.writeBoolean(context, PreferenceConnector.KEY_FLOAT_OPENED, false);
                     }
 
-                }
-            });
-        } else if (position == 1) {
-            holder.switchView.setOn(isCaptureOpened);
-            holder.switchView.setOnSwitchStateChangeListener(new ShSwitchView.OnSwitchStateChangeListener() {
-                @Override
-                public void onSwitchStateChange(boolean isOn) {
-                    if (mCaptureSwitchCallback != null) {
-                        mCaptureSwitchCallback.onSwitch(isOn);
-                    }
                 }
             });
         }

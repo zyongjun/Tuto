@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.windhike.fastcoding" >
     <application>
-        <activity android:name="com.windhike.fastcoding.CommonFragmentActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.windhike.fastcoding.CommonFragmentActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:theme="@style/Anim_fade"
+            android:name=".FadeFragmentActivity"/>
     </application>
 </manifest>

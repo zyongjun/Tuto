@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+
+import com.windhike.fastcoding.BaseApplication;
 import com.windhike.fastcoding.CommonFragmentActivity;
 import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
 import com.zyongjun.easytouch.screenshot.OldScreenShotUtilImpl;
@@ -72,7 +74,6 @@ public class DrawMenuService extends Service{
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e(TAG, "onClick: ==========outside ==" );
                     switchToIconMode();
                 }
             };
@@ -80,7 +81,6 @@ public class DrawMenuService extends Service{
 
         @Override
         public void switchToIconMode() {
-            Log.e(TAG, "switchToIconMode: ====================" );
             mColorHolder.onDestory();
             mMenuHolder.onDestory();
             mIconHolder.initView();
@@ -88,7 +88,6 @@ public class DrawMenuService extends Service{
 
         @Override
         public void onCaptureRequest() {
-            Log.e(TAG, "onCaptureRequest: ====================" );
             mIconHolder.onDestory();
             mColorHolder.onDestory();
             mMenuHolder.onDestory();
@@ -97,7 +96,13 @@ public class DrawMenuService extends Service{
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
                 bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,false);
-                CommonFragmentActivity.start(context, "com.windhike.tuto.fragment.TranslucentFragment", bundle);
+                if(!((BaseApplication)getApplication()).isForground) {
+                    CommonFragmentActivity.start(context, "com.windhike.tuto.fragment.TranslucentFragment",
+                            bundle, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                }else{
+                    CommonFragmentActivity.start(context, "com.windhike.tuto.fragment.TranslucentFragment",
+                            bundle);
+                }
             }else{
                 if(mScreenShot == null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -116,7 +121,6 @@ public class DrawMenuService extends Service{
         public void onReceive(Context context, final Intent intent) {
             final String action = intent.getAction();
             if (FloatSettingView.ACTION_CAPTURE_FINISHED.equals(action)) {
-                Log.e(TAG, "onReceive: ==========switch receiver" );
                 mMenuSwitchHolderCallback.switchToIconMode();
             }
         }

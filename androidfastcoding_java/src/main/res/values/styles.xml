@@ -1,14 +1,12 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="TranslucentTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+    <style name="Anim_fade" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/fade</item>
     </style>
 
+    <style name="fade" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
 </resources>

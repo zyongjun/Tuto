@@ -38,12 +38,15 @@ public class BaseFragmentActivity extends AppCompatActivity{
     @Override
     public void onResume() {
         super.onResume();
+        ((BaseApplication)getApplication()).setForground(true);
         MobclickAgent.onResume(this);       //统计时长
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        ((BaseApplication)getApplication()).setForground(false);
         MobclickAgent.onPause(this);
     }
+
 }

@@ -2,14 +2,16 @@ package com.zyongjun.easytouch.screenshot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.widget.Toast;
-import com.windhike.fastcoding.CommonFragmentActivity;
-import com.zyongjun.easytouch.view.FloatSettingView;
 
+import com.windhike.fastcoding.BaseApplication;
+import com.windhike.fastcoding.CommonFragmentActivity;
+import com.windhike.fastcoding.FadeFragmentActivity;
+import com.zyongjun.easytouch.view.FloatSettingView;
 import rx.Observer;
 
 /**
@@ -45,16 +47,24 @@ public abstract class ScreenShotUtil {
 
             @Override
             public void onNext(String path) {
-                Log.e(TAG, "onNext:============= "+path);
                 if("".equals(path)){
                     startScreenshot();
                 }else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        NewScreenShotUtilImpl.setData(null);
+                    }
                     mManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
                     Bundle bundle = new Bundle();
                     bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_TRANSLUCENT,true);
                     bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);
                     bundle.putString("KEY_ANNOTATION_DRAW_NEW_PATH", path);
-                    CommonFragmentActivity.start(context, "com.windhike.tuto.fragment.AnnotationFragment", bundle);
+//                    if(((BaseApplication)context.getApplicationContext()).isForground()){
+                        FadeFragmentActivity.start(context, "com.windhike.tuto.fragment.AnnotationFragment",
+                                bundle);
+//                    }else {
+//                        FadeFragmentActivity.start(context, "com.windhike.tuto.fragment.AnnotationFragment",
+//                                bundle, Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    }
                 }
             }
         };
