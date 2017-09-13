@@ -45,6 +45,9 @@ public class ManagerImageObject
         Parcel p = Parcel.obtain();
         try {
             File file = context.getFileStreamPath(new StringBuilder(String.valueOf(projectName)).append(Configs.TYPE_FORMAT_PROJECT_NAME).toString());
+            if (!file.exists()) {
+                return null;
+            }
             FileInputStream fis = new FileInputStream(file);
             byte[] data = new byte[((int) file.length())];
             fis.read(data);
@@ -54,7 +57,6 @@ public class ManagerImageObject
             p.setDataPosition(0);
             return (ManagerImageObject) CREATOR.createFromParcel(p);
         } catch (Exception e) {
-            Log.e(TAG, "readFromFile: ==================error===============" +e.getMessage());
             e.printStackTrace();
             return null;
         }

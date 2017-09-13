@@ -72,7 +72,7 @@ public class MainPageFragment extends BaseFragment {
         String cancel = "取消";
         String appName = getString(R.string.app_name);
         StringBuilder sb = new StringBuilder(String.format("在设置-应用-%s-权限中开启",appName));
-        sb.append("允许绘制工具出现在其他应用上");
+        sb.append("允许出现在其他应用上或显示悬浮窗");
         sb.append(",以正常使用本应用");
         PromptManager.getInstance(getActivity()).showDialog(title, sb.toString(), cancel, confirm, new PromptManager.OnClickBtnCallback() {
             @Override
