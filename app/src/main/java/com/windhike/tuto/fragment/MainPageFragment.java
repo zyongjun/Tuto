@@ -1,7 +1,10 @@
 package com.windhike.tuto.fragment;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -11,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import com.windhike.annotation.model.PreferenceConnector;
@@ -18,8 +22,11 @@ import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
 import com.windhike.fastcoding.widget.PromptManager;
+import com.windhike.tuto.WelcomeActivity;
 import com.windhike.tuto.view.FloatButton;
 import com.zyongjun.easytouch.service.DrawMenuService;
+import com.zyongjun.easytouch.view.FloatSettingView;
+
 import butterknife.BindView;
 
 /**
@@ -35,6 +42,7 @@ public class MainPageFragment extends BaseFragment {
     @BindView(R.id.fbSetting)
     FloatButton fbSetting;
     private PictureAdapter mAdapter;
+    private LocalBroadcastManager mLocalBroadcastManager;
 
     @Override
     public int getLayouId() {
@@ -44,6 +52,10 @@ public class MainPageFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(FloatSettingView.ACTION_LAUCH);
+        mLocalBroadcastManager.registerReceiver(mReceiver,filter);
         mAdapter = new PictureAdapter(getChildFragmentManager());
         viewpager.setAdapter(mAdapter);
         tabs.setupWithViewPager(viewpager);
@@ -125,5 +137,23 @@ public class MainPageFragment extends BaseFragment {
         public CharSequence getPageTitle(int position) {
             return titles[position];
         }
+    }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (FloatSettingView.ACTION_LAUCH.equals(action)) {
+                Intent intentStart = new Intent(getActivity(), WelcomeActivity.class);
+                intentStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentStart);
+            }
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        mLocalBroadcastManager.unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 }

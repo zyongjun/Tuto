@@ -131,13 +131,15 @@ public class AnnotationFragment extends BaseFragment {
                     } else if (action.equals(FloatSettingView.ACTION_SAVE_ANNOTAION)) {
                         saveImageReport();
                     } else if (action.equals(FloatSettingView.ACTION_SHARE_ANNOTATION)) {
-                        if(!getActivity().isDestroyed()) {
+                        if(!getActivity().isFinishing()) {
                             shareAnnotation();
                         }
                     } else if (action.equals(FloatSettingView.ACTION_CLOSE_DRAWING_PAGE)) {
-                        if (!getActivity().isDestroyed()) {
+                        if (!getActivity().isFinishing()) {
                             getActivity().finish();
                         }
+                    } else if (action.equals(FloatSettingView.ACTION_EDIT_TEXT_MODE)) {
+
                     }
                 }
             });
@@ -259,6 +261,7 @@ public class AnnotationFragment extends BaseFragment {
         filter.addAction(FloatSettingView.ACTION_SHARE_ANNOTATION);
         filter.addAction(FloatSettingView.ACTION_SAVE_ANNOTAION);
         filter.addAction(FloatSettingView.ACTION_CLOSE_DRAWING_PAGE);
+        filter.addAction(FloatSettingView.ACTION_EDIT_TEXT_MODE);
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
         initProject();
         drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

@@ -47,6 +47,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     TextView tvShare;
     ImageView tvSave;
     private TextView vOpenOrClose;
+    private TextView vHome;
 
     public FloatSettingView(@NonNull Context context) {
         super(context);
@@ -82,7 +83,7 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         vSquare = (TextView) mRootView.findViewById(R.id.vSquare);
         vSquare.setOnClickListener(this);
         vText = (TextView) mRootView.findViewById(R.id.vText);
-//        vText.setOnClickListener(this);
+        vText.setOnClickListener(this);
         vEraser = ((TextView) mRootView.findViewById(R.id.vEraser));
         vEraser.setOnClickListener(this);
         vMask = (TextView) mRootView.findViewById(R.id.vMask);
@@ -130,6 +131,16 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
 
             }
         });
+        vHome = (TextView)mRootView.findViewById(R.id.vHome);
+        vHome.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSettingCallback != null) {
+                    mSettingCallback.switchToIconMode();
+                }
+                lauch();
+            }
+        });
         TypedArray attr = getResources().obtainTypedArray(R.array.draw_bgres);
         int size = attr.length();
         colorDrawableArray = new int[size];
@@ -141,7 +152,6 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
         addView(mRootView, rootParams);
     }
 
-    private static final String TAG = "FloatSettingView";
     private int[] colorDrawableArray;
 
     private void initColorState() {
@@ -185,6 +195,9 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
     public static final String ACTION_CLOSE_DRAWING_PAGE = "ACTION_CLOSE_DRAWING_PAGE";
     public static final String ACTION_CLOSE_APPUI_PAGE = "ACTION_CLOSE_APPUI_PAGE";
     public static final String ACTION_CAPTURE_FINISHED = "ACTION_CAPTURE_FINISHED";
+    public static final String ACTION_LAUCH = "ACTION_LAUCH";
+    public static final String ACTION_EDIT_TEXT_MODE = "ACTION_EDIT_TEXT_MODE";
+
 
     @IntDef({SHAPE_FREE_HAND, SHAPE_ARROW, SHAPE_SQUARE, SHAPE_CIRCLE, SHAPE_MASK, SHAPE_ERASER})
     @Retention(RetentionPolicy.SOURCE)
@@ -207,6 +220,16 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
             e.printStackTrace();
         }
 
+    }
+
+    public void onEditTextMode() {
+        Intent intent = new Intent(ACTION_EDIT_TEXT_MODE);
+        mBroadcastmanager.sendBroadcast(intent);
+    }
+
+    public void lauch() {
+        Intent intent = new Intent(ACTION_LAUCH);
+        mBroadcastmanager.sendBroadcast(intent);
     }
 
     public void closeDrawingPage() {
@@ -296,6 +319,9 @@ public class FloatSettingView extends RelativeLayout implements View.OnClickList
             mDrawingShape = 4;
         } else if (id == R.id.vEraser) {
             mDrawingShape = 7;
+        } else if (id == R.id.vText) {
+            onEditTextMode();
+            return;
         }
         switchZoomMode(false);
         onShapeChanged(mDrawingShape);
