@@ -38,12 +38,12 @@
             <!--android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />-->
         <!--<activity android:name=".AnnotationPreviewActivity" />-->
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5966e53caed1793fed000288" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="test" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="5966e53caed1793fed000288" />-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="test" />-->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

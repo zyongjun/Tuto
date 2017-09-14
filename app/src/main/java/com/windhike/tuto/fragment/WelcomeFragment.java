@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +74,9 @@ public class WelcomeFragment extends BasePermissionFragment implements SplashADL
     protected void onGranted() {
         super.onGranted();
         //,Manifest.permission.SYSTEM_ALERT_WINDOW 不弹窗
-        mHandler.postDelayed(mSplashRunnable,3000);
-//        fetchSplashAD(getActivity(), splash_container, skipView, BuildConfig.ad_appid, BuildConfig.ad_splashposid, this, 0);
+//        mHandler.postDelayed(mSplashRunnable,30000);
+        Log.e(TAG, "onGranted: ============" );
+        fetchSplashAD(getActivity(), splash_container, skipView, BuildConfig.ad_appid, BuildConfig.ad_splashposid, this, 0);
     }
 
     private void fetchSplashAD(Activity activity, ViewGroup adContainer, View skipContainer,
@@ -91,45 +93,38 @@ public class WelcomeFragment extends BasePermissionFragment implements SplashADL
     };
 
     private void next() {
-//        if (canJump) {
-//            onNoAD(0);
-//        } else {
-//            canJump = true;
-//        }
+        if (canJump) {
+            onNoAD(0);
+        } else {
+            canJump = true;
+        }
     }
 
-    /** 开屏页一定要禁止用户对返回按钮的控制，否则将可能导致用户手动退出了App而广告无法正常曝光和计费 */
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) {
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (canJump) {
-//            next();
-//        }
-//        canJump = true;
-//    }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        canJump = false;
-//    }
-
-    public Observable<Intent> lauchTask() {
-        return Observable.create(new Observable.OnSubscribe<Intent>() {
-            @Override
-            public void call(Subscriber<? super Intent> subscriber) {
-
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: ============"+canJump );
+        if (canJump) {
+            next();
+        }
+        canJump = true;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        canJump = false;
+    }
+
+//    public Observable<Intent> lauchTask() {
+//        return Observable.create(new Observable.OnSubscribe<Intent>() {
+//            @Override
+//            public void call(Subscriber<? super Intent> subscriber) {
+//
+//            }
+//        });
+//    }
 
     @Override
     public void onDestroy() {
@@ -139,34 +134,35 @@ public class WelcomeFragment extends BasePermissionFragment implements SplashADL
 
     @Override
     public void onADDismissed() {
+        Log.e(TAG, "onADDismissed: ========" );
         next();
     }
 
+    private static final String TAG = "WelcomeFragment";
     @Override
     public void onNoAD(int i) {
+        Log.e(TAG, "onNoAD: ========================"+i );
         CommonFragmentActivity.start(getActivity(),MainPageFragment.class.getName(),null);
         getActivity().finish();
     }
 
     @Override
     public void onADPresent() {
+        Log.e(TAG, "onADPresent: ================" );
         splashHolder.setVisibility(View.INVISIBLE); // 广告展示后一定要把预设的开屏图片隐藏起来
     }
 
     @Override
     public void onADClicked() {
-
+        Log.e(TAG, "onADClicked: ================" );
     }
 
     private static final String SKIP_TEXT = "点击跳过 %d";
     public boolean canJump;
     @Override
     public void onADTick(long millisUntilFinished) {
+        Log.e(TAG, "onADTick: =================");
         skipView.setText(String.format(SKIP_TEXT, Math.round(millisUntilFinished / 1000f)));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 }
