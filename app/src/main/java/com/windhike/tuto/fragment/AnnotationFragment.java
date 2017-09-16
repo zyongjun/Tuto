@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -267,15 +266,6 @@ public class AnnotationFragment extends BaseFragment {
         filter.addAction(FloatSettingView.ACTION_CLOSE_DRAWING_PAGE);
         filter.addAction(FloatSettingView.ACTION_EDIT_TEXT_MODE);
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
-//        initProject();
-//        drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                drawingContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//                loadDrawObject();
-//                initProject();
-//            }
-//        });
     }
 
     @Override
@@ -309,8 +299,8 @@ public class AnnotationFragment extends BaseFragment {
                     drawingView.clearAllRootShape();
                 }
                 drawingView.changeDrawingObjectPosition();
+                drawingView.postInvalidate();
                 switchToZoomMode(true);
-                drawingView.invalidate();
             }
         } else {
             Toast.makeText(TutoApplication.getInstance(), "加载失败", Toast.LENGTH_SHORT).show();
@@ -337,9 +327,7 @@ public class AnnotationFragment extends BaseFragment {
         if (this.mManagerImageObject == null) {
             mManagerImageObject = new ManagerImageObject();
         }
-//        if (mNewDrawPath != null) {
-            copyImageFormPath(mNewDrawPath);
-//        }
+        copyImageFormPath(mNewDrawPath);
 
     }
 
@@ -382,11 +370,11 @@ public class AnnotationFragment extends BaseFragment {
                                 bitMapSource.recycle();
                                 bitMapSourceSave.recycle();
                             }
-//                            return filedest.getAbsolutePath();
+                            return filedest.getAbsolutePath();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        return filedest.getAbsolutePath();
+                        return null;
                     }
                 }).compose(SchedulersTransFormer.<String>applyExecutorSchedulers())
                 .subscribe(new Observer<String>() {
@@ -402,7 +390,7 @@ public class AnnotationFragment extends BaseFragment {
 
                     @Override
                     public void onNext(String path) {
-                        if(TextUtils.isEmpty(path)) {
+                        if(!TextUtils.isEmpty(path)) {
                             imageDraw.setOriginalImagePath(path);
                             mManagerImageObject.getListChooseDrawObject().add(imageDraw);
                         }
