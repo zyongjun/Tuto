@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +61,8 @@ public class AnnotationFragment extends BaseFragment {
     TextView tvScale;
     @BindView(R.id.activity_annotation_edit)
     RelativeLayout activityAnnotationEdit;
+    @BindView(R.id.etEditTmp)
+    EditText etEditTmp;
     private ManagerImageObject mManagerImageObject;
     private int mDrawObjectIndex;
     private String mNewDrawPath;
@@ -80,7 +84,6 @@ public class AnnotationFragment extends BaseFragment {
         bundle.putBoolean(CommonFragmentActivity.BUNDLE_KEY_FULLSCREEN,true);
         CommonFragmentActivity.start(context, AnnotationFragment.class.getName(), bundle);
     }
-    public static final String KEY_ANNOTAION_IS_DRAWING = "KEY_ANNOTAION_IS_DRAWING";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,7 +142,8 @@ public class AnnotationFragment extends BaseFragment {
                             getActivity().finish();
                         }
                     } else if (action.equals(FloatSettingView.ACTION_EDIT_TEXT_MODE)) {
-
+                        drawingView.setEditTextMode(true);
+                        switchToZoomMode(false);
                     }
                 }
             });
@@ -263,14 +267,21 @@ public class AnnotationFragment extends BaseFragment {
         filter.addAction(FloatSettingView.ACTION_CLOSE_DRAWING_PAGE);
         filter.addAction(FloatSettingView.ACTION_EDIT_TEXT_MODE);
         mLocalBroadcastManager.registerReceiver(mReceiver, filter);
+//        initProject();
+//        drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                drawingContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                loadDrawObject();
+//                initProject();
+//            }
+//        });
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initProject();
-        drawingContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                drawingContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                loadDrawObject();
-            }
-        });
     }
 
     public void loadDrawObject() {
@@ -287,6 +298,7 @@ public class AnnotationFragment extends BaseFragment {
                         UIUtil.DeviceInfo.getDeviceWidth(),
                         UIUtil.DeviceInfo.getDeviceHeight());
                 drawingView.setEdit(true);
+                drawingView.setEditText(etEditTmp);
                 drawingView.setListener(updateListener);
                 drawingView.setwMainView(UIUtil.DeviceInfo.getDeviceWidth());
                 drawingView.sethMainView(UIUtil.DeviceInfo.getDeviceHeight());
@@ -298,6 +310,7 @@ public class AnnotationFragment extends BaseFragment {
                 }
                 drawingView.changeDrawingObjectPosition();
                 switchToZoomMode(true);
+                drawingView.invalidate();
             }
         } else {
             Toast.makeText(TutoApplication.getInstance(), "加载失败", Toast.LENGTH_SHORT).show();
@@ -324,51 +337,83 @@ public class AnnotationFragment extends BaseFragment {
         if (this.mManagerImageObject == null) {
             mManagerImageObject = new ManagerImageObject();
         }
-        if (mNewDrawPath != null) {
+//        if (mNewDrawPath != null) {
             copyImageFormPath(mNewDrawPath);
-        }
-        if (mDrawObjectIndex == -1) {
-            mDrawObjectIndex = mManagerImageObject.getListChooseDrawObject().size() - 1;
-        }
+//        }
+
     }
 
     public void copyImageFormPath(String picturePath) {
-        String mUUID_PicturePath = new StringBuilder(String.valueOf(picturePath)).append(UUID.randomUUID().toString()).toString();
-        ImageDrawObject imageDraw = new ImageDrawObject();
-        imageDraw.setOriginalImageGalleryPath(mUUID_PicturePath);
-        Utilities.createFolderProject(getProjectName());
-        File fileSource = new File(picturePath);
-        String imagePathSDCard = Utilities.getImageDrawFileNamePath(getProjectName(), new StringBuilder(String.valueOf(mUUID_PicturePath)).append(Configs.FLAG_ORIGINAL_FILE_NAME).toString());
-        File filedest = new File(imagePathSDCard);
-        try {
-            if (filedest.exists()) {
-                filedest.delete();
-            }
-            int angle = Utilities.checkDeviceAutoRotateBitmap(picturePath);
-            Bitmap bitMapSource;
-            if (angle > 0) {
-                bitMapSource = Utilities.decodeFile(true, fileSource);
-                Bitmap bitMapRotate = Utilities.RotateBitmap(bitMapSource, (float) angle);
-                Bitmap bitMapRotateSave = Utilities.scaleToActualAspectRatio(bitMapRotate,
-                        UIUtil.DeviceInfo.getDeviceWidth(), UIUtil.DeviceInfo.getDeviceHeight());
-                Utilities.saveToSdcardPNG(filedest, bitMapRotateSave);
-                bitMapRotate.recycle();
-                bitMapSource.recycle();
-                bitMapRotateSave.recycle();
-            } else {
-                bitMapSource = Utilities.decodeFile(true, fileSource);
-                Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bitMapSource,
-                        UIUtil.DeviceInfo.getDeviceScreenWidth(),
-                        UIUtil.DeviceInfo.getDeviceHeight());
-                Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
-                bitMapSource.recycle();
-                bitMapSourceSave.recycle();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        imageDraw.setOriginalImagePath(filedest.getAbsolutePath());
-        mManagerImageObject.getListChooseDrawObject().add(imageDraw);
+        final ImageDrawObject imageDraw = new ImageDrawObject();
+        Observable.just(picturePath)
+                .map(new Func1<String, String>() {
+                    @Override
+                    public String call(String path) {
+                        if (TextUtils.isEmpty(path)) {
+                            return "";
+                        }
+                        String mUUID_PicturePath = new StringBuilder(String.valueOf(path)).append(UUID.randomUUID().toString()).toString();
+                        imageDraw.setOriginalImageGalleryPath(mUUID_PicturePath);
+                        Utilities.createFolderProject(getProjectName());
+                        File fileSource = new File(path);
+                        String imagePathSDCard = Utilities.getImageDrawFileNamePath(getProjectName(), new StringBuilder(String.valueOf(mUUID_PicturePath)).append(Configs.FLAG_ORIGINAL_FILE_NAME).toString());
+                        File filedest = new File(imagePathSDCard);
+                        try {
+                            if (filedest.exists()) {
+                                filedest.delete();
+                            }
+                            int angle = Utilities.checkDeviceAutoRotateBitmap(path);
+                            Bitmap bitMapSource;
+                            if (angle > 0) {
+                                bitMapSource = Utilities.decodeFile(true, fileSource);
+                                Bitmap bitMapRotate = Utilities.RotateBitmap(bitMapSource, (float) angle);
+                                Bitmap bitMapRotateSave = Utilities.scaleToActualAspectRatio(bitMapRotate,
+                                        UIUtil.DeviceInfo.getDeviceWidth(), UIUtil.DeviceInfo.getDeviceHeight());
+                                Utilities.saveToSdcardPNG(filedest, bitMapRotateSave);
+                                bitMapRotate.recycle();
+                                bitMapSource.recycle();
+                                bitMapRotateSave.recycle();
+                            } else {
+                                bitMapSource = Utilities.decodeFile(true, fileSource);
+                                Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bitMapSource,
+                                        UIUtil.DeviceInfo.getDeviceScreenWidth(),
+                                        UIUtil.DeviceInfo.getDeviceHeight());
+                                Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
+                                bitMapSource.recycle();
+                                bitMapSourceSave.recycle();
+                            }
+//                            return filedest.getAbsolutePath();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return filedest.getAbsolutePath();
+                    }
+                }).compose(SchedulersTransFormer.<String>applyExecutorSchedulers())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onBackPressed();
+                    }
+
+                    @Override
+                    public void onNext(String path) {
+                        if(TextUtils.isEmpty(path)) {
+                            imageDraw.setOriginalImagePath(path);
+                            mManagerImageObject.getListChooseDrawObject().add(imageDraw);
+                        }
+                        if (mDrawObjectIndex == -1) {
+                            mDrawObjectIndex = mManagerImageObject.getListChooseDrawObject().size() - 1;
+                        }
+                        loadDrawObject();
+                    }
+                });
+
+
     }
 
 

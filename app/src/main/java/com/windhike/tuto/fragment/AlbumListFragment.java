@@ -1,7 +1,9 @@
 package com.windhike.tuto.fragment;
 
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,8 +40,17 @@ public class AlbumListFragment extends BaseFragment {
         recycerView.setLayoutManager(manager);
         mAdapter = new AlbumAdapter();
         recycerView.setAdapter(mAdapter);
+        getActivity().getContentResolver().registerContentObserver(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,observer);
         loadData();
     }
+
+    private ContentObserver observer = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            loadData();
+        }
+    };
 
     public void loadData() {
         Observable.create(new Observable.OnSubscribe<List<SaveSelectState>>() {
@@ -66,6 +77,12 @@ public class AlbumListFragment extends BaseFragment {
                 mAdapter.updateData(saveSelectStates);
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().getContentResolver().unregisterContentObserver(observer);
+        super.onDestroyView();
     }
 
     private static final String TAG = "AlbumListFragment";

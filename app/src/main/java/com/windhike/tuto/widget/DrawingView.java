@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.ViewConfiguration;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.windhike.annotation.common.DrawUtils;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
@@ -50,6 +51,8 @@ import com.windhike.annotation.view.FreeStyleObject;
 import com.windhike.annotation.view.RecordObject;
 import com.windhike.annotation.view.RectangleObject;
 import com.windhike.annotation.view.TextObject;
+import com.windhike.fastcoding.util.InputWindowUtil;
+import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.R;
 
 import java.util.ArrayList;
@@ -1718,38 +1721,38 @@ public class DrawingView extends RelativeLayout {
         return new float[]{x / 2.0f, y / 2.0f};
     }
 
-    public boolean clickRecord() {
-        if (isTouchOnShape) {
-            if (mCurrentShape.mType == 8) {
-                final RecordObject record = (RecordObject) mCurrentShape;
-                if (record.state == 0) {
-                    record.state = 1;
-                    AudioQuietPlayManager.getInstance().startPlay(AnnotationInitialize.getInstance().getContext(), record.getAudioPath(), new IAudioPlayListener() {
-                        @Override
-                        public void onStart(Uri uri) {
-                        }
-
-                        @Override
-                        public void onStop(Uri uri) {
-                        }
-
-                        @Override
-                        public void onComplete(Uri uri) {
-                            record.state = 0;
-                            postInvalidate();
-                        }
-                    });
-                } else if (record.state == 1) {
-                    record.state = 0;
-                    AudioPlayManager.getInstance().stopPlay();
-                } else {
-                    deleteCurrentShape();
-                }
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean clickRecord() {
+//        if (isTouchOnShape) {
+//            if (mCurrentShape.mType == 8) {
+//                final RecordObject record = (RecordObject) mCurrentShape;
+//                if (record.state == 0) {
+//                    record.state = 1;
+//                    AudioQuietPlayManager.getInstance().startPlay(AnnotationInitialize.getInstance().getContext(), record.getAudioPath(), new IAudioPlayListener() {
+//                        @Override
+//                        public void onStart(Uri uri) {
+//                        }
+//
+//                        @Override
+//                        public void onStop(Uri uri) {
+//                        }
+//
+//                        @Override
+//                        public void onComplete(Uri uri) {
+//                            record.state = 0;
+//                            postInvalidate();
+//                        }
+//                    });
+//                } else if (record.state == 1) {
+//                    record.state = 0;
+//                    AudioPlayManager.getInstance().stopPlay();
+//                } else {
+//                    deleteCurrentShape();
+//                }
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
     float mStartX, mStartY;
     float mUpX,mUpY;
     @Override
@@ -1775,7 +1778,16 @@ public class DrawingView extends RelativeLayout {
                     mUpX = event.getX();
                     mUpY = event.getY();
                     if (Math.abs(mUpX - mStartX) < slop && Math.abs(mUpY - mStartY) < slop) {
-                        if (clickRecord()) {
+//                        if (clickRecord()) {
+//                            break;
+//                        }
+
+                        if (isEditTextMode) {
+                            editText.setX(mUpX);
+                            editText.setY(mUpY);
+                            editText.setVisibility(VISIBLE);
+                            editText.requestFocus();
+                            InputWindowUtil.forceShowInputWindow(getContext(),editText);
                             break;
                         }
                     }
@@ -2048,6 +2060,23 @@ public class DrawingView extends RelativeLayout {
 
     public void setEdit(boolean isEdit) {
         this.isEdit = isEdit;
+        isEditTextMode = false;
+    }
+
+    private boolean isEditTextMode;
+    private EditText editText;
+    public void setEditTextMode(boolean isEditTextMode) {
+        if (this.isEditTextMode == isEditTextMode) {
+            return;
+        }
+        if(isEditTextMode) {
+            isEdit = true;
+        }
+        this.isEditTextMode = isEditTextMode;
+    }
+
+    public void setEditText(EditText editText) {
+        this.editText = editText;
     }
 
     public int getxMainBitmap() {

@@ -26,6 +26,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<ImageHolder>{
     }
 
     public void updateData(List<SaveSelectState> photos){
+        mPhotoList.clear();
         mPhotoList.addAll(photos);
         notifyDataSetChanged();
     }
