@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.util.TimingLogger;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -301,6 +303,8 @@ public class AnnotationFragment extends BaseFragment {
                 drawingView.changeDrawingObjectPosition();
                 drawingView.postInvalidate();
                 switchToZoomMode(true);
+                loger.addSplit("end load draw obj");
+                loger.dumpToLog();
             }
         } else {
             Toast.makeText(TutoApplication.getInstance(), "加载失败", Toast.LENGTH_SHORT).show();
@@ -321,37 +325,47 @@ public class AnnotationFragment extends BaseFragment {
     public String getProjectName() {
         return Configs.ANNOTATION_IBOS;
     }
-
+    private TimingLogger loger = new TimingLogger("debug","initProject");
     public void initProject() {
+        loger.addSplit("start");
         this.mManagerImageObject = ManagerImageObject.readFromFile(getContext(), Utilities.encryptFileName(getProjectName()));
         if (this.mManagerImageObject == null) {
             mManagerImageObject = new ManagerImageObject();
         }
-        copyImageFormPath(mNewDrawPath);
-
+        loger.addSplit("-----init managerImageobj");
+        ImageDrawObject imageDraw = new ImageDrawObject();
+        if(!TextUtils.isEmpty(mNewDrawPath)) {
+            imageDraw.setOriginalImagePath(mNewDrawPath);
+            mManagerImageObject.getListChooseDrawObject().add(imageDraw);
+        }
+        if (mDrawObjectIndex == -1) {
+            mDrawObjectIndex = mManagerImageObject.getListChooseDrawObject().size() - 1;
+        }
+        loger.addSplit("start load drawobj");
+        loadDrawObject();
+        if(mNewDrawPath!=null) {
+            copyImageFormPath(imageDraw);
+        }
     }
 
-    public void copyImageFormPath(String picturePath) {
-        final ImageDrawObject imageDraw = new ImageDrawObject();
-        Observable.just(picturePath)
-                .map(new Func1<String, String>() {
+    public void copyImageFormPath(ImageDrawObject imageDrawObject) {
+        Observable.just(imageDrawObject)
+                .map(new Func1<ImageDrawObject, String>() {
                     @Override
-                    public String call(String path) {
-                        if (TextUtils.isEmpty(path)) {
-                            return "";
-                        }
-                        String mUUID_PicturePath = new StringBuilder(String.valueOf(path)).append(UUID.randomUUID().toString()).toString();
-                        imageDraw.setOriginalImageGalleryPath(mUUID_PicturePath);
+                    public String call(ImageDrawObject imageDrawObject) {
+                        String mUUID_PicturePath = new StringBuilder(String.valueOf(mNewDrawPath)).append(UUID.randomUUID().toString()).toString();
+                        imageDrawObject.setOriginalImageGalleryPath(mUUID_PicturePath);
                         Utilities.createFolderProject(getProjectName());
-                        File fileSource = new File(path);
+                        File fileSource = new File(mNewDrawPath);
                         String imagePathSDCard = Utilities.getImageDrawFileNamePath(getProjectName(), new StringBuilder(String.valueOf(mUUID_PicturePath)).append(Configs.FLAG_ORIGINAL_FILE_NAME).toString());
                         File filedest = new File(imagePathSDCard);
                         try {
                             if (filedest.exists()) {
                                 filedest.delete();
                             }
-                            int angle = Utilities.checkDeviceAutoRotateBitmap(path);
+                            int angle = Utilities.checkDeviceAutoRotateBitmap(mNewDrawPath);
                             Bitmap bitMapSource;
+
                             if (angle > 0) {
                                 bitMapSource = Utilities.decodeFile(true, fileSource);
                                 Bitmap bitMapRotate = Utilities.RotateBitmap(bitMapSource, (float) angle);
@@ -362,14 +376,18 @@ public class AnnotationFragment extends BaseFragment {
                                 bitMapSource.recycle();
                                 bitMapRotateSave.recycle();
                             } else {
+                                loger.addSplit("start copy 1");
                                 bitMapSource = Utilities.decodeFile(true, fileSource);
                                 Bitmap bitMapSourceSave = Utilities.scaleToActualAspectRatio(bitMapSource,
                                         UIUtil.DeviceInfo.getDeviceScreenWidth(),
                                         UIUtil.DeviceInfo.getDeviceHeight());
+                                loger.addSplit("start copy 2");
                                 Utilities.saveToSdcardPNG(filedest, bitMapSourceSave);
+                                loger.addSplit("start copy 3");
                                 bitMapSource.recycle();
                                 bitMapSourceSave.recycle();
                             }
+                            loger.addSplit("end copy");
                             return filedest.getAbsolutePath();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -377,29 +395,23 @@ public class AnnotationFragment extends BaseFragment {
                         return null;
                     }
                 }).compose(SchedulersTransFormer.<String>applyExecutorSchedulers())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        onBackPressed();
-                    }
-
-                    @Override
-                    public void onNext(String path) {
-                        if(!TextUtils.isEmpty(path)) {
-                            imageDraw.setOriginalImagePath(path);
-                            mManagerImageObject.getListChooseDrawObject().add(imageDraw);
-                        }
-                        if (mDrawObjectIndex == -1) {
-                            mDrawObjectIndex = mManagerImageObject.getListChooseDrawObject().size() - 1;
-                        }
-                        loadDrawObject();
-                    }
-                });
+                .subscribe();
+//                .subscribe(new Observer<String>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        onBackPressed();
+//                    }
+//
+//                    @Override
+//                    public void onNext(String path) {
+//
+//                    }
+//                });
 
 
     }
