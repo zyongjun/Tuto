@@ -32,4 +32,5 @@
     <string name="toast_share_wx_update">请先更新微信应用</string>
     <string name="open_capture">打开截图功能</string>
     <string name="tip_empty_annotation">还没有批注，赶紧去绘制一个吧</string>
+    <string name="tips_save">记得点工具窗口保存按钮保存哦</string>
 </resources>
