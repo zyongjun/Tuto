@@ -44,6 +44,6 @@ https://stackoverflow.com/questions/41687810/android-6-0-unable-to-resume-activi
 3.优化批注渲染速度，秒开，原生共享动画
 4.批注支持删除
 5.浮窗工具增加Home按钮
-6.修复一些版本适配问题**
+6.修复一些版本适配问题
 
 

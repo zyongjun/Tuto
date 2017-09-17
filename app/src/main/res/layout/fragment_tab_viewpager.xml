@@ -30,12 +30,13 @@
         android:id="@+id/fbSetting"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@android:drawable/ic_menu_manage"
+        android:src="@mipmap/ic_setting"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        custom:bg_color="@color/colorPrimary"
-        android:tint="@android:color/white"
+        custom:bg_color="@color/green"
+        android:tint="@android:color/holo_red_light"
         />
+    <!--android:src="@android:drawable/ic_menu_manage"-->
 </RelativeLayout>

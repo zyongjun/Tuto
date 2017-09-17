@@ -87,7 +87,7 @@ public class AnnotationListFragment extends BaseFragment implements AnnotationAd
 
     @Override
     public int getLayouId() {
-        return R.layout.layout_recycler;
+        return R.layout.fragment_annotationlist;
     }
 
     @Override

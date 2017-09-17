@@ -11,6 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import com.windhike.tuto.R;
@@ -52,7 +53,11 @@ public class FloatButton extends AppCompatImageButton {
             StateListDrawable sld = new StateListDrawable();
             sld.addState(new int[] {android.R.attr.state_pressed}, createButton(bgColorPressed));
             sld.addState(new int[] {}, createButton(bgColor));
-            setBackground(sld);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(sld);
+            }else{
+                setBackgroundDrawable(sld);
+            }
         }
         catch(Throwable t) {}
         finally {
