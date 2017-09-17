@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Window;
@@ -42,6 +44,7 @@ public class CommonFragmentActivity extends BaseFragmentActivity {
             }
         }
         onLayoutCreateBefore(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(getLayoutId());
         Fragment fragment;
         if (intent != null&&intent.getStringExtra(BUNDLE_KEY_NAME)!=null) {
@@ -78,6 +81,22 @@ public class CommonFragmentActivity extends BaseFragmentActivity {
                 intent.addFlags(flags);
             }
             context.startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void startWithShare(Context context, String fname, @Nullable Bundle args, ActivityOptionsCompat optionsCompat){
+        try {
+            Intent intent = new Intent();
+            intent.setClass(context, CommonFragmentActivity.class);
+            intent.putExtra(BUNDLE_KEY_NAME, fname);
+            intent.putExtra(BUNDLE_KEY_ARGS, args);
+//            if(flags != -1){
+//                intent.addFlags(flags);
+//            }
+//            context.startActivity(intent);
+            ActivityCompat.startActivity(context, intent, optionsCompat.toBundle());
         }catch (Exception e){
             e.printStackTrace();
         }

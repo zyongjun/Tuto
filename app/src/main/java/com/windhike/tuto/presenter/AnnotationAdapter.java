@@ -1,14 +1,14 @@
 package com.windhike.tuto.presenter;
 
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.windhike.annotation.model.ImageDrawObject;
 import com.windhike.tuto.R;
-import com.windhike.tuto.fragment.AnnotationFragment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +17,24 @@ import java.util.List;
  * email:zhyongjun@windhike.cn
  */
 
-public class AnnotationAdapter extends RecyclerView.Adapter<ImageHolder>{
+public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.AnnotationHolder>{
     private List<ImageDrawObject> annotationList = new ArrayList<>();
-
+    private AnnotationCallback mDeleteCallback;
+    public AnnotationAdapter(AnnotationCallback annotationCallback) {
+        mDeleteCallback = annotationCallback;
+    }
+    public interface AnnotationCallback {
+        void deleteProject(int position);
+        void viewAnnotation(View imageView,int position);
+    }
     @Override
-    public ImageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ImageHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_album_item,parent,false));
+    public AnnotationHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new AnnotationHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_annotation_item,parent,false));
+    }
+
+    public void remove(int position) {
+        annotationList.remove(position);
+        notifyDataSetChanged();
     }
 
     public void updateData(List<ImageDrawObject> annotationList) {
@@ -34,18 +46,26 @@ public class AnnotationAdapter extends RecyclerView.Adapter<ImageHolder>{
     }
 
     private static final String TAG = "AnnotationAdapter";
+    private static final String PATTERN_ANNOTATION_SHARENAME = "position_%d";
     @Override
-    public void onBindViewHolder(ImageHolder holder, int position) {
+    public void onBindViewHolder(AnnotationHolder holder, int position) {
         ImageDrawObject drawObject = annotationList.get(position);
-//        ivRecord.setImageBitmap(BitmapFactory.decodeFile(drawObject.getEditImagePath()));
-        Log.e(TAG, "onBindViewHolder: "+drawObject.getEditImagePath());
+//        Log.e(TAG, "onBindViewHolder: "+drawObject.getEditImagePath());
         Glide.with(holder.itemView.getContext()).load(drawObject.getEditImagePath()).into(holder.icon);
-        holder.itemView.setTag(R.id.position_id,position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        ViewCompat.setTransitionName(holder.icon, String.format(PATTERN_ANNOTATION_SHARENAME, position));
+        holder.icon.setTag(R.id.position_id,position);
+        holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                v.getContext().startActivity(AnnotationProjectEditActivity.startExist(v.getContext(), (Integer) v.getTag(R.id.position_id)));
-                AnnotationFragment.startExist(v.getContext(),(Integer) v.getTag(R.id.position_id));
+                mDeleteCallback.viewAnnotation(v,(Integer) v.getTag(R.id.position_id));
+//                v.getContext().startActivity(AnnotationProjectEditActivity.obtainExistIntent(v.getContext(), (Integer) v.getTag(R.id.position_id)));
+            }
+        });
+        holder.vDelete.setTag(R.id.position_id, position);
+        holder.vDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDeleteCallback.deleteProject((Integer) v.getTag(R.id.position_id));
             }
         });
     }
@@ -53,5 +73,18 @@ public class AnnotationAdapter extends RecyclerView.Adapter<ImageHolder>{
     @Override
     public int getItemCount() {
         return annotationList.size();
+    }
+
+    static final class AnnotationHolder extends RecyclerView.ViewHolder{
+       ImageView icon;
+       ImageView ivDelete;
+       View vDelete;
+
+        public AnnotationHolder(View itemView) {
+            super(itemView);
+            icon = (ImageView) itemView.findViewById(R.id.rc_icon);
+            vDelete = itemView.findViewById(R.id.llDelete);
+            ivDelete= (ImageView) itemView.findViewById(R.id.ivDelete);
+        }
     }
 }

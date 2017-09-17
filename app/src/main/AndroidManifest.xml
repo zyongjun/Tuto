@@ -27,16 +27,9 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:screenOrientation="portrait" android:name=".AnnotationActivity"/>
          <service android:name="com.qq.e.comm.DownloadService" android:exported="false" />
          <activity android:name="com.qq.e.ads.ADActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
-        <!--<activity android:name=".AnnotationPicturesActivity" />-->
-        <!--<activity android:name=".AnnotationProjectEditActivity" />-->
-        <!--<activity android:name=".AnnotationRecentActivity" />-->
-        <!--<activity-->
-            <!--android:name=".AnnotationTextEditActivity"-->
-            <!--android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />-->
-        <!--<activity android:name=".AnnotationPreviewActivity" />-->
 
         <meta-data
             android:name="UMENG_APPKEY"
