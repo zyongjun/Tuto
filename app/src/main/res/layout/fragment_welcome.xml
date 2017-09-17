@@ -47,7 +47,8 @@
         android:id="@+id/llLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:paddingBottom="15dp"
@@ -64,6 +65,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/s_16"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
             <TextView
@@ -72,7 +74,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:text=""/>
+                android:text="做最好用的批注工具"/>
             <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->

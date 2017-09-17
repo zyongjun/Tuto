@@ -21,23 +21,23 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.internal.view.SupportMenu;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.windhike.annotation.common.DrawUtils;
 import com.windhike.annotation.configsapp.AnnotationInitialize;
 import com.windhike.annotation.configsapp.Configs;
-import com.windhike.annotation.model.AudioPlayManager;
-import com.windhike.annotation.model.AudioQuietPlayManager;
 import com.windhike.annotation.model.BlurManager;
 import com.windhike.annotation.model.FlaotPoint;
-import com.windhike.annotation.model.IAudioPlayListener;
 import com.windhike.annotation.model.ListenerEventUpdate;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.annotation.reuse.DisplayUtil;
@@ -52,9 +52,7 @@ import com.windhike.annotation.view.RecordObject;
 import com.windhike.annotation.view.RectangleObject;
 import com.windhike.annotation.view.TextObject;
 import com.windhike.fastcoding.util.InputWindowUtil;
-import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.R;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import static com.windhike.annotation.configsapp.Configs.ShapeAction.AddNewShape;
@@ -69,7 +67,6 @@ public class DrawingView extends RelativeLayout {
     private BlurManager _blurManager;
     private int _undoRedoCurrentIndex = -1;
     private int _undoRedoFirstIndex = -1;
-//    private int[] arrayColor = Configs.LIST_COLOR;
     private int[] arrayColor;
     private float[] arrayStrokeWith = Configs.LIST_STROKE_WIDTH;
     private float[] arrayTextSize = Configs.LIST_TEXT_SIZE;
@@ -257,7 +254,6 @@ public class DrawingView extends RelativeLayout {
         this.mMainBitmapPaint = new Paint();
         this.mPath = new Path();
         this.mPathVirtualDraw = new Path();
-//        int indexColor = 0;
         int indexStrokeWith = 1;
         arrayColor = getResources().getIntArray(R.array.draw_colors);
         int indexColor = PreferenceConnector.readInteger(this.mContext, KEY_COLOR_SELECTED, 0);
@@ -333,6 +329,7 @@ public class DrawingView extends RelativeLayout {
             case 2:
             case 4:
             case 5:
+            case 6:
                 mCurrentShape.mPaint.setColor(arrayColor[indexColor]);
                 mCurrentShape.mPaint.setStrokeWidth(arrayStrokeWith[indexStrokeWidth]);
                 break;
@@ -662,6 +659,7 @@ public class DrawingView extends RelativeLayout {
         listIntersection.clear();
         listPointArrow.clear();
         isTouchOnTextEdit = false;
+        isTouchOnEditTextSession = false;
         this.isTouchOnShape = false;
         this.isTouchOnPointFocusShape = false;
         this.mXStart = 0.0f;
@@ -796,7 +794,8 @@ public class DrawingView extends RelativeLayout {
         return false;
     }
 
-    boolean isTouchOnTextEdit = false;
+    boolean isTouchOnTextEdit;
+    boolean isTouchOnEditTextSession;
     private void touch_start(float x, float y) {
         if (this.mainBitmap != null && isEdit) {
             if (listener!=null&&indexCurrentTouchOnShape < listRootShape.size() && mCurrentShape != null&&mCurrentShape.mType==6&&mCurrentShape.isFocus&&!isScaleMode){
@@ -808,7 +807,19 @@ public class DrawingView extends RelativeLayout {
                     return;
                 } else if (touchTextPoint == TOUCH_ON_TEXT_EDIT) {
                     isTouchOnTextEdit = true;
-                    listener.clickOnEditCurrentText(((TextObject)mCurrentShape).getText());
+                    isTouchOnEditTextSession = true;
+                    isEditTextMode= true;
+                    String edit = ((TextObject)mCurrentShape).getText();
+                    mCurrentShape.isVisible = false;
+                    mCurrentShape.isFocus =false;
+                    editText.setTextColor(mCurrentSettingPaint.getColor());
+                    editText.setText(edit);
+                    editText.setVisibility(VISIBLE);
+                    InputWindowUtil.forceShowInputWindow(mContext,editText);
+                    editText.setX(mCurrentShape.x);
+                    editText.setY(mCurrentShape.y);
+
+//                    listener.clickOnEditCurrentText(((TextObject)mCurrentShape).getText());
                     return;
                 }
             }
@@ -985,6 +996,7 @@ public class DrawingView extends RelativeLayout {
                         showShapeAndFocus(previousShape, true, false);
                     }
                 }
+                currentTouchShape.mContext = getContext();
                 mCurrentShape = currentTouchShape.copyCustomerView();
                 mCurrentShape._shapeId = currentTouchShape._shapeId;
                 mCurrentShape._action = MoveShapeToTop;
@@ -1217,9 +1229,9 @@ public class DrawingView extends RelativeLayout {
                 case 6:
                     moveText(x, y);
                     break;
-                case 8:
-                    moveRecord(x,y);
-                    break;
+//                case 8:
+//                    moveRecord(x,y);
+//                    break;
             }
         }
     }
@@ -1721,40 +1733,9 @@ public class DrawingView extends RelativeLayout {
         return new float[]{x / 2.0f, y / 2.0f};
     }
 
-//    public boolean clickRecord() {
-//        if (isTouchOnShape) {
-//            if (mCurrentShape.mType == 8) {
-//                final RecordObject record = (RecordObject) mCurrentShape;
-//                if (record.state == 0) {
-//                    record.state = 1;
-//                    AudioQuietPlayManager.getInstance().startPlay(AnnotationInitialize.getInstance().getContext(), record.getAudioPath(), new IAudioPlayListener() {
-//                        @Override
-//                        public void onStart(Uri uri) {
-//                        }
-//
-//                        @Override
-//                        public void onStop(Uri uri) {
-//                        }
-//
-//                        @Override
-//                        public void onComplete(Uri uri) {
-//                            record.state = 0;
-//                            postInvalidate();
-//                        }
-//                    });
-//                } else if (record.state == 1) {
-//                    record.state = 0;
-//                    AudioPlayManager.getInstance().stopPlay();
-//                } else {
-//                    deleteCurrentShape();
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
     float mStartX, mStartY;
     float mUpX,mUpY;
+    private static final String TAG = "DrawingView";
     @Override
     public boolean onTouchEvent(MotionEvent event) {
             float viewTouchX = event.getX();
@@ -1767,6 +1748,7 @@ public class DrawingView extends RelativeLayout {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     isTouchOnTextEdit = false;
+                    isTouchOnEditTextSession = false;
                     this.startX = event.getX();
                     this.startY = event.getY();
                     mStartX = event.getX();
@@ -1777,27 +1759,65 @@ public class DrawingView extends RelativeLayout {
                 case MotionEvent.ACTION_UP:
                     mUpX = event.getX();
                     mUpY = event.getY();
-                    if (Math.abs(mUpX - mStartX) < slop && Math.abs(mUpY - mStartY) < slop) {
-//                        if (clickRecord()) {
-//                            break;
-//                        }
-
-                        if (isEditTextMode) {
-                            editText.setX(mUpX);
-                            editText.setY(mUpY);
-                            editText.setVisibility(VISIBLE);
-                            editText.requestFocus();
-                            InputWindowUtil.forceShowInputWindow(getContext(),editText);
-                            break;
-                        }
-                    }
                     if (isScaleMode) {
                         break;
                     }
-                    if (isTouchOnTextEdit) {
-                        isTouchOnTextEdit = false;
-                        break;
+                    if (Math.abs(mUpX - mStartX) < slop && Math.abs(mUpY - mStartY) < slop) {
+
+                        /**
+                         * if isedittext mode:
+                         * 1. invisible or visbile but text is empty -> click trans edittext position show inputwindow
+                         * 2. visbile and txt is not empty -> click hide edittext and hide inputwindow and new textobj
+                         */
+
+                        if (isEditTextMode) {
+                            if (isTouchOnTextEdit) {
+                                if (isTouchOnEditTextSession) {
+
+                                    break;
+                                } else {
+                                    isTouchOnTextEdit = false;
+                                    isEditTextMode = false;
+                                    String text = editText.getText().toString();
+                                    if (!TextUtils.isEmpty(text)) {
+                                        if (getCurrentTextObject() != null) {
+                                            if (!getCurrentTextObject().getText().equals(text)) {
+                                                updateRealTextObject(text);
+                                            } else {
+                                                getCurrentTextObject().isVisible = true;
+                                                getCurrentTextObject().isFocus = false;
+                                            }
+                                        }
+                                    } else {
+                                        deleteCurrentShape();
+                                    }
+                                    InputWindowUtil.forceHideInputWindow(getContext(), editText);
+                                    editText.setText("");
+                                    editText.setVisibility(GONE);
+                                    invalidate();
+                                    break;
+                                }
+                            }
+                            if(editText.getVisibility()== View.GONE||(TextUtils.isEmpty(editText.getText().toString()))) {
+                                editText.setX(mUpX);
+                                editText.setY(mUpY);
+                                editText.setTextColor(mCurrentSettingPaint.getColor());
+                                editText.setVisibility(VISIBLE);
+                                editText.requestFocus();
+                                InputWindowUtil.forceShowInputWindow(getContext(), editText);
+                            }else{
+                                isEditTextMode = false;
+                                InputWindowUtil.forceHideInputWindow(getContext(),editText);
+                                createText(editText.getX(),editText.getY(),editText.getText().toString());
+                                editText.setText("");
+                                editText.setVisibility(GONE);
+                                isWaittingUp = true;
+                            }
+                            break;
+                        }
                     }
+
+
                     if (this.mDrawingState == Configs.DrawingState.DrawingOrMove) {
                         touch_up(xTouch, yTouch);
                     }
@@ -1983,6 +2003,7 @@ public class DrawingView extends RelativeLayout {
         int width = mRectText.left + mRectText.width();
         int height = mRectText.bottom + mRectText.height();
         TextObject textObj = new TextObject(this.mContext, 6, text, x, y, x + ((float) width), y + ((float) height), this.mCurrentSettingPaint, false, new FlaotPoint((float) this.xMainBitmap, (float) this.yMainBitmap), AnnotationInitialize.getInstance().getDisplayMetrics().widthPixels, AnnotationInitialize.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(AnnotationInitialize.getInstance().getContext(),110));
+        textObj.setColor(mCurrentSettingPaint.getColor());
         clearRedoSharpFromIndex(this._undoRedoCurrentIndex);
         textObj._shapeId = this.listRootShape.size();
         textObj._action = AddNewShape;

@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.os.Parcel;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import com.windhike.annotation.R;
@@ -61,9 +60,7 @@ public class TextObject extends CustomerShapeView {
         this.mPaint = new Paint(mPaint);
         this.mPaint.setPathEffect(new CornerPathEffect(0.0f));
         this.mPaint.setStyle(Style.FILL);
-        this.mPaint.setColor(ResourcesCompat.getColor(mContext.getResources(),R.color.default_white,null));
-//        this.mPaint.setTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.s_16));
-        this.mPaint.setTextSize(16);
+        this.mPaint.setTextSize(mContext.getResources().getDimensionPixelSize(R.dimen.s_16));
         this.mMinWidthText = getMinWidthText(text);
         this.mMinHeightText = getMinHeighText();
         if (isGetCurrent_Width_Heigh) {
@@ -278,7 +275,7 @@ public class TextObject extends CustomerShapeView {
         parcel.writeFloat(this.y);
         parcel.writeFloat(this.w);
         parcel.writeFloat(this.h);
-//        parcel.writeInt(this.mPaint.getColor());
+        parcel.writeInt(this.mPaint.getColor());
         parcel.writeFloat(this.mPaint.getStrokeWidth());
         parcel.writeFloat(this.mPaint.getTextSize());
         parcel.writeString(this.text);
@@ -291,16 +288,16 @@ public class TextObject extends CustomerShapeView {
         this.y = parcel.readFloat();
         this.w = parcel.readFloat();
         this.h = parcel.readFloat();
-//        this.mColor = parcel.readInt();
+        this.mColor = parcel.readInt();
         this.mStrokeWith = parcel.readFloat();
         this.mTextSize = parcel.readFloat();
         this.text = parcel.readString();
         this.mPaint = new Paint();
         this.mPaint.setAntiAlias(true);
         this.mPaint.setDither(true);
-        this.mPaint.setColor(Color.WHITE);
+        this.mPaint.setColor(mColor);
         this.mPaint.setStrokeWidth(this.mStrokeWith);
-        this.mPaint.setTextSize(16);
+        this.mPaint.setTextSize(mTextSize);
         this.mPaint.setStyle(Style.FILL);
         this.mMinWidthText = getMinWidthText(this.text);
         this.mMinHeightText = getMinHeighText();

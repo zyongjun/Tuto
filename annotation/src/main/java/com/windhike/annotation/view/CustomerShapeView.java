@@ -1,6 +1,7 @@
 package com.windhike.annotation.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.ComposePathEffect;
 import android.graphics.CornerPathEffect;
@@ -17,6 +18,8 @@ import android.util.Log;
 import com.windhike.annotation.R;
 import com.windhike.annotation.configsapp.Configs;
 import com.windhike.annotation.model.FlaotPoint;
+import com.windhike.annotation.reuse.ui.UIUtil;
+
 import java.util.ArrayList;
 
 public class CustomerShapeView implements Parcelable {

@@ -37,6 +37,8 @@ public class AnnotationListFragment extends BaseFragment implements AnnotationAd
     private AnnotationAdapter mAdapter;
     @BindView(R.id.recycerView)
     RecyclerView recycerView;
+    @BindView(R.id.llEmptyAnnotation)
+    View  mEmptyView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class AnnotationListFragment extends BaseFragment implements AnnotationAd
                 if (mAdapter != null) {
                     mAdapter.updateData(imageDrawObjects);
                 }
+                mEmptyView.setVisibility(mAdapter.getItemCount()<1?View.VISIBLE:View.GONE);
             }
         }).subscribe();
     }
@@ -92,6 +95,7 @@ public class AnnotationListFragment extends BaseFragment implements AnnotationAd
         mManagerImageObject.getListChooseDrawObject().remove(position);
         mManagerImageObject.writeToFile(TutoApplication.getInstance(), Configs.ANNOTATION_IBOS);
         mAdapter.remove(position);
+        mEmptyView.setVisibility(mAdapter.getItemCount()<1?View.VISIBLE:View.GONE);
     }
 
     @Override

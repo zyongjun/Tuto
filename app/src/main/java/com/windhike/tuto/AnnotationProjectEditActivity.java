@@ -582,9 +582,9 @@ public class AnnotationProjectEditActivity extends BaseAty implements View.OnCli
             tvRestore.setAlpha(isOffRedo ? 1f : 0.5f);
         }
 
-        @Override
-        public void clickOnEditCurrentText(String text) {
-            startActivityForResult(AnnotationTextEditActivity.getTextEditIntent(AnnotationProjectEditActivity.this, text), REQUEST_CODE_EDIT_TEXT);
-        }
+//        @Override
+//        public void clickOnEditCurrentText(String text) {
+//            startActivityForResult(AnnotationTextEditActivity.getTextEditIntent(AnnotationProjectEditActivity.this, text), REQUEST_CODE_EDIT_TEXT);
+//        }
     };
 }

@@ -7,4 +7,16 @@
         android:id="@+id/recycerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <LinearLayout
+        android:id="@+id/llEmptyAnnotation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/s_18"
+            android:text="@string/tip_empty_annotation"/>
+    </LinearLayout>
 </RelativeLayout>

@@ -12,16 +12,8 @@ http://www.cnblogs.com/tgyf/p/4851092.html
  **MediaProjectionManager**
 http://blog.csdn.net/l00149133/article/details/48346107
 ###### TODO
-1. 首页应该需要用grdiview网格显示图片或批注(需要按图片比例显示)
-2. 缺少splash页面，广告位插入
-3. 友盟统计
-4. ~~编辑页面交互改成浮动菜单~~
-5. ~~双tab一个相册一个批注，点击编辑状态，默认不可编辑，放大~~
-6. 友盟升级
-7. 批注编辑尺寸修复 **0%**
 8. 重构
 ## bugs
-1. 内存溢出
 2. 刚安装授权回来新建annotation会白屏
 3.允许悬浮权限后返回好像acitivity会重建 application会不会？要挖掘
 4. 换颜色后menuholder颜色按钮颜色要改变
@@ -44,5 +36,14 @@ http://blog.csdn.net/fancylovejava/article/details/39643449
 https://stackoverflow.com/questions/41687810/android-6-0-unable-to-resume-activity-did-not-call-finish-prior-to-onresume
 ###### 其他 
 * kotlin实现共有库
+
+
+1.5
+1.若干bug修复
+2.支持文字编辑和删除
+3.优化批注渲染速度，秒开，原生共享动画
+4.批注支持删除
+5.浮窗工具增加Home按钮
+6.修复一些版本适配问题
 
 

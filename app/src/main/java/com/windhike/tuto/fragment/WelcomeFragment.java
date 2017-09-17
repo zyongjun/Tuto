@@ -49,34 +49,16 @@ public class WelcomeFragment extends BasePermissionFragment implements SplashADL
         super.initView();
         llLogo.setAlpha(0);
         llLogo.animate().alpha(1).setDuration(3000).start();
-//        checkAndRequestPermission(Manifest.permission.CAMERA,Manifest.permission.READ_PHONE_STATE);
         checkAndRequestPermission(Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION);
-//        lauchTask().observeOn(AndroidSchedulers.mainThread())
-//                .doOnCompleted(new Action0() {
-//                    @Override
-//                    public void call() {
-//
-//                    }
-//                }).subscribe(new Action1<Intent>() {
-//                    @Override
-//                    public void call(Intent intent) {
-//
-//                    }
-//                }, new Action1<Throwable>() {
-//                    @Override
-//                    public void call(Throwable throwable) {
-//
-//                    }
-//                });
     }
 
     @Override
     protected void onGranted() {
         super.onGranted();
         //,Manifest.permission.SYSTEM_ALERT_WINDOW 不弹窗
-//        mHandler.postDelayed(mSplashRunnable,30000);
+        mHandler.postDelayed(mSplashRunnable,3000);
         Log.e(TAG, "onGranted: ============" );
-        fetchSplashAD(getActivity(), splash_container, skipView, BuildConfig.ad_appid, BuildConfig.ad_splashposid, this, 0);
+//        fetchSplashAD(getActivity(), splash_container, skipView, BuildConfig.ad_appid, BuildConfig.ad_splashposid, this, 0);
     }
 
     private void fetchSplashAD(Activity activity, ViewGroup adContainer, View skipContainer,
@@ -87,7 +69,6 @@ public class WelcomeFragment extends BasePermissionFragment implements SplashADL
     private Runnable mSplashRunnable = new Runnable() {
         @Override
         public void run() {
-//            getActivity().startActivity(new Intent(getActivity(), AnnotationPicturesActivity.class));
             onNoAD(0);
         }
     };
@@ -117,14 +98,6 @@ public class WelcomeFragment extends BasePermissionFragment implements SplashADL
         canJump = false;
     }
 
-//    public Observable<Intent> lauchTask() {
-//        return Observable.create(new Observable.OnSubscribe<Intent>() {
-//            @Override
-//            public void call(Subscriber<? super Intent> subscriber) {
-//
-//            }
-//        });
-//    }
 
     @Override
     public void onDestroy() {

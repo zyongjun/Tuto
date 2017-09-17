@@ -9,5 +9,4 @@ package com.windhike.annotation.model;
 public interface ListenerEventUpdate {
     void onScale(float scaleFactor);
     void isOnOff_Undo_Redo(boolean paramBoolean1, boolean paramBoolean2);
-    void clickOnEditCurrentText(String text);
 }

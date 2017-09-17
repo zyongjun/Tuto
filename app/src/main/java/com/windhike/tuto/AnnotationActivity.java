@@ -414,10 +414,6 @@ public class AnnotationActivity extends CommonFragmentActivity{
         private static final int REQUEST_CODE_EDIT_TEXT = 180;
 //        private static final int REQUEST_CODE_CREATE_TEXT = 181;
 
-        @Override
-        public void clickOnEditCurrentText(String text) {
-            startActivityForResult(AnnotationTextEditActivity.getTextEditIntent(AnnotationActivity.this, text), REQUEST_CODE_EDIT_TEXT);
-        }
     };
 
 

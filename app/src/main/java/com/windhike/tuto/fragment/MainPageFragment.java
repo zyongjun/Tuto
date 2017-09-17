@@ -42,7 +42,6 @@ public class MainPageFragment extends BaseFragment {
     @BindView(R.id.fbSetting)
     FloatButton fbSetting;
     private PictureAdapter mAdapter;
-    private LocalBroadcastManager mLocalBroadcastManager;
 
     @Override
     public int getLayouId() {
@@ -52,10 +51,7 @@ public class MainPageFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(FloatSettingView.ACTION_LAUCH);
-        mLocalBroadcastManager.registerReceiver(mReceiver,filter);
+
         mAdapter = new PictureAdapter(getChildFragmentManager());
         viewpager.setAdapter(mAdapter);
         tabs.setupWithViewPager(viewpager);
@@ -139,21 +135,4 @@ public class MainPageFragment extends BaseFragment {
         }
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (FloatSettingView.ACTION_LAUCH.equals(action)) {
-                Intent intentStart = new Intent(getActivity(), WelcomeActivity.class);
-                intentStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intentStart);
-            }
-        }
-    };
-
-    @Override
-    public void onDestroy() {
-        mLocalBroadcastManager.unregisterReceiver(mReceiver);
-        super.onDestroy();
-    }
 }

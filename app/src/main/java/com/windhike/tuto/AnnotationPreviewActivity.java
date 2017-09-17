@@ -137,10 +137,6 @@ public class AnnotationPreviewActivity extends BaseAty implements IAnnotationEdi
 
         }
 
-        @Override
-        public void clickOnEditCurrentText(String text) {
-
-        }
     };
 
 //    @Override
