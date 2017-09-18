@@ -109,14 +109,12 @@ public class ColorPickerView extends RelativeLayout implements View.OnClickListe
         Intent intent = new Intent(ACTION_COLOR_CHANGED);
         intent.putExtra(ACTION_COLOR_CHANGED,index);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(),"onColorChanged",Toast.LENGTH_SHORT).show();
     }
 
     public void switchZoomMode(boolean isSwitchToZoomMode) {
         Intent intent = new Intent(ACTION_SCALE_MODE_CHANGED);
         intent.putExtra(ACTION_SCALE_MODE_CHANGED,isSwitchToZoomMode);
         mBroadcastmanager.sendBroadcast(intent);
-        Toast.makeText(getContext().getApplicationContext(),"switchZoomMode",Toast.LENGTH_SHORT).show();
     }
 
     public void setSettingCallback(HolderSwitchCallback callback) {

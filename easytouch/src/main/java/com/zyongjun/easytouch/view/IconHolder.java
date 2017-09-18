@@ -112,7 +112,6 @@ public class IconHolder extends BaseTouchViewHolder{
     @Override
     public void onDestory() {
         if (mLauchIcon != null&& ViewCompat.isAttachedToWindow(mLauchIcon)) {
-            Log.e(TAG, "onDestory: ==============");
             mWindowManager.removeViewImmediate(mLauchIcon);
         }
     }
