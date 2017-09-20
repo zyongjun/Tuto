@@ -1,0 +1,1 @@
+include ':app', ':annotation', ':easytouch', ':androidfastcoding_java'

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_menu_bg"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vFreeHand"
+                style="@style/text_draw_menu_shape"
+                android:background="@drawable/tab_anno_freehand_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vCircle"
+                style="@style/text_draw_menu_shape"
+                android:background="@drawable/anno_circle_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vArrow"
+                style="@style/text_draw_menu_shape"
+                android:background="@drawable/anno_arrow_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vSquare"
+                style="@style/text_draw_menu_shape"
+                android:background="@drawable/anno_square_selector" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <!--<TextView-->
+            <!--android:id="@+id/vTalk"-->
+            <!--style="@style/text_draw_menu"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:background="@mipmap/ic_draw_talk" />-->
+            <TextView
+                android:id="@+id/vText"
+                style="@style/text_draw_menu"
+                android:layout_gravity="center"
+                android:background="@mipmap/ic_draw_text" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vEraser"
+                style="@style/text_draw_menu"
+                android:background="@drawable/tab_anno_eraser_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vMask"
+                style="@style/text_draw_menu"
+                android:background="@drawable/tab_anno_mask_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vColor"
+                style="@style/text_draw_menu"
+                android:background="@drawable/ic_anno_color_one_selected" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vScale"
+                style="@style/text_draw_menu"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/anno_scale_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvReset"
+                style="@style/text_draw_menu"
+                android:background="@mipmap/ic_reset" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvRestore"
+                style="@style/text_draw_menu"
+                android:background="@mipmap/ic_restore" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/vSaveee"
+                style="@style/text_draw_menu"
+                android:tint="@color/white"
+                android:background="@mipmap/ic_save" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_draw_menu"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/anno_scale_selector"
+                android:visibility="invisible" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vShare"
+                style="@style/text_draw_menu"
+                android:background="@mipmap/btn_share_press" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <TextView
+                android:id="@+id/vOpenOrClose"
+                style="@style/text_draw_menu"
+                android:background="@drawable/open_close_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vHome"
+                style="@style/text_draw_menu"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@mipmap/menu_home" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

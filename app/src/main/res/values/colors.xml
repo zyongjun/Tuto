@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#ff333333</color>
+    <!--<color name="colorPrimaryDark">#ffffff</color>-->
+    <color name="colorAccent">#FF4081</color>
+    <color name="text_gray_light">#d5d5d5</color>
+    <!--<color name="white">#ffffff</color>-->
+    <!--<color name="black">#ff333333</color>-->
+    <color name="trans_black">#333333</color>
+    <color name="trans_bg_black">#CC333333</color>
+    <color name="gray">#929292</color>
+    <color name="text_hint_gray">#c6c5ca</color>
+    <color name="blue">#ff298ecb</color>
+    <color name="green">#ff5bb26e</color>
+    <color name="red">#D21A24</color>
+    <color name="transparent">#00000000</color>
+    <!--<color name="translucence">#30000000</color>-->
+    <color name="sharp_gray">#3c3f41</color>
+    <color name="translucence_morewhite">#90EBEFF6</color>
+    <color name="morewhite">#EBEFF6</color>
+    <color name="tab_blue">#40B1FF</color>
+    <color name="c_layer_anno">#55666666</color>
+
+    <color name="keyboard_gray">#BDC1C4</color>
+    <color name="french_grey">#ebf0f6</color>
+    <color name="font_value">#ff888271</color>
+    <color name="light_notes_color">#ff999999</color>
+    <color name="link_color">#ff4abad7</color>
+    <color name="text_color">#ff434343</color>
+    <color name="dialog_divider">#ffbfcbd3</color>
+    <color name="dialog_listitem_press">#ffd0dce4</color>
+    <color name="text_hint_color">#b2c0d1</color>
+    <color name="text_contants_name_color">#4f5054</color>
+    <color name="text_contacts_name_color_two">#383c41</color>
+    <color name="holo_blue">#FF33E5B5</color>
+    <color name="thirty_transparent_black">#4d000000</color>
+    <color name="thirty_transparent_black_new">#1A000000</color>
+    <color name="common_white_light">#DDDDDD</color>
+    <color name="common_loading_bg">#77000000</color>
+
+    <color name="text_red">#e26f50</color>
+
+    <!-- 时间滚轮分割线 -->
+    <color name="province_line_border">#D0D0D0</color>
+
+    <!-- 新同事 -->
+    <color name="co_new_title">#EBEDF0</color>
+
+    <!-- 通用标准颜色-黑 -->
+    <color name="common">#58585C</color>
+    <!-- 通用标准颜色-浅灰 -->
+    <color name="common_gray">#9BA9B1</color>
+
+
+    <!-- 页面Title和整体背景颜色 -->
+    <color name="title_bg">#383C41</color>
+    <color name="page_bg">#EBEFF6</color>
+
+    <color name="draft_bg">#FFFBF5</color>
+
+    <color name="title_bg_blue">#237acb</color>
+
+    <!-- 分割线颜色 -->
+    <color name="h_split">#DADFE6</color>
+    <color name="v_split">#E4E4E4</color>
+
+    <!-- 间隔颜色 -->
+    <color name="h_spacing">#EBEFF6</color>
+
+    <!-- 搜索背景 -->
+    <color name="search_page_bg">#f7f7f9</color>
+
+    <!-- button点击事件颜色值设置 -->
+    <!-- 黄色 -->
+    <color name="btn_yellow_df">#FF9500</color>
+    <color name="btn_yellow_sl">#FFA611</color>
+    <color name="btn_yellow_calendar">#FE9500</color>
+    <color name="btn_yellow_no">#FFCC95</color>
+    <!-- 蓝色 -->
+    <color name="btn_blue_df">#41B2F7</color>
+    <color name="btn_blue_sl">#41A2EE</color>
+    <color name="btn_blue_login">#316FAD</color>
+    <color name="btn_blue_login_title">#1A0018B6</color>
+    <!-- 绿色 -->
+    <color name="btn_green_df">#85D700</color>
+    <color name="btn_green_sl">#85c611</color>
+
+    <!-- 底部菜单栏背景颜色 -->
+    <color name="menu_tab_bg">#FFFFFF</color>
+
+    <!-- drop down list header font color -->
+    <color name="drop_down_list_header_font_color">#000000</color>
+    <!-- drop down list header second font color -->
+    <color name="drop_down_list_header_second_font_color">#000000</color>
+    <!-- drop down list footer font color -->
+    <!-- <color name="drop_down_list_footer_font_color">#000000</color> -->
+    <color name="drop_down_list_footer_font_color">@color/common</color>
+
+    <!-- qrcode -->
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <!-- 便签文字灰色 -->
+    <color name="note_tv_color">#8798A2</color>
+    <!-- 发送验证码提示文字浅灰 -->
+    <color name="code_light_gray">#8798A2</color>
+    <!-- 找回密码提示文字浅灰 -->
+    <color name="psw_light_gray">#82939E</color>
+    <color name="admin_light_gray">#b482939E</color>
+
+
+    <!-- refresh and loadmore View -->
+    <color name="refresh_color_1">#00ddff</color>
+    <color name="calendar_color_blue">#21B5FF</color>
+    <color name="refresh_color_2">#99cc00</color>
+    <color name="refresh_color_3">#ffbb33</color>
+    <color name="refresh_color_4">#ff4444</color>
+
+    <!-- 便签文字灰色 -->
+
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8f8f8f</color>
+
+    <!-- 表情控件 -->
+
+    <!--<bool name="default_circle_indicator_centered">true</bool>-->
+    <!--<color name="default_circle_indicator_fill_color">#FFFFFFFF</color>-->
+    <!--<integer name="default_circle_indicator_orientation">0</integer>-->
+    <!--<dimen name="default_circle_indicator_radius">4dp</dimen>-->
+    <!--<bool name="default_circle_indicator_snap">false</bool>-->
+    <!--<color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>-->
+    <!--<dimen name="default_circle_indicator_stroke_width">1dp</dimen>-->
+
+    <color name="line">#ffd3dde6</color><!-- app表格线 -->
+    <color name="bg_gap">#E0E0E0</color><!-- item中的间隔条背景色 -->
+    <color name="background_tab_pressed">#6633B5E5</color><!-- 指示器按压颜色 -->
+
+    <color name="text_time">#888888</color><!-- 消息中时间字体的颜色 -->
+
+    <color name="c_topitem">#fff4e5</color>
+    <color name="c_preview_send_txt">#abbccb</color>
+    <color name="c_preview_controll">#cc000000</color>
+    <color name="c_picture_ok_select">#e3dcff</color>
+    <color name="c_yuantu_no">#aeafb0</color>
+    <color name="c_yuantu">#383c41</color>
+
+
+    <color name="c_connect">#91CE31</color>
+    <!--<color name="tran_gray">#7f929292</color>-->
+    <color name="tran_gray">#7f000000</color>
+    <color name="c_call">#2ecc03</color>
+    <color name="c_manage">#4B4F54</color>
+    <color name="c_search_bg">#F8F8F9</color>
+    <color name="c_crumb_ago">#44B3FF</color>
+
+    <color name="c_label_blue">#84DCEF</color>
+    <color name="c_label_blue2">#6ECCE0</color>
+    <color name="c_label_purple">#A99EF9</color>
+    <color name="c_label_purple2">#CA92FF</color>
+    <color name="c_label_red">#FF6F6F</color>
+    <color name="c_label_red2">#FF9BB0</color>
+    <color name="c_label_yellow">#F7C980</color>
+    <color name="c_label_yellow2">#F7E280</color>
+    <color name="c_label_green">#ACCD03</color>
+    <color name="c_label_gray">#D2D2D2</color>
+
+
+    <!--drawing colors-->
+    <!--<color name="c_draw_one">#f65252</color>-->
+    <color name="c_draw_two">#fb6731</color>
+    <color name="c_draw_third">#ffdf03</color>
+    <color name="c_draw_four">#a2ef1b</color>
+    <color name="c_draw_five">#1792f9</color>
+    <color name="c_draw_six">#d237ee</color>
+    <color name="c_snack_normal">#42DA7B</color>
+    <color name="c_snack_press">#FF42DAAF</color>
+
+    <color name="app_main_bg">#f4f4f4</color>
+    <color name="select_btn">#39efb6</color>
+    <color name="color_share_bg">#EFFFFFFF</color>
+    <color name="color_share_pop_bg">#7F000000</color>
+
+</resources>

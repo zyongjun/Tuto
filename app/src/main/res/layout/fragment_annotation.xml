@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:background="@color/app_main_bg"
+    tools:context=".AnnotationProjectEditActivity">
+    <LinearLayout
+        android:id="@+id/ll_center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/keyboard_gray"
+        android:orientation="horizontal">
+        <RelativeLayout android:id="@+id/drawingContent"
+            android:background="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+            <com.windhike.tuto.widget.DrawingView
+                android:id="@+id/drawingView"
+                android:background="@color/white"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+            <TextView
+                android:id="@+id/tv_scale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/d_15"
+                android:layout_marginTop="@dimen/d_15"
+                android:background="@drawable/scale_bg_shape"
+                android:textColor="@color/common_white_light"
+                android:text="100%"/>
+            <EditText
+                android:id="@+id/etEditTmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/d_30"
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="@dimen/s_16"
+                android:background="@drawable/edit_bg_shape"
+                tools:visibility="visible"
+                android:text=""
+                tools:text="text input "/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

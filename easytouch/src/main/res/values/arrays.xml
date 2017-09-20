@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="draw_colors">
+        <item>@color/c_draw0</item>
+        <item>@color/c_draw1</item>
+        <item>@color/c_draw2</item>
+        <item>@color/c_draw3</item>
+        <item>@color/c_draw4</item>
+        <item>@color/c_draw5</item>
+        <item>@color/c_draw6</item>
+        <item>@color/c_draw7</item>
+        <item>@color/c_draw8</item>
+        <item>@color/c_draw9</item>
+        <item>@color/c_draw10</item>
+        <item>@color/c_draw11</item>
+        <item>@color/c_draw12</item>
+        <item>@color/c_draw13</item>
+        <item>@color/c_draw14</item>
+        <item>@color/c_draw15</item>
+    </integer-array>
+    <integer-array name="draw_bgres" >
+        <item>@drawable/anno_color0_selector</item>
+        <item>@drawable/anno_color1_selector</item>
+        <item>@drawable/anno_color2_selector</item>
+        <item>@drawable/anno_color3_selector</item>
+        <item>@drawable/anno_color4_selector</item>
+        <item>@drawable/anno_color5_selector</item>
+        <item>@drawable/anno_color6_selector</item>
+        <item>@drawable/anno_color7_selector</item>
+        <item>@drawable/anno_color8_selector</item>
+        <item>@drawable/anno_color9_selector</item>
+        <item>@drawable/anno_color10_selector</item>
+        <item>@drawable/anno_color11_selector</item>
+        <item>@drawable/anno_color12_selector</item>
+        <item>@drawable/anno_color13_selector</item>
+        <item>@drawable/anno_color14_selector</item>
+        <item>@drawable/anno_color15_selector</item>
+    </integer-array>
+</resources>

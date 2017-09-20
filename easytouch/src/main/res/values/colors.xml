@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="bg_menu">#fa000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="split">#939393</color>
+    <color name="c_draw_one">#f65252</color>
+
+    <color name="c_draw0">#ffffff</color>
+    <color name="c_draw1">#e60012</color>
+    <color name="c_draw2">#f39800</color>
+    <color name="c_draw3">#fcc800</color>
+    <color name="c_draw4">#fff100</color>
+    <color name="c_draw5">#cfdb00</color>
+    <color name="c_draw6">#8fc31f</color>
+    <color name="c_draw7">#009944</color>
+    <color name="c_draw8">#009e96</color>
+    <color name="c_draw9">#00a0e9</color>
+    <color name="c_draw10">#0068b7</color>
+    <color name="c_draw11">#1d2088</color>
+    <color name="c_draw12">#920783</color>
+    <color name="c_draw13">#e4007f</color>
+    <color name="c_draw14">#e5004f</color>
+    <color name="c_draw15">#000000</color>
+
+</resources>

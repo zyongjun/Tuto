@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_menu_bg"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/vColor0"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color0_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor1"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color1_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor2"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color2_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor3"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color3_selector" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/vColor4"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color4_selector" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor5"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color5_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor6"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color6_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor7"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color7_selector" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/vColor8"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color8_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor9"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color9_selector" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor10"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color10_selector" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor11"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color11_selector" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/vColor12"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color12_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor13"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color13_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor14"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color14_selector" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@id/vColor15"
+                style="@style/text_draw_menu"
+                android:background="@drawable/anno_color15_selector" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

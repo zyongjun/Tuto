@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.windhike.fastcoding" >
+    <application>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.windhike.fastcoding.CommonFragmentActivity"/>
+    </application>
+</manifest>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">标注大师</string>
+    <string name="click_to_skip">点击跳过</string>
+    <string name="menu_photos">相册</string>
+    <string name="menu_camera">拍照</string>
+    <string name="tips_empty_annotation">你还没有任何记录哦～～</string>
+    <string name="title_card">名片</string>
+    <string name="pattern_picture_size">原图 (共%1$s)</string>
+    <string name="pattern_single_picture_size">原图 (%1$s)</string>
+    <string name="pattern_picture_size_zero">原图</string>
+    <string name="rc_send_format">发送(%1$s)</string>
+    <string name="rc_voice_cancel">松开手指，取消发送</string>
+    <string name="rc_voice_failure">录音失败！</string>
+    <string name="rc_voice_rec">手指上滑，取消发送</string>
+    <string name="rc_voice_short">录音时间太短</string>
+    <string name="app_tools_descript">极简●单一</string>
+    <string name="app_tools_descript1">极简主义</string>
+    <string name="app_tools_author">风雨徒步提供服务</string>
+    <string name="app_tools_descript2">●</string>
+    <string name="app_tools_descript3">只是工具</string>
+    <string name="open_draw_tools">打开绘图工具悬浮窗</string>
+    <string name="label_share_title">分享到微信</string>
+    <string name="label_share_btnname_wx">微信</string>
+    <string name="label_share_btnname_wxpyq">朋友圈</string>
+    <string name="toast_share_succ">分享成功</string>
+    <string name="toast_share_cancel">分享被取消</string>
+    <string name="toast_share_autoerr">分享被拒绝</string>
+    <string name="toast_share_back">分享返回</string>
+    <string name="label_auth_user_cancel">用户取消授权</string>
+    <string name="label_auth_error">授权失败</string>
+    <string name="toast_share_wx_nosetup">请先安装微信应用</string>
+    <string name="toast_share_wx_update">请先更新微信应用</string>
+    <string name="open_capture">打开截图功能</string>
+    <string name="tip_empty_annotation">还没有批注，赶紧去绘制一个吧</string>
+    <string name="tips_save">记得点工具窗口保存按钮保存哦</string>
+</resources>

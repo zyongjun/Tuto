@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:background="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/floatwindow_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_draw_tools"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/floatWindowSwitch"
+            android:layout_toLeftOf="@+id/floatWindowSwitch"/>
+        <com.sevenheaven.iosswitch.ShSwitchView
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:id="@+id/floatWindowSwitch"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            app:tintColor="@color/green" />
+</RelativeLayout>
