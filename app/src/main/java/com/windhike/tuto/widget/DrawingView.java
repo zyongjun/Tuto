@@ -52,6 +52,7 @@ import com.windhike.annotation.view.RecordObject;
 import com.windhike.annotation.view.RectangleObject;
 import com.windhike.annotation.view.TextObject;
 import com.windhike.fastcoding.util.InputWindowUtil;
+import com.windhike.fastcoding.util.UIUtil;
 import com.windhike.tuto.R;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -677,7 +678,6 @@ public class DrawingView extends RelativeLayout {
 
     public void changeDrawingObjectPosition() {
         FlaotPoint oldBitmapMarin;
-//        FlaotPoint newBitmapMargin = getBitmapMargin();
         FlaotPoint newBitmapMargin = new FlaotPoint(0,0);
         Iterator it = this.listRootShape.iterator();
         while (it.hasNext()) {
@@ -686,41 +686,26 @@ public class DrawingView extends RelativeLayout {
             if (v != null) {
                 oldBitmapMarin = v.mOldFlaotPointMarginBitmap;
                 scale = 1.0f;
-//                if (oldBitmapMarin != null) {
-//                    scale = ((float) this.mainBitmap.getWidth()) / v.mWdithBitamp;
-//                    scale = ((float) IBOSApp.getInstance().getDispalyMetrics().widthPixels) / v.mWdithBitamp;
-//                }
                 if (v.mType != 6) {
                     v.scaleAndChangePosition(oldBitmapMarin, newBitmapMargin, scale);
                 } else {
                     v.scaleAndChangePositionForTextObject(oldBitmapMarin, newBitmapMargin, scale);
                 }
-//                v.mOldFlaotPointMarginBitmap.setX((float) this.xMainBitmap);
-//                v.mOldFlaotPointMarginBitmap.setY((float) this.yMainBitmap);
-//                v.mWdithBitamp = (float) this.mainBitmap.getWidth();
-                v.mWdithBitamp = (float) AnnotationInitialize.getInstance().getDisplayMetrics().widthPixels;
-//                v.mHeighBitmap = (float) this.mainBitmap.getHeight();
-                v.mHeighBitmap = (float) AnnotationInitialize.getInstance().getDisplayMetrics().heightPixels-DisplayUtil.dip2px(AnnotationInitialize.getInstance().getContext(),110);
+                v.mWdithBitamp = (float) UIUtil.DeviceInfo.getDeviceScreenWidth();
+                v.mHeighBitmap = (float) UIUtil.DeviceInfo.getDeviceScreenHeight()-DisplayUtil.dip2px(AnnotationInitialize.getInstance().getContext(),110);
             }
         }
         if (this.mCurrentShape != null) {
             oldBitmapMarin = this.mCurrentShape.mOldFlaotPointMarginBitmap;
             float scale = 1.0f;
-//            if (oldBitmapMarin != null) {
-//                scale = ((float) this.mainBitmap.getWidth()) / this.mCurrentShape.mWdithBitamp;
-//                scale = ((float) IBOSApp.getInstance().getDispalyMetrics().widthPixels) / this.mCurrentShape.mWdithBitamp;
-//            }
             if (this.mCurrentShape.mType != 6) {
                 this.mCurrentShape.scaleAndChangePosition(oldBitmapMarin, newBitmapMargin, scale);
             } else {
                 this.mCurrentShape.scaleAndChangePositionForTextObject(oldBitmapMarin, newBitmapMargin, scale);
             }
-//            this.mCurrentShape.mOldFlaotPointMarginBitmap.setX((float) this.xMainBitmap);
-//            this.mCurrentShape.mOldFlaotPointMarginBitmap.setY((float) this.yMainBitmap);
-//            this.mCurrentShape.mWdithBitamp = (float) this.mainBitmap.getWidth();
-            this.mCurrentShape.mWdithBitamp = (float)AnnotationInitialize.getInstance().getDisplayMetrics().widthPixels;
-//            this.mCurrentShape.mHeighBitmap = (float) this.mainBitmap.getHeight();
-            this.mCurrentShape.mHeighBitmap = (float) AnnotationInitialize.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(AnnotationInitialize.getInstance().getContext(),110);
+            this.mCurrentShape.mWdithBitamp = (float)UIUtil.DeviceInfo.getDeviceScreenWidth();
+//            this.mCurrentShape.mHeighBitmap = (float)UIUtil.DeviceInfo.getDeviceScreenHeight()- UIUtil.dpToPx(110);
+            this.mCurrentShape.mHeighBitmap = (float)UIUtil.DeviceInfo.getDeviceScreenHeight();
         }
     }
 
@@ -2002,7 +1987,7 @@ public class DrawingView extends RelativeLayout {
         this.mCurrentSettingPaint.getTextBounds(text, 0, text.length(), mRectText);
         int width = mRectText.left + mRectText.width();
         int height = mRectText.bottom + mRectText.height();
-        TextObject textObj = new TextObject(this.mContext, 6, text, x, y, x + ((float) width), y + ((float) height), this.mCurrentSettingPaint, false, new FlaotPoint((float) this.xMainBitmap, (float) this.yMainBitmap), AnnotationInitialize.getInstance().getDisplayMetrics().widthPixels, AnnotationInitialize.getInstance().getDisplayMetrics().heightPixels- DisplayUtil.dip2px(AnnotationInitialize.getInstance().getContext(),110));
+        TextObject textObj = new TextObject(this.mContext, 6, text, x, y, x + ((float) width), y + ((float) height), this.mCurrentSettingPaint, false, new FlaotPoint((float) this.xMainBitmap, (float) this.yMainBitmap), UIUtil.DeviceInfo.getDeviceScreenWidth(), UIUtil.DeviceInfo.getDeviceScreenHeight()- UIUtil.dpToPx(110));
         textObj.setColor(mCurrentSettingPaint.getColor());
         clearRedoSharpFromIndex(this._undoRedoCurrentIndex);
         textObj._shapeId = this.listRootShape.size();

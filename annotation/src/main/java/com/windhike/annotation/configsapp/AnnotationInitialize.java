@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 public class AnnotationInitialize {
     private Context context;
-    private DisplayMetrics mDisplayMetrics;
+//    private DisplayMetrics mDisplayMetrics;
 
     public static AnnotationInitialize getInstance(){
         return Holder.INSTANCE;
@@ -19,15 +19,6 @@ public class AnnotationInitialize {
 
     public void initialize(Context context) {
         this.context = context.getApplicationContext();
-    }
-
-    public void configScreenMetrics(WindowManager manager) {
-        mDisplayMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(mDisplayMetrics);
-    }
-
-    public DisplayMetrics getDisplayMetrics(){
-        return mDisplayMetrics;
     }
 
     public Context getContext() {

@@ -27,7 +27,6 @@ public class WelcomeActivity extends CommonFragmentActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TutoApplication.getInstance().configScreenSize(getWindowManager());
         replaceFragment(new WelcomeFragment());
     }
 

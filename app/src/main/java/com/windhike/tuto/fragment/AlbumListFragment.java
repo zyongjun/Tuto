@@ -20,8 +20,8 @@ import com.windhike.tuto.AnnotationActivity;
 import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.AlbumAdapter;
 import com.windhike.fastcoding.rx.SchedulersTransFormer;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import butterknife.BindView;
 import rx.Observable;
@@ -110,6 +110,7 @@ public class AlbumListFragment extends BaseFragment implements AlbumAdapter.Albu
                 } while(cursor.moveToNext());
             }
             cursor.close();
+            Collections.reverse(uris);
         }
         return uris;
     }
