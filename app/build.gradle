@@ -9,8 +9,8 @@ android {
         applicationId "com.windhike.tuto"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.6.1"
+        versionCode 3
+        versionName "1.6.0"
         resValue("string", "wx_appid", "\"${wx_appid}\"")
         buildConfigField("String", "ad_appid", "\"${ad_appid}\"")
         buildConfigField("String", "ad_splashposid", "\"${ad_splashposid}\"")
@@ -24,13 +24,6 @@ android {
             keyPassword RELEASE_STORE_PASSWORD
         }
 
-        alibaba {
-            storeFile file(ALIBABA_STORE_FILE)
-            storePassword ALIBABA_STORE_PASSWORD
-            keyAlias ALIBABA_KEY_ALIAS
-            keyPassword ALIBABA_KEY_PASSWORD
-        }
-
         debug {
             storeFile file("./keystore/debug.keystore")
         }
@@ -38,14 +31,18 @@ android {
 
     buildTypes {
         tencent {
-//            debuggable true
+            debuggable true
+            signingConfig signingConfigs.tencent
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        xiaomi {
             signingConfig signingConfigs.tencent
             minifyEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         alibaba {
-//            debuggable true
-            signingConfig signingConfigs.alibaba
+            signingConfig signingConfigs.tencent
             minifyEnabled false
         }
         debug {
@@ -89,5 +86,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'mi-appstore:xiaomi-update-sdk:2.6+'
 
 }

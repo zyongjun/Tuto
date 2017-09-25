@@ -19,6 +19,7 @@ import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.R;
 import com.windhike.fastcoding.widget.PromptManager;
 import com.windhike.tuto.widget.FloatButton;
+import com.xiaomi.market.sdk.XiaomiUpdateAgent;
 import com.zyongjun.easytouch.service.DrawMenuService;
 
 import butterknife.BindView;
@@ -45,7 +46,7 @@ public class MainPageFragment extends BaseFragment {
     @Override
     public void initView() {
         super.initView();
-
+        XiaomiUpdateAgent.update(getActivity(),true);
         mAdapter = new PictureAdapter(getChildFragmentManager());
         viewpager.setAdapter(mAdapter);
         tabs.setupWithViewPager(viewpager);

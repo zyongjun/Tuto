@@ -6,6 +6,7 @@ import android.content.Context;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
+import com.xiaomi.market.sdk.XiaomiUpdateAgent;
 
 /**
  * author:gzzyj on 2017/9/20 0020.
@@ -17,6 +18,7 @@ public abstract class FlavorSetting {
     public void init(Application context) {
         configUmeng(context,"tencent");
         registerWX(context);
+
     }
 
     protected void configUmeng(Context context,String channel) {
