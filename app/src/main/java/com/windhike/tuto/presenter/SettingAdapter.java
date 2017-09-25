@@ -12,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import com.sevenheaven.iosswitch.ShSwitchView;
+import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.model.PreferenceConnector;
+import com.windhike.tuto.EventTracker;
 import com.windhike.tuto.R;
 import com.windhike.tuto.TutoApplication;
 import com.windhike.tuto.model.SettingItem;
@@ -54,9 +56,11 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingItemHolder>{
                 @Override
                 public void onSwitchStateChange(boolean isOn) {
                     Context context = holder.itemView.getContext();
+                    EventTracker.INSTANCE.trackOpenFloat(isOn);
                     if (isOn) {
                         if (checkFloatWindowPermission()) {
                             PreferenceConnector.writeBoolean(context, PreferenceConnector.KEY_FLOAT_OPENED, true);
+                            MobclickAgent.onEvent(context,"open_service");
                             context.startService(new Intent(context, DrawMenuService.class));
                         } else {
                             holder.switchView.setOn(false);

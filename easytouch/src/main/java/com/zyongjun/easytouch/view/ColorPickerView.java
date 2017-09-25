@@ -11,9 +11,13 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.umeng.analytics.MobclickAgent;
 import com.zyongjun.easytouch.R;
 import com.zyongjun.easytouch.service.DrawMenuService.HolderSwitchCallback;
 import com.zyongjun.easytouch.utils.PreferenceConnector;
+
+import java.util.HashMap;
 
 /**
  * author:gzzyj on 2017/7/30 0030.
@@ -105,6 +109,9 @@ public class ColorPickerView extends RelativeLayout implements View.OnClickListe
     private HolderSwitchCallback mSettingCallback;
 
     public void onColorChanged(int index) {
+        HashMap<String,String> map = new HashMap<>();
+        map.put("index",String.valueOf(index));
+        MobclickAgent.onEvent(getContext(),"menu_color_index",map);
         PreferenceConnector.writeInteger(getContext(), KEY_COLOR_SELECTED, index);
         Intent intent = new Intent(ACTION_COLOR_CHANGED);
         intent.putExtra(ACTION_COLOR_CHANGED,index);

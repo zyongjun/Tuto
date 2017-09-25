@@ -12,14 +12,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+
+import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.fastcoding.base.BaseFragment;
+import com.windhike.tuto.BuildConfig;
 import com.windhike.tuto.R;
 import com.windhike.fastcoding.widget.PromptManager;
 import com.windhike.tuto.widget.FloatButton;
+import com.xiaomi.market.sdk.UpdateResponse;
+import com.xiaomi.market.sdk.UpdateStatus;
 import com.xiaomi.market.sdk.XiaomiUpdateAgent;
+import com.xiaomi.market.sdk.XiaomiUpdateListener;
 import com.zyongjun.easytouch.service.DrawMenuService;
 
 import butterknife.BindView;
@@ -43,19 +50,57 @@ public class MainPageFragment extends BaseFragment {
         return R.layout.fragment_tab_viewpager;
     }
 
+    private static final String TAG = "MainPageFragment";
     @Override
     public void initView() {
         super.initView();
-        XiaomiUpdateAgent.update(getActivity(),true);
+        checkForUpdate();
         mAdapter = new PictureAdapter(getChildFragmentManager());
         viewpager.setAdapter(mAdapter);
         tabs.setupWithViewPager(viewpager);
         fbSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(getActivity(),"click_setting");
                 CommonFragmentActivity.start(getActivity(),SettingFragment.class.getName(),null);
             }
         });
+    }
+
+    private void checkForUpdate() {
+        XiaomiUpdateAgent.setUpdateAutoPopup(true);
+        XiaomiUpdateAgent.setUpdateListener(new XiaomiUpdateListener() {
+
+            @Override
+            public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
+                switch (updateStatus) {
+                    case UpdateStatus.STATUS_UPDATE:
+                        // 有更新， UpdateResponse为本次更新的详细信息
+                        // 其中包含更新信息，下载地址，MD5校验信息等，可自行处理下载安装
+                        // 如果希望 SDK继续接管下载安装事宜，可调用
+                        XiaomiUpdateAgent.arrange();
+                        break;
+                    case UpdateStatus.STATUS_NO_UPDATE:
+                        // 无更新， UpdateResponse为null
+                        break;
+                    case UpdateStatus.STATUS_NO_WIFI:
+                        // 设置了只在WiFi下更新，且WiFi不可用时， UpdateResponse为null
+                        break;
+                    case UpdateStatus.STATUS_NO_NET:
+                        // 没有网络， UpdateResponse为null
+                        break;
+                    case UpdateStatus.STATUS_FAILED:
+                        // 检查更新与服务器通讯失败，可稍后再试， UpdateResponse为null
+                        break;
+                    case UpdateStatus.STATUS_LOCAL_APP_FAILED:
+                        // 检查更新获取本地安装应用信息失败， UpdateResponse为null
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        XiaomiUpdateAgent.update(getActivity());
     }
 
     @Override
@@ -63,6 +108,7 @@ public class MainPageFragment extends BaseFragment {
         super.onResume();
         if(checkFloatWindowPermission()){
             PreferenceConnector.writeBoolean(getActivity(),PreferenceConnector.KEY_FLOAT_OPENED,true);
+            MobclickAgent.onEvent(getActivity(),"open_service");
             getActivity().startService(new Intent(getActivity(), DrawMenuService.class));
         }else{
             showAppSettingPage();

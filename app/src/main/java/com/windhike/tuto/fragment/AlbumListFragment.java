@@ -14,9 +14,11 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.model.SaveSelectState;
 import com.windhike.fastcoding.base.BaseFragment;
 import com.windhike.tuto.AnnotationActivity;
+import com.windhike.tuto.EventTracker;
 import com.windhike.tuto.R;
 import com.windhike.tuto.presenter.AlbumAdapter;
 import com.windhike.fastcoding.rx.SchedulersTransFormer;

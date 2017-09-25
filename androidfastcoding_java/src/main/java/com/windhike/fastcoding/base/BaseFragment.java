@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.umeng.analytics.MobclickAgent;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -39,6 +40,18 @@ public abstract class BaseFragment extends Fragment{
 
     public void initView() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getClass().getSimpleName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
     }
 
     public abstract int getLayouId();

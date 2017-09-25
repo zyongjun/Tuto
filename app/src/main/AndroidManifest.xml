@@ -11,6 +11,8 @@
      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />    <!-- 如果需要精确定位的话请加上此权限 -->
      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="com.xiaomi.market.sdk.UPDATE" />
     <application
         android:name=".TutoApplication"
         android:allowBackup="true"
@@ -48,6 +50,11 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <receiver android:name="com.xiaomi.market.sdk.DownloadCompleteReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

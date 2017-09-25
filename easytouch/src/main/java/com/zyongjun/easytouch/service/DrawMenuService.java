@@ -13,6 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.windhike.fastcoding.BaseApplication;
 import com.windhike.fastcoding.CommonFragmentActivity;
 import com.zyongjun.easytouch.screenshot.NewScreenShotUtilImpl;
@@ -62,6 +63,7 @@ public class DrawMenuService extends Service{
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(DrawMenuService.this,"menu_color");
                     mMenuHolder.onDestory();
                     mColorHolder.initView();
                     mColorHolder.setMenuCallback(mMenuSwitchHolderCallback);

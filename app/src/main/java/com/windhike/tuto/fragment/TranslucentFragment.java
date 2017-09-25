@@ -7,6 +7,8 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+
+import com.umeng.analytics.MobclickAgent;
 import com.windhike.annotation.model.PreferenceConnector;
 import com.windhike.fastcoding.CommonFragmentActivity;
 import com.windhike.fastcoding.base.BaseFragment;
@@ -47,6 +49,7 @@ public class TranslucentFragment extends BaseFragment{
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_CANCELED) {
             if (requestCode == REQUEST_PROJECTION_CODE) {
+                MobclickAgent.onEvent(getActivity(),"screenshot_cancel");
                 mLocalBroadcastManager.sendBroadcast(new Intent(FloatSettingView.ACTION_CAPTURE_FINISHED));
             }
             onBackPressed();
@@ -56,6 +59,7 @@ public class TranslucentFragment extends BaseFragment{
             hasRequestCapture = true;
             PreferenceConnector.writeBoolean(getActivity(),PreferenceConnector.KEY_CAPTURE_OPENED,true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                MobclickAgent.onEvent(getActivity(),"screenshot_confirm");
                 NewScreenShotUtilImpl.setData(data);
                 new NewScreenShotUtilImpl(getActivity()).startScreenshot();
             }

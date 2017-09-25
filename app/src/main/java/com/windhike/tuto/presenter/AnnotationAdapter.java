@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.windhike.annotation.model.ImageDrawObject;
+import com.windhike.tuto.EventTracker;
 import com.windhike.tuto.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,6 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.An
         notifyDataSetChanged();
     }
 
-    private static final String TAG = "AnnotationAdapter";
     private static final String PATTERN_ANNOTATION_SHARENAME = "position_%d";
     @Override
     public void onBindViewHolder(AnnotationHolder holder, int position) {
@@ -57,8 +57,9 @@ public class AnnotationAdapter extends RecyclerView.Adapter<AnnotationAdapter.An
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDeleteCallback.viewAnnotation(v,(Integer) v.getTag(R.id.position_id));
-//                v.getContext().startActivity(AnnotationProjectEditActivity.obtainExistIntent(v.getContext(), (Integer) v.getTag(R.id.position_id)));
+                int position = (Integer) v.getTag(R.id.position_id);
+                EventTracker.INSTANCE.trackClickAnno(position);
+                mDeleteCallback.viewAnnotation(v,position);
             }
         });
         holder.vDelete.setTag(R.id.position_id, position);
